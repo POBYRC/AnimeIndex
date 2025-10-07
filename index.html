@@ -27,8 +27,8 @@ fetch('anime_data.json')
       animeDiv.classList.add('anime');
       animeDiv.innerHTML = `
         <a href="${a.link}" target="_blank">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="♥ ${a.title} ♥">
-          <div class="anime-title">♥ ${a.title} ♥</div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt=" ${a.title} ">
+          <div class="anime-title"> ${a.title} </div>
         </a>
       `;
       grid.appendChild(animeDiv);
