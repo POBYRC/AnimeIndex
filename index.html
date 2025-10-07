@@ -4,35 +4,133 @@
 <meta charset="utf-8">
 <title>คลังอนิเมะของฉัน</title>
 <style>
-body {font-family: 'Prompt', sans-serif; background:#f8fafc; color:#2d3748; padding:20px;}
-h1 {text-align:center; color:#2b6cb0; margin-bottom:20px;}
-.grid {display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:20px;}
-.anime {background:white; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;}
-.anime:hover {transform:scale(1.05);}
-.anime img {width:100%; height:250px; object-fit:cover;}
-.anime-title {padding:10px; font-size:14px; color:#2b6cb0;}
+body {
+  font-family: 'Prompt', sans-serif;
+  background:#f8fafc;
+  color:#2d3748;
+  padding:20px;
+}
+h1 {
+  text-align:center;
+  color:#2b6cb0;
+  margin-bottom:10px;
+}
+.controls {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+select, input {
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #cbd5e0;
+  font-size:16px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:20px;
+}
+.anime {
+  background:white;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  text-align:center;
+  transition:transform 0.2s;
+}
+.anime:hover { transform:scale(1.05); }
+.anime img {
+  width:100%;
+  height:250px;
+  object-fit:cover;
+}
+.anime-title {
+  padding:10px;
+  font-size:14px;
+  color:#2b6cb0;
+  min-height:40px;
+}
 </style>
 </head>
 <body>
 <h1>คลังอนิเมะของฉัน</h1>
+
+<div class="controls">
+  <select id="categoryFilter">
+    <option value="ทั้งหมด">ทั้งหมด</option>
+  </select>
+  <input type="text" id="searchBox" placeholder="ค้นหาชื่ออนิเมะ...">
+</div>
+
 <div class="grid" id="animeGrid"></div>
 
 <script>
+let allAnimes = [];
+
 fetch('anime_data.json')
   .then(response => response.json())
   .then(animes => {
+    allAnimes = animes;
     const grid = document.getElementById('animeGrid');
-    animes.forEach(a => {
-      const animeDiv = document.createElement('div');
-      animeDiv.classList.add('anime');
-      animeDiv.innerHTML = `
-        <a href="${a.link}" target="_blank">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt=" ${a.title} ">
-          <div class="anime-title"> ${a.title} </div>
-        </a>
-      `;
-      grid.appendChild(animeDiv);
+    const filter = document.getElementById('categoryFilter');
+    const searchBox = document.getElementById('searchBox');
+
+    // ✅ รวมหมวดหมู่ทั้งหมดจาก JSON
+    const categories = [...new Set(animes.flatMap(a => a.category))].sort();
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      filter.appendChild(opt);
     });
+
+    // ✅ ฟังก์ชันแสดงอนิเมะ
+    function renderAnimeList(list) {
+      grid.innerHTML = '';
+      if (list.length === 0) {
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
+        return;
+      }
+      list.forEach(a => {
+        const animeDiv = document.createElement('div');
+        animeDiv.classList.add('anime');
+        const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+        animeDiv.innerHTML = `
+          <a href="${a.link}" target="_blank">
+            <img src="${imgSrc}" alt="${a.title}">
+            <div class="anime-title">${a.title}</div>
+          </a>
+        `;
+        grid.appendChild(animeDiv);
+      });
+    }
+
+    // ✅ ฟังก์ชันกรองข้อมูล
+    function applyFilters() {
+      const selected = filter.value;
+      const keyword = searchBox.value.toLowerCase();
+      let filtered = animes;
+
+      if (selected !== 'ทั้งหมด') {
+        filtered = filtered.filter(a => a.category.includes(selected));
+      }
+      if (keyword) {
+        filtered = filtered.filter(a => a.title.toLowerCase().includes(keyword));
+      }
+
+      renderAnimeList(filtered);
+    }
+
+    // ✅ Event listeners
+    filter.addEventListener('change', applyFilters);
+    searchBox.addEventListener('input', applyFilters);
+
+    // ✅ เริ่มต้นแสดงทั้งหมด
+    renderAnimeList(animes);
   })
   .catch(err => {
     document.getElementById('animeGrid').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
