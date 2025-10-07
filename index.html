@@ -13,21 +13,47 @@ body {
 h1 {
   text-align:center;
   color:#2b6cb0;
-  margin-bottom:10px;
+  margin-bottom:20px;
 }
 .controls {
   display:flex;
   justify-content:center;
   align-items:center;
+  flex-wrap:wrap;
   gap:10px;
   margin-bottom:20px;
-  flex-wrap:wrap;
 }
-select, input {
+.search-box {
   padding:8px 12px;
   border-radius:8px;
   border:1px solid #cbd5e0;
   font-size:16px;
+  min-width:200px;
+}
+.category-container {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+.category-button {
+  background:#edf2f7;
+  color:#2d3748;
+  border:none;
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-size:14px;
+}
+.category-button:hover {
+  background:#e2e8f0;
+}
+.category-button.active {
+  background:#2b6cb0;
+  color:white;
+  box-shadow:0 0 6px rgba(43,108,176,0.6);
 }
 .grid {
   display:grid;
@@ -60,32 +86,39 @@ select, input {
 <h1>คลังอนิเมะของฉัน</h1>
 
 <div class="controls">
-  <select id="categoryFilter">
-    <option value="ทั้งหมด">ทั้งหมด</option>
-  </select>
-  <input type="text" id="searchBox" placeholder="ค้นหาชื่ออนิเมะ...">
+  <input type="text" id="searchBox" class="search-box" placeholder="🔍 ค้นหาชื่ออนิเมะ...">
 </div>
-
+<div class="category-container" id="categoryContainer"></div>
 <div class="grid" id="animeGrid"></div>
 
 <script>
 let allAnimes = [];
+let activeCategories = [];
 
 fetch('anime_data.json')
   .then(response => response.json())
   .then(animes => {
     allAnimes = animes;
     const grid = document.getElementById('animeGrid');
-    const filter = document.getElementById('categoryFilter');
+    const categoryContainer = document.getElementById('categoryContainer');
     const searchBox = document.getElementById('searchBox');
 
-    // ✅ รวมหมวดหมู่ทั้งหมดจาก JSON
+    // ✅ สร้างปุ่มหมวดหมู่ทั้งหมด
     const categories = [...new Set(animes.flatMap(a => a.category))].sort();
     categories.forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat;
-      opt.textContent = cat;
-      filter.appendChild(opt);
+      const btn = document.createElement('button');
+      btn.classList.add('category-button');
+      btn.textContent = cat;
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        if (activeCategories.includes(cat)) {
+          activeCategories = activeCategories.filter(c => c !== cat);
+        } else {
+          activeCategories.push(cat);
+        }
+        applyFilters();
+      });
+      categoryContainer.appendChild(btn);
     });
 
     // ✅ ฟังก์ชันแสดงอนิเมะ
@@ -111,25 +144,23 @@ fetch('anime_data.json')
 
     // ✅ ฟังก์ชันกรองข้อมูล
     function applyFilters() {
-      const selected = filter.value;
       const keyword = searchBox.value.toLowerCase();
       let filtered = animes;
 
-      if (selected !== 'ทั้งหมด') {
-        filtered = filtered.filter(a => a.category.includes(selected));
+      if (activeCategories.length > 0) {
+        filtered = filtered.filter(a =>
+          activeCategories.every(cat => a.category.includes(cat))
+        );
       }
       if (keyword) {
         filtered = filtered.filter(a => a.title.toLowerCase().includes(keyword));
       }
-
       renderAnimeList(filtered);
     }
 
-    // ✅ Event listeners
-    filter.addEventListener('change', applyFilters);
+    // ✅ ค้นหาด้วยชื่อ
     searchBox.addEventListener('input', applyFilters);
 
-    // ✅ เริ่มต้นแสดงทั้งหมด
     renderAnimeList(animes);
   })
   .catch(err => {
