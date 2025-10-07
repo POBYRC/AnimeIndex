@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>คลังอนิเมะของฉัน</title>
+
+<!-- 🩵 FAVICON (แก้ URL ได้เลย) -->
+<link rel="icon" type="image/png" href="https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png">
+
 <style>
 body {
   font-family: 'Prompt', sans-serif;
@@ -80,6 +84,11 @@ h1 {
   color:#2b6cb0;
   min-height:40px;
 }
+.count {
+  text-align:center;
+  color:#4a5568;
+  margin-bottom:15px;
+}
 </style>
 </head>
 <body>
@@ -89,6 +98,7 @@ h1 {
   <input type="text" id="searchBox" class="search-box" placeholder="🔍 ค้นหาชื่ออนิเมะ...">
 </div>
 <div class="category-container" id="categoryContainer"></div>
+<p class="count" id="animeCount"></p>
 <div class="grid" id="animeGrid"></div>
 
 <script>
@@ -102,6 +112,7 @@ fetch('anime_data.json')
     const grid = document.getElementById('animeGrid');
     const categoryContainer = document.getElementById('categoryContainer');
     const searchBox = document.getElementById('searchBox');
+    const countText = document.getElementById('animeCount');
 
     // ✅ สร้างปุ่มหมวดหมู่ทั้งหมด
     const categories = [...new Set(animes.flatMap(a => a.category))].sort();
@@ -124,6 +135,7 @@ fetch('anime_data.json')
     // ✅ ฟังก์ชันแสดงอนิเมะ
     function renderAnimeList(list) {
       grid.innerHTML = '';
+      countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
       if (list.length === 0) {
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
         return;
@@ -142,7 +154,7 @@ fetch('anime_data.json')
       });
     }
 
-    // ✅ ฟังก์ชันกรองข้อมูล
+    // ✅ ฟังก์ชันกรองข้อมูล (AND Logic)
     function applyFilters() {
       const keyword = searchBox.value.toLowerCase();
       let filtered = animes;
