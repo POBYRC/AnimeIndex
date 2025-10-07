@@ -1,12 +1,14 @@
 [
-{
-  "id": 1,
-  "title": "จะยังไงภรรยาผมก็น่ารัก",
-  "link": "https://animeyuzu.com/anime/tonikaku-kawaii-th/",
-  "category": ["ตลก", "โรแมนติก", "หนุ่มน้อย"]
-  "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/10/%E0%B8%88%E0%B8%B0%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%87%E0%B8%A0%E0%B8%A3%E0%B8%A3%E0%B8%A2%E0%B8%B2%E0%B8%9C%E0%B8%A1%E0%B8%81%E0%B9%87%E0%B8%99%E0%B9%88%E0%B8%B2%E0%B8%A3%E0%B8%B1%E0%B8%81-185x278.jpg"
-}
-
+  {
+    "id": 1,
+    "title": "จะยังไงภรรยาผมก็น่ารัก",
+    "link": "https://animeyuzu.com/anime/tonikaku-kawaii-th/",
+    "category": [
+      "ตลก",
+      "โรแมนติก",
+      "หนุ่มน้อย"
+    ]
+  },
   {
     "id": 2,
     "title": "จะยังไงภรรยาผมก็น่ารัก",
