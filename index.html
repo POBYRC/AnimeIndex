@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>คลังอนิเมะของฉัน</title>
 
-<!-- 🩵 FAVICON (แก้ URL ได้เลย) -->
+<!-- 🌸 FAVICON -->
 <link rel="icon" type="image/png" href="https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png">
 
 <style>
@@ -61,7 +61,7 @@ h1 {
 }
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
   gap:20px;
 }
 .anime {
@@ -71,6 +71,9 @@ h1 {
   overflow:hidden;
   text-align:center;
   transition:transform 0.2s;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 .anime:hover { transform:scale(1.05); }
 .anime img {
@@ -82,7 +85,22 @@ h1 {
   padding:10px;
   font-size:14px;
   color:#2b6cb0;
+  font-weight:bold;
   min-height:40px;
+}
+.tags {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  padding:0 8px 10px 8px;
+}
+.tag {
+  background:#e2e8f0;
+  color:#2d3748;
+  border-radius:12px;
+  padding:3px 8px;
+  font-size:12px;
 }
 .count {
   text-align:center;
@@ -140,15 +158,18 @@ fetch('anime_data.json')
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
         return;
       }
+
       list.forEach(a => {
         const animeDiv = document.createElement('div');
         animeDiv.classList.add('anime');
         const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+        const tagsHTML = a.category.map(cat => `<span class="tag">${cat}</span>`).join('');
         animeDiv.innerHTML = `
           <a href="${a.link}" target="_blank">
             <img src="${imgSrc}" alt="${a.title}">
             <div class="anime-title">${a.title}</div>
           </a>
+          <div class="tags">${tagsHTML}</div>
         `;
         grid.appendChild(animeDiv);
       });
