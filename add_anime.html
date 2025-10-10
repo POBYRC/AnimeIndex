@@ -9,7 +9,7 @@ body {
   background: #f8fafc;
   padding: 20px;
   color: #2d3748;
-  max-width: 700px;
+  max-width: 850px;
   margin: auto;
 }
 h1 {
@@ -29,7 +29,7 @@ h2 {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-top: 20px;
 }
-input, textarea {
+input {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
@@ -71,7 +71,7 @@ button:hover {
   margin-right: 6px;
 }
 
-/* 🌈 ปุ่มเลือกโหมดแบบหรู */
+/* 🌈 ปุ่มเลือกโหมด */
 .output-mode {
   display: flex;
   justify-content: center;
@@ -104,16 +104,38 @@ button:hover {
   box-shadow: 0 4px 10px rgba(43,108,176,0.3);
 }
 
-#outputBox {
-  margin-top: 15px;
-  height: 320px;
+/* 🌟 กล่องโค้ด JSON */
+#outputContainer {
+  margin-top: 20px;
+  background: #1e293b;
+  color: #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
   white-space: pre;
-  font-family: monospace;
-  background: #fff;
-  border: 1px solid #cbd5e0;
-  border-radius: 10px;
-  padding: 10px;
-  resize: vertical;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 500px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+#outputContainer span.key { color: #60a5fa; }
+#outputContainer span.string { color: #fbbf24; }
+#outputContainer span.number { color: #34d399; }
+#outputContainer span.boolean { color: #f87171; }
+#outputContainer span.null { color: #9ca3af; }
+.controls {
+  text-align: right;
+  margin-bottom: 10px;
+}
+.controls button {
+  background: #475569;
+  padding: 8px 14px;
+  margin-left: 6px;
+}
+.controls button:hover {
+  background: #334155;
 }
 </style>
 </head>
@@ -133,7 +155,7 @@ button:hover {
   <div class="category-list" id="categoryList">กำลังโหลด...</div>
 
   <label>ลิงก์รูปภาพ:</label>
-  <input id="image" placeholder="เช่น https://cdn.myanimelist.net/images/anime/...jpg">
+  <input id="image" placeholder="https://cdn.myanimelist.net/images/anime/...jpg">
 
   <div class="output-mode">
     <div class="output-option active" data-mode="code">📜 แสดงเป็นโค้ด JSON</div>
@@ -147,16 +169,18 @@ button:hover {
 
 <div class="card">
   <h3>📜 ข้อมูล JSON ที่อัปเดตแล้ว:</h3>
-  <textarea id="outputBox" readonly></textarea>
-  <button onclick="copyJSON()">📎 คัดลอกทั้งหมด</button>
+  <div class="controls">
+    <button onclick="copyJSON()">📋 คัดลอก</button>
+    <button onclick="downloadJSON()">💾 ดาวน์โหลด</button>
+  </div>
+  <div id="outputContainer">{}</div>
 </div>
 
 <script>
 let animeData = [];
 let allCategories = new Set();
-let outputMode = "code"; // เริ่มต้นโหมดเป็น "แสดงเป็นโค้ด"
+let outputMode = "code";
 
-// ✅ โหลดข้อมูล JSON เดิม
 fetch('anime_data.json')
   .then(res => res.json())
   .then(data => {
@@ -166,15 +190,19 @@ fetch('anime_data.json')
     renderCategoryList();
     updateOutput();
   })
-  .catch(err => {
+  .catch(() => {
     document.getElementById('loadStatus').textContent = "⚠️ ไม่พบ anime_data.json (จะเริ่มใหม่)";
     animeData = [];
+    renderCategoryList();
   });
 
-// ✅ แสดงหมวดหมู่จาก JSON
 function renderCategoryList() {
   const container = document.getElementById('categoryList');
   container.innerHTML = '';
+  if (allCategories.size === 0) {
+    const defaults = ["ตลก", "โรแมนติก", "แฟนตาซี", "โรงเรียน", "ต่อสู้", "ฮาเร็ม", "ชีวิตประจำวัน"];
+    defaults.forEach(cat => allCategories.add(cat));
+  }
   [...allCategories].sort().forEach(cat => {
     const label = document.createElement('label');
     label.innerHTML = `<input type="checkbox" value="${cat}"> ${cat}`;
@@ -182,7 +210,6 @@ function renderCategoryList() {
   });
 }
 
-// ✅ ปุ่มเลือกโหมด (UI toggle)
 document.querySelectorAll('.output-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('.output-option').forEach(o => o.classList.remove('active'));
@@ -191,17 +218,13 @@ document.querySelectorAll('.output-option').forEach(opt => {
   });
 });
 
-// ✅ เพิ่มอนิเมะใหม่
 function addAnime() {
   const title = document.getElementById('title').value.trim();
   const link = document.getElementById('link').value.trim();
   const image = document.getElementById('image').value.trim();
   const categories = [...document.querySelectorAll('#categoryList input:checked')].map(c => c.value);
 
-  if (!title || !link) {
-    alert('⚠️ กรุณากรอกชื่อและลิงก์อย่างน้อย');
-    return;
-  }
+  if (!title || !link) return alert('⚠️ กรุณากรอกชื่อและลิงก์');
 
   const newAnime = {
     id: animeData.length > 0 ? Math.max(...animeData.map(a => a.id)) + 1 : 1,
@@ -215,19 +238,16 @@ function addAnime() {
   updateOutput();
   clearForm();
 
-  if (outputMode === "file") {
-    downloadJSON();
-  } else {
-    alert("✅ เพิ่มเรียบร้อยแล้ว! ดูข้อมูล JSON ด้านล่าง");
-  }
+  if (outputMode === "file") downloadJSON();
+  else alert("✅ เพิ่มอนิเมะแล้ว! JSON อัปเดตแล้วด้านล่าง");
 }
 
-// ✅ อัปเดต JSON รวม
 function updateOutput() {
-  document.getElementById('outputBox').value = JSON.stringify(animeData, null, 2);
+  const jsonStr = JSON.stringify(animeData, null, 2);
+  document.getElementById('outputContainer').innerHTML = syntaxHighlight(jsonStr);
+  document.getElementById('outputContainer').scrollTop = document.getElementById('outputContainer').scrollHeight;
 }
 
-// ✅ ล้างช่องกรอก
 function clearForm() {
   document.getElementById('title').value = '';
   document.getElementById('link').value = '';
@@ -235,15 +255,13 @@ function clearForm() {
   document.querySelectorAll('#categoryList input').forEach(c => c.checked = false);
 }
 
-// ✅ คัดลอกทั้งหมด
 function copyJSON() {
-  const text = document.getElementById('outputBox').value;
-  navigator.clipboard.writeText(text).then(() => alert("📋 คัดลอก JSON แล้ว!"));
+  navigator.clipboard.writeText(JSON.stringify(animeData, null, 2));
+  alert("📋 คัดลอก JSON แล้ว!");
 }
 
-// ✅ ดาวน์โหลด JSON
 function downloadJSON() {
-  const blob = new Blob([JSON.stringify(animeData, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(animeData, null, 2)], {type: "application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -251,7 +269,17 @@ function downloadJSON() {
   a.click();
   URL.revokeObjectURL(url);
 }
-</script>
 
+function syntaxHighlight(json) {
+  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|\b\d+\b)/g, match => {
+    let cls = 'number';
+    if (/^"/.test(match)) cls = /:$/.test(match) ? 'key' : 'string';
+    else if (/true|false/.test(match)) cls = 'boolean';
+    else if (/null/.test(match)) cls = 'null';
+    return `<span class="${cls}">${match}</span>`;
+  });
+}
+</script>
 </body>
 </html>
