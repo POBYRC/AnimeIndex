@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>เพิ่มอนิเมะใหม่</title>
+<style>
+body {
+  font-family: 'Prompt', sans-serif;
+  background:#f8fafc;
+  padding:20px;
+  color:#2d3748;
+}
+input, textarea {
+  width:100%;
+  padding:8px;
+  margin:5px 0;
+  border-radius:8px;
+  border:1px solid #cbd5e0;
+}
+button {
+  background:#2b6cb0;
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:10px;
+}
+button:hover { background:#2c5282; }
+.category-list label {
+  display:inline-block;
+  margin:4px;
+  background:#edf2f7;
+  padding:5px 10px;
+  border-radius:15px;
+  cursor:pointer;
+}
+#animeList {
+  margin-top:20px;
+  background:white;
+  border-radius:12px;
+  padding:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+
+<h1>📝 เพิ่มอนิเมะใหม่ (อ่านและต่อจาก JSON เดิม)</h1>
+
+<p id="loadStatus">📂 กำลังโหลดข้อมูล...</p>
+
+<label>ชื่ออนิเมะ:</label>
+<input id="title" placeholder="เช่น โทนิกาคุคาวาอี้">
+
+<label>ลิงก์อนิเมะ:</label>
+<input id="link" placeholder="เช่น https://animeyuzu.com/...">
+
+<label>หมวดหมู่:</label>
+<div class="category-list" id="categoryList">
+  <label><input type="checkbox" value="โรแมนติก"> โรแมนติก</label>
+  <label><input type="checkbox" value="ตลก"> ตลก</label>
+  <label><input type="checkbox" value="โรงเรียน"> โรงเรียน</label>
+  <label><input type="checkbox" value="ดราม่า"> ดราม่า</label>
+  <label><input type="checkbox" value="แฟนตาซี"> แฟนตาซี</label>
+  <label><input type="checkbox" value="แอ็กชัน"> แอ็กชัน</label>
+  <label><input type="checkbox" value="ฮาเร็ม"> ฮาเร็ม</label>
+  <label><input type="checkbox" value="ชีวิตประจำวัน"> ชีวิตประจำวัน</label>
+</div>
+
+<label>ลิงก์รูปภาพ:</label>
+<input id="image" placeholder="เช่น https://cdn.myanimelist.net/images/anime/...jpg">
+
+<button onclick="addAnime()">➕ เพิ่มลงรายการ</button>
+<button onclick="downloadJSON()">💾 ดาวน์โหลด anime_data.json</button>
+
+<div id="animeList"></div>
+
+<script>
+let animeData = [];
+
+// ✅ โหลดข้อมูล JSON เดิม
+fetch('anime_data.json')
+  .then(res => res.json())
+  .then(data => {
+    animeData = data;
+    document.getElementById('loadStatus').textContent = `✅ โหลดข้อมูลสำเร็จ (${animeData.length} เรื่อง)`;
+    renderList();
+  })
+  .catch(err => {
+    document.getElementById('loadStatus').textContent = "⚠️ ไม่พบ anime_data.json (จะเริ่มใหม่)";
+    console.warn("ไม่พบ anime_data.json", err);
+    animeData = [];
+  });
+
+// ✅ เพิ่มอนิเมะใหม่
+function addAnime() {
+  const title = document.getElementById('title').value.trim();
+  const link = document.getElementById('link').value.trim();
+  const image = document.getElementById('image').value.trim();
+  const categories = [...document.querySelectorAll('#categoryList input:checked')].map(c => c.value);
+
+  if (!title || !link) {
+    alert('กรุณากรอกชื่อและลิงก์อย่างน้อย');
+    return;
+  }
+
+  const newAnime = {
+    id: animeData.length > 0 ? Math.max(...animeData.map(a => a.id)) + 1 : 1,
+    title,
+    link,
+    category: categories,
+    image
+  };
+
+  animeData.push(newAnime);
+  renderList();
+  clearForm();
+}
+
+// ✅ แสดงรายการทั้งหมด
+function renderList() {
+  const list = document.getElementById('animeList');
+  if (animeData.length === 0) {
+    list.innerHTML = '<p>ยังไม่มีข้อมูล</p>';
+    return;
+  }
+  list.innerHTML = '<h3>รายการทั้งหมด:</h3>' + animeData.map(a =>
+    `<div>🎬 <b>${a.title}</b> (${a.category.join(', ')})</div>`
+  ).join('');
+}
+
+// ✅ ล้างช่องกรอก
+function clearForm() {
+  document.getElementById('title').value = '';
+  document.getElementById('link').value = '';
+  document.getElementById('image').value = '';
+  document.querySelectorAll('#categoryList input').forEach(c => c.checked = false);
+}
+
+// ✅ ดาวน์โหลด JSON รวม (ของเดิม + ใหม่)
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(animeData, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'anime_data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
