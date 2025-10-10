@@ -4,8 +4,22 @@
 <meta charset="utf-8">
 <title>คลังอนิเมะของฉัน</title>
 
-<!-- 🌸 FAVICON -->
-<link rel="icon" type="image/png" href="https://cdni.pornpics.com/460/3/16/80895027/80895027_007_da76.jpg">
+<!-- 🌸 FAVICON อยู่แถวบนสุด -->
+<link id="favicon" rel="icon" type="image/png" href="https://cdni.pornpics.com/1280/3/16/29610962/29610962_016_3664.jpg">
+
+<script>
+  // ✅ ฟังก์ชันเปลี่ยน Favicon ตามเลข
+  function setFavicon(num) {
+    const favicon = document.getElementById('favicon');
+    if(num === 1){
+      favicon.href = "https://cdni.pornpics.com/1280/3/16/29610962/29610962_016_3664.jpg";
+    } else if(num === 2){
+      favicon.href = "https://cdni.pornpics.com/460/3/16/80895027/80895027_007_da76.jpg";
+    } else {
+      console.warn("Favicon ไม่พบสำหรับเลขนี้:", num);
+    }
+  }
+</script>
 
 <style>
 body {
