@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>คลังอนิเมะของฉัน</title>
-  
+
 <!-- 🌸 FAVICON -->
 <link rel="icon" type="image/png" href="https://cdni.pornpics.com/460/3/16/80895027/80895027_007_da76.jpg">
 
@@ -13,6 +13,9 @@ body {
   background:#f8fafc;
   color:#2d3748;
   padding:20px;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
 }
 h1 {
   text-align:center;
@@ -107,17 +110,82 @@ h1 {
   color:#4a5568;
   margin-bottom:15px;
 }
+
+/* 🔄 Loader */
+#loader {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex:1;
+}
+.spinner {
+  width:60px;
+  height:60px;
+  border:6px solid #cbd5e0;
+  border-top-color:#2b6cb0;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform:rotate(360deg); }
+}
+
+/* 🦶 Footer */
+footer {
+  background:#edf2f7;
+  text-align:center;
+  padding:10px;
+  margin-top:auto;
+  border-radius:8px;
+  font-size:14px;
+  color:#4a5568;
+}
+footer a {
+  color:#2b6cb0;
+  text-decoration:none;
+}
+footer a:hover {
+  text-decoration:underline;
+}
+
+/* 🔀 Random Button */
+#randomButton {
+  background:#2b6cb0;
+  color:white;
+  border:none;
+  border-radius:20px;
+  padding:8px 16px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.2s;
+}
+#randomButton:hover {
+  background:#2c5282;
+}
 </style>
 </head>
 <body>
+
 <h1>คลังอนิเมะของฉัน</h1>
 
 <div class="controls">
   <input type="text" id="searchBox" class="search-box" placeholder="🔍 ค้นหาชื่ออนิเมะ...">
+  <button id="randomButton">🔀 สุ่มอนิเมะ</button>
 </div>
-<div class="category-container" id="categoryContainer"></div>
-<p class="count" id="animeCount"></p>
-<div class="grid" id="animeGrid"></div>
+
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+<div class="category-container" id="categoryContainer" style="display:none;"></div>
+<p class="count" id="animeCount" style="display:none;"></p>
+<div class="grid" id="animeGrid" style="display:none;"></div>
+
+<footer>
+  © 2025 Anime List | สร้างโดย <a href="#">คุณ</a>
+  <br>
+  <a href="#" id="scrollTop">↑ กลับขึ้นบนสุด</a>
+</footer>
 
 <script>
 let allAnimes = [];
@@ -127,10 +195,18 @@ fetch('anime_data.json')
   .then(response => response.json())
   .then(animes => {
     allAnimes = animes;
+
     const grid = document.getElementById('animeGrid');
     const categoryContainer = document.getElementById('categoryContainer');
     const searchBox = document.getElementById('searchBox');
     const countText = document.getElementById('animeCount');
+    const loader = document.getElementById('loader');
+
+    // 🔹 ซ่อน Loader หลังโหลดเสร็จ
+    loader.style.display = 'none';
+    grid.style.display = 'grid';
+    categoryContainer.style.display = 'flex';
+    countText.style.display = 'block';
 
     // ✅ สร้างปุ่มหมวดหมู่ทั้งหมด
     const categories = [...new Set(animes.flatMap(a => a.category))].sort();
@@ -150,7 +226,7 @@ fetch('anime_data.json')
       categoryContainer.appendChild(btn);
     });
 
-    // ✅ ฟังก์ชันแสดงอนิเมะ
+    // ✅ แสดงรายการอนิเมะ
     function renderAnimeList(list) {
       grid.innerHTML = '';
       countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
@@ -175,7 +251,7 @@ fetch('anime_data.json')
       });
     }
 
-    // ✅ ฟังก์ชันกรองข้อมูล (AND Logic)
+    // ✅ ฟังก์ชันกรอง
     function applyFilters() {
       const keyword = searchBox.value.toLowerCase();
       let filtered = animes;
@@ -191,15 +267,28 @@ fetch('anime_data.json')
       renderAnimeList(filtered);
     }
 
-    // ✅ ค้นหาด้วยชื่อ
+    // ✅ ค้นหา
     searchBox.addEventListener('input', applyFilters);
+
+    // ✅ ปุ่มสุ่มอนิเมะ
+    document.getElementById('randomButton').addEventListener('click', () => {
+      const randomAnime = allAnimes[Math.floor(Math.random() * allAnimes.length)];
+      window.open(randomAnime.link, '_blank');
+    });
+
+    // ✅ ปุ่มกลับขึ้นบน
+    document.getElementById('scrollTop').addEventListener('click', e => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     renderAnimeList(animes);
   })
   .catch(err => {
-    document.getElementById('animeGrid').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
+    document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
     console.error('โหลด anime_data.json ไม่ได้:', err);
   });
 </script>
+
 </body>
 </html>
