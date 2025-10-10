@@ -29,7 +29,7 @@ h2 {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-top: 20px;
 }
-input, textarea, select {
+input, textarea {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
@@ -70,22 +70,38 @@ button:hover {
 .category-list input {
   margin-right: 6px;
 }
+
+/* 🌈 ปรับ UI ของโหมดแสดงผล */
 .output-mode {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  background: #edf2f7;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+.output-option {
+  flex: 1;
+  max-width: 250px;
+  text-align: center;
   padding: 10px;
   border-radius: 10px;
-  margin-top: 20px;
-}
-.output-mode label {
-  font-weight: bold;
   cursor: pointer;
+  background: #edf2f7;
   color: #2d3748;
+  font-weight: bold;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 2px solid transparent;
 }
-.output-mode input {
-  margin-right: 6px;
+.output-option:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+.output-option.active {
+  background: #2b6cb0;
+  color: white;
+  border: 2px solid #1a4f91;
+  box-shadow: 0 4px 10px rgba(43,108,176,0.3);
 }
 #outputBox {
   margin-top: 15px;
@@ -125,8 +141,8 @@ button:hover {
   <input id="image" placeholder="เช่น https://cdn.myanimelist.net/images/anime/...jpg">
 
   <div class="output-mode">
-    <label><input type="radio" name="outputType" value="code" checked> แสดงเป็นโค้ด JSON</label>
-    <label><input type="radio" name="outputType" value="file"> ดาวน์โหลดเป็นไฟล์ JSON</label>
+    <div class="output-option active" data-mode="code">📜 แสดงเป็นโค้ด JSON</div>
+    <div class="output-option" data-mode="file">💾 ดาวน์โหลดเป็นไฟล์ JSON</div>
   </div>
 
   <div style="text-align:center;">
@@ -145,6 +161,7 @@ button:hover {
 <script>
 let animeData = [];
 let allCategories = new Set();
+let outputMode = "code"; // ค่าเริ่มต้น: แสดงเป็นโค้ด
 
 // ✅ โหลดข้อมูล JSON เดิม
 fetch('anime_data.json')
@@ -173,16 +190,24 @@ function renderCategoryList() {
   });
 }
 
+// ✅ ระบบเลือกโหมดสวย ๆ
+document.querySelectorAll('.output-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.output-option').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    outputMode = opt.dataset.mode;
+  });
+});
+
 // ✅ เพิ่มอนิเมะใหม่
 function addAnime() {
   const title = document.getElementById('title').value.trim();
   const link = document.getElementById('link').value.trim();
   const image = document.getElementById('image').value.trim();
   const categories = [...document.querySelectorAll('#categoryList input:checked')].map(c => c.value);
-  const outputType = document.querySelector('input[name="outputType"]:checked').value;
 
   if (!title || !link) {
-    alert('กรุณากรอกชื่อและลิงก์อย่างน้อย');
+    alert('⚠️ กรุณากรอกชื่อและลิงก์อย่างน้อย');
     return;
   }
 
@@ -199,10 +224,10 @@ function addAnime() {
   updateOutput();
   clearForm();
 
-  if (outputType === "file") {
+  if (outputMode === "file") {
     downloadJSON();
   } else {
-    alert("✅ เพิ่มเรียบร้อยแล้ว! ข้อมูลอัปเดตด้านล่าง");
+    alert("✅ เพิ่มเรียบร้อยแล้ว! ดูข้อมูลด้านล่าง");
   }
 }
 
