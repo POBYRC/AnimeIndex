@@ -9,7 +9,7 @@ body {
   background: #f8fafc;
   padding: 20px;
   color: #2d3748;
-  max-width: 800px;
+  max-width: 700px;
   margin: auto;
 }
 h1 {
@@ -25,7 +25,7 @@ h2 {
 .card {
   background: white;
   border-radius: 16px;
-  padding: 20px;
+  padding: 25px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-top: 20px;
 }
@@ -41,7 +41,7 @@ button {
   background: #2b6cb0;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
@@ -71,19 +71,19 @@ button:hover {
   margin-right: 6px;
 }
 
-/* 🌈 ปรับ UI ของโหมดแสดงผล */
+/* 🌈 ปุ่มเลือกโหมดแบบหรู */
 .output-mode {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 20px 0;
+  margin: 25px 0 10px;
 }
 .output-option {
   flex: 1;
   max-width: 250px;
   text-align: center;
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 10px;
   cursor: pointer;
   background: #edf2f7;
@@ -103,22 +103,17 @@ button:hover {
   border: 2px solid #1a4f91;
   box-shadow: 0 4px 10px rgba(43,108,176,0.3);
 }
+
 #outputBox {
   margin-top: 15px;
-  height: 300px;
+  height: 320px;
   white-space: pre;
   font-family: monospace;
   background: #fff;
   border: 1px solid #cbd5e0;
   border-radius: 10px;
   padding: 10px;
-}
-#animeList {
-  margin-top: 20px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  resize: vertical;
 }
 </style>
 </head>
@@ -146,11 +141,9 @@ button:hover {
   </div>
 
   <div style="text-align:center;">
-    <button onclick="addAnime()">➕ เพิ่มลงรายการ</button>
+    <button onclick="addAnime()">➕ เพิ่มอนิเมะ</button>
   </div>
 </div>
-
-<div id="animeList"></div>
 
 <div class="card">
   <h3>📜 ข้อมูล JSON ที่อัปเดตแล้ว:</h3>
@@ -161,7 +154,7 @@ button:hover {
 <script>
 let animeData = [];
 let allCategories = new Set();
-let outputMode = "code"; // ค่าเริ่มต้น: แสดงเป็นโค้ด
+let outputMode = "code"; // เริ่มต้นโหมดเป็น "แสดงเป็นโค้ด"
 
 // ✅ โหลดข้อมูล JSON เดิม
 fetch('anime_data.json')
@@ -171,7 +164,6 @@ fetch('anime_data.json')
     document.getElementById('loadStatus').textContent = `✅ โหลดข้อมูลสำเร็จ (${animeData.length} เรื่อง)`;
     allCategories = new Set(animeData.flatMap(a => a.category));
     renderCategoryList();
-    renderList();
     updateOutput();
   })
   .catch(err => {
@@ -190,7 +182,7 @@ function renderCategoryList() {
   });
 }
 
-// ✅ ระบบเลือกโหมดสวย ๆ
+// ✅ ปุ่มเลือกโหมด (UI toggle)
 document.querySelectorAll('.output-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('.output-option').forEach(o => o.classList.remove('active'));
@@ -220,30 +212,17 @@ function addAnime() {
   };
 
   animeData.push(newAnime);
-  renderList();
   updateOutput();
   clearForm();
 
   if (outputMode === "file") {
     downloadJSON();
   } else {
-    alert("✅ เพิ่มเรียบร้อยแล้ว! ดูข้อมูลด้านล่าง");
+    alert("✅ เพิ่มเรียบร้อยแล้ว! ดูข้อมูล JSON ด้านล่าง");
   }
 }
 
-// ✅ แสดงรายการทั้งหมด
-function renderList() {
-  const list = document.getElementById('animeList');
-  if (animeData.length === 0) {
-    list.innerHTML = '<p>ยังไม่มีข้อมูล</p>';
-    return;
-  }
-  list.innerHTML = '<h3>📚 รายการทั้งหมด:</h3>' + animeData.map(a =>
-    `<div>🎬 <b>${a.title}</b> (${a.category.join(', ')})</div>`
-  ).join('');
-}
-
-// ✅ แสดง JSON รวมทั้งหมด
+// ✅ อัปเดต JSON รวม
 function updateOutput() {
   document.getElementById('outputBox').value = JSON.stringify(animeData, null, 2);
 }
