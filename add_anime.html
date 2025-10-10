@@ -107,8 +107,8 @@ button:hover {
 /* 🌟 กล่องโค้ด JSON */
 #outputContainer {
   margin-top: 20px;
-  background: #1e293b;
-  color: #e2e8f0;
+  background: #ffffff;
+  color: #111827;
   border-radius: 12px;
   padding: 20px;
   overflow-x: auto;
@@ -118,13 +118,8 @@ button:hover {
   line-height: 1.5;
   max-height: 500px;
   overflow-y: auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border: 1px solid #cbd5e0;
 }
-#outputContainer span.key { color: #60a5fa; }
-#outputContainer span.string { color: #fbbf24; }
-#outputContainer span.number { color: #34d399; }
-#outputContainer span.boolean { color: #f87171; }
-#outputContainer span.null { color: #9ca3af; }
 .controls {
   text-align: right;
   margin-bottom: 10px;
@@ -244,8 +239,9 @@ function addAnime() {
 
 function updateOutput() {
   const jsonStr = JSON.stringify(animeData, null, 2);
-  document.getElementById('outputContainer').innerHTML = syntaxHighlight(jsonStr);
-  document.getElementById('outputContainer').scrollTop = document.getElementById('outputContainer').scrollHeight;
+  const box = document.getElementById('outputContainer');
+  box.textContent = jsonStr;
+  box.scrollTop = box.scrollHeight;
 }
 
 function clearForm() {
@@ -268,17 +264,6 @@ function downloadJSON() {
   a.download = 'anime_data.json';
   a.click();
   URL.revokeObjectURL(url);
-}
-
-function syntaxHighlight(json) {
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|\b\d+\b)/g, match => {
-    let cls = 'number';
-    if (/^"/.test(match)) cls = /:$/.test(match) ? 'key' : 'string';
-    else if (/true|false/.test(match)) cls = 'boolean';
-    else if (/null/.test(match)) cls = 'null';
-    return `<span class="${cls}">${match}</span>`;
-  });
 }
 </script>
 </body>
