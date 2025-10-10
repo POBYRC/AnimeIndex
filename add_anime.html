@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>เพิ่มอนิเมะใหม่</title>
+<title>เพิ่มอนิเมะใหม่ (เวอร์ชันเลือกโหมดผลลัพธ์)</title>
 <style>
 body {
   font-family: 'Prompt', sans-serif;
@@ -10,7 +10,11 @@ body {
   padding:20px;
   color:#2d3748;
 }
-input, textarea {
+h1 {
+  color:#2b6cb0;
+  text-align:center;
+}
+select, input, textarea {
   width:100%;
   padding:8px;
   margin:5px 0;
@@ -27,14 +31,19 @@ button {
   margin-top:10px;
 }
 button:hover { background:#2c5282; }
+.category-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-bottom:10px;
+}
 .category-list label {
-  display:inline-block;
-  margin:4px;
   background:#edf2f7;
   padding:5px 10px;
   border-radius:15px;
   cursor:pointer;
 }
+.category-list input { margin-right:4px; }
 #animeList {
   margin-top:20px;
   background:white;
@@ -42,42 +51,86 @@ button:hover { background:#2c5282; }
   padding:10px;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
+#outputBox {
+  margin-top:20px;
+  height:300px;
+  white-space:pre;
+  font-family:monospace;
+  background:#fff;
+}
+.flex {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:15px;
+  justify-content:center;
+}
+.mode-btn {
+  flex:1;
+  min-width:150px;
+  background:#e2e8f0;
+  color:#2d3748;
+  font-weight:bold;
+}
+.mode-btn.active {
+  background:#2b6cb0;
+  color:white;
+  box-shadow:0 0 6px rgba(43,108,176,0.6);
+}
+.output-mode {
+  text-align:center;
+  margin:15px 0;
+}
 </style>
 </head>
 <body>
 
-<h1>📝 เพิ่มอนิเมะใหม่ (อ่านและต่อจาก JSON เดิม)</h1>
+<h1>📝 เพิ่มอนิเมะใหม่ (อ่าน + ต่อจาก JSON เดิม)</h1>
 
 <p id="loadStatus">📂 กำลังโหลดข้อมูล...</p>
 
-<label>ชื่ออนิเมะ:</label>
-<input id="title" placeholder="เช่น โทนิกาคุคาวาอี้">
-
-<label>ลิงก์อนิเมะ:</label>
-<input id="link" placeholder="เช่น https://animeyuzu.com/...">
-
-<label>หมวดหมู่:</label>
-<div class="category-list" id="categoryList">
-  <label><input type="checkbox" value="โรแมนติก"> โรแมนติก</label>
-  <label><input type="checkbox" value="ตลก"> ตลก</label>
-  <label><input type="checkbox" value="โรงเรียน"> โรงเรียน</label>
-  <label><input type="checkbox" value="ดราม่า"> ดราม่า</label>
-  <label><input type="checkbox" value="แฟนตาซี"> แฟนตาซี</label>
-  <label><input type="checkbox" value="แอ็กชัน"> แอ็กชัน</label>
-  <label><input type="checkbox" value="ฮาเร็ม"> ฮาเร็ม</label>
-  <label><input type="checkbox" value="ชีวิตประจำวัน"> ชีวิตประจำวัน</label>
+<div class="flex">
+  <button class="mode-btn active" id="manualBtn" onclick="switchMode('manual')">🖊️ กรอกเอง</button>
+  <button class="mode-btn" id="copyBtn" onclick="switchMode('copy')">📋 คัดลอกจากเรื่องเดิม</button>
 </div>
 
-<label>ลิงก์รูปภาพ:</label>
-<input id="image" placeholder="เช่น https://cdn.myanimelist.net/images/anime/...jpg">
+<div id="formSection">
+  <label>ชื่ออนิเมะ:</label>
+  <input id="title" placeholder="เช่น โทนิกาคุคาวาอี้">
 
-<button onclick="addAnime()">➕ เพิ่มลงรายการ</button>
-<button onclick="downloadJSON()">💾 ดาวน์โหลด anime_data.json</button>
+  <label>ลิงก์อนิเมะ:</label>
+  <input id="link" placeholder="เช่น https://animeyuzu.com/...">
+
+  <label>หมวดหมู่:</label>
+  <div class="category-list" id="categoryList">กำลังโหลด...</div>
+
+  <label>ลิงก์รูปภาพ:</label>
+  <input id="image" placeholder="เช่น https://cdn.myanimelist.net/images/anime/...jpg">
+
+  <button onclick="addAnime()">➕ เพิ่มลงรายการ</button>
+</div>
+
+<div id="copySection" style="display:none;">
+  <label>เลือกเรื่องที่ต้องการคัดลอก:</label>
+  <select id="copySelect"></select>
+  <button onclick="copyAnime()">📋 ดึงข้อมูลมาแก้ไข</button>
+</div>
+
+<div class="output-mode">
+  <label><input type="radio" name="outputType" value="code" checked> แสดงเป็นโค้ด JSON</label>
+  <label><input type="radio" name="outputType" value="file"> ดาวน์โหลดเป็นไฟล์ JSON</label>
+</div>
 
 <div id="animeList"></div>
 
+<h3>📜 ข้อมูล JSON ที่อัปเดตแล้ว:</h3>
+<textarea id="outputBox" readonly></textarea>
+<button onclick="copyJSON()">📎 คัดลอกทั้งหมด</button>
+
 <script>
 let animeData = [];
+let allCategories = new Set();
+let mode = 'manual';
 
 // ✅ โหลดข้อมูล JSON เดิม
 fetch('anime_data.json')
@@ -85,13 +138,63 @@ fetch('anime_data.json')
   .then(data => {
     animeData = data;
     document.getElementById('loadStatus').textContent = `✅ โหลดข้อมูลสำเร็จ (${animeData.length} เรื่อง)`;
+
+    // ดึงหมวดหมู่ทั้งหมด
+    allCategories = new Set(animeData.flatMap(a => a.category));
+    renderCategoryList();
+
+    // รายการให้คัดลอก
+    const copySelect = document.getElementById('copySelect');
+    animeData.forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.id;
+      opt.textContent = `${a.id}. ${a.title}`;
+      copySelect.appendChild(opt);
+    });
+
     renderList();
+    updateOutput();
   })
   .catch(err => {
     document.getElementById('loadStatus').textContent = "⚠️ ไม่พบ anime_data.json (จะเริ่มใหม่)";
     console.warn("ไม่พบ anime_data.json", err);
     animeData = [];
   });
+
+// ✅ สลับโหมดกรอก/คัดลอก
+function switchMode(m) {
+  mode = m;
+  document.getElementById('manualBtn').classList.toggle('active', m==='manual');
+  document.getElementById('copyBtn').classList.toggle('active', m==='copy');
+  document.getElementById('formSection').style.display = m==='manual' ? '' : 'none';
+  document.getElementById('copySection').style.display = m==='copy' ? '' : 'none';
+}
+
+// ✅ แสดงหมวดหมู่จาก JSON เดิม
+function renderCategoryList() {
+  const container = document.getElementById('categoryList');
+  container.innerHTML = '';
+  [...allCategories].sort().forEach(cat => {
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" value="${cat}"> ${cat}`;
+    container.appendChild(label);
+  });
+}
+
+// ✅ ดึงข้อมูลจากเรื่องเดิม
+function copyAnime() {
+  const id = parseInt(document.getElementById('copySelect').value);
+  const anime = animeData.find(a => a.id === id);
+  if (!anime) return alert('ไม่พบเรื่องนี้');
+
+  switchMode('manual');
+  document.getElementById('title').value = anime.title;
+  document.getElementById('link').value = anime.link;
+  document.getElementById('image').value = anime.image || '';
+  document.querySelectorAll('#categoryList input').forEach(chk => {
+    chk.checked = anime.category.includes(chk.value);
+  });
+}
 
 // ✅ เพิ่มอนิเมะใหม่
 function addAnime() {
@@ -115,7 +218,11 @@ function addAnime() {
 
   animeData.push(newAnime);
   renderList();
+  updateOutput();
   clearForm();
+
+  const outputType = document.querySelector('input[name="outputType"]:checked').value;
+  if (outputType === "file") downloadJSON();
 }
 
 // ✅ แสดงรายการทั้งหมด
@@ -130,6 +237,11 @@ function renderList() {
   ).join('');
 }
 
+// ✅ แสดง JSON รวมทั้งหมดใน textarea
+function updateOutput() {
+  document.getElementById('outputBox').value = JSON.stringify(animeData, null, 2);
+}
+
 // ✅ ล้างช่องกรอก
 function clearForm() {
   document.getElementById('title').value = '';
@@ -138,7 +250,13 @@ function clearForm() {
   document.querySelectorAll('#categoryList input').forEach(c => c.checked = false);
 }
 
-// ✅ ดาวน์โหลด JSON รวม (ของเดิม + ใหม่)
+// ✅ คัดลอกทั้งหมด
+function copyJSON() {
+  const text = document.getElementById('outputBox').value;
+  navigator.clipboard.writeText(text).then(() => alert("📋 คัดลอก JSON แล้ว!"));
+}
+
+// ✅ ดาวน์โหลด JSON ใหม่
 function downloadJSON() {
   const blob = new Blob([JSON.stringify(animeData, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
