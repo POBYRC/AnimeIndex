@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>จัดการคลังอนิเมะ</title>
+<style>
+body {
+  font-family: 'Prompt', sans-serif;
+  background: #f8fafc;
+  color: #2d3748;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+h1 {
+  text-align: center;
+  color: #2b6cb0;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+th, td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+th {
+  background: #2b6cb0;
+  color: white;
+}
+tr:hover {
+  background: #edf2f7;
+}
+input, select {
+  width: 100%;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 14px;
+}
+button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button.edit { background: #38b2ac; color: white; }
+button.delete { background: #e53e3e; color: white; }
+button.add { background: #2b6cb0; color: white; margin-top: 15px; }
+button.save { background: #2f855a; color: white; margin-top: 20px; }
+button:hover { opacity: 0.85; }
+.controls { text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>📋 จัดการคลังอนิเมะ</h1>
+
+<table id="animeTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>ชื่อเรื่อง</th>
+      <th>ลิงก์</th>
+      <th>หมวดหมู่</th>
+      <th>รูปภาพ</th>
+      <th>จัดการ</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div class="controls">
+  <button class="add" onclick="addNewRow()">➕ เพิ่มเรื่องใหม่</button>
+  <button class="save" onclick="downloadJSON()">💾 ดาวน์โหลด anime_data.json</button>
+</div>
+
+<script>
+let animeData = [];
+
+fetch('anime_data.json')
+  .then(res => res.json())
+  .then(data => {
+    animeData = data;
+    renderTable();
+  })
+  .catch(err => {
+    alert('ไม่สามารถโหลด anime_data.json ได้');
+    console.error(err);
+  });
+
+function renderTable() {
+  const tbody = document.querySelector('#animeTable tbody');
+  tbody.innerHTML = '';
+  animeData.forEach((a, i) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${a.id}</td>
+      <td><input value="${a.title}" onchange="updateField(${i}, 'title', this.value)"></td>
+      <td><input value="${a.link}" onchange="updateField(${i}, 'link', this.value)"></td>
+      <td><input value="${a.category.join(', ')}" onchange="updateCategory(${i}, this.value)"></td>
+      <td><input value="${a.image || ''}" onchange="updateField(${i}, 'image', this.value)"></td>
+      <td>
+        <button class="delete" onclick="deleteRow(${i})">ลบ</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function updateField(index, field, value) {
+  animeData[index][field] = value;
+}
+
+function updateCategory(index, value) {
+  animeData[index].category = value.split(',').map(v => v.trim()).filter(Boolean);
+}
+
+function deleteRow(index) {
+  if (confirm('แน่ใจหรือไม่ว่าต้องการลบเรื่องนี้?')) {
+    animeData.splice(index, 1);
+    renderTable();
+  }
+}
+
+function addNewRow() {
+  const newId = animeData.length > 0 ? Math.max(...animeData.map(a => a.id)) + 1 : 1;
+  animeData.push({ id: newId, title: "ชื่อเรื่องใหม่", link: "", category: [], image: "" });
+  renderTable();
+}
+
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(animeData, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'anime_data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  alert("✅ ดาวน์โหลด anime_data.json ใหม่เรียบร้อย!");
+}
+</script>
+</body>
+</html>
