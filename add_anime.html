@@ -17,11 +17,6 @@ h1 {
   text-align: center;
   margin-bottom: 10px;
 }
-h2 {
-  text-align: center;
-  color: #4a5568;
-  font-size: 18px;
-}
 .card {
   background: white;
   border-radius: 16px;
@@ -62,16 +57,9 @@ button:hover {
   padding: 6px 12px;
   border-radius: 15px;
   cursor: pointer;
-  transition: 0.2s;
 }
-.category-list label:hover {
-  background: #e2e8f0;
-}
-.category-list input {
-  margin-right: 6px;
-}
+.category-list input { margin-right: 6px; }
 
-/* 🌈 ปุ่มเลือกโหมด */
 .output-mode {
   display: flex;
   justify-content: center;
@@ -89,22 +77,15 @@ button:hover {
   background: #edf2f7;
   color: #2d3748;
   font-weight: bold;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   border: 2px solid transparent;
-}
-.output-option:hover {
-  background: #e2e8f0;
-  transform: translateY(-2px);
+  transition: 0.25s;
 }
 .output-option.active {
   background: #2b6cb0;
   color: white;
   border: 2px solid #1a4f91;
-  box-shadow: 0 4px 10px rgba(43,108,176,0.3);
 }
 
-/* 🌟 กล่องโค้ด JSON */
 #outputContainer {
   margin-top: 20px;
   background: #ffffff;
@@ -117,7 +98,6 @@ button:hover {
   font-size: 14px;
   line-height: 1.5;
   max-height: 500px;
-  overflow-y: auto;
   border: 1px solid #cbd5e0;
 }
 .controls {
@@ -128,9 +108,6 @@ button:hover {
   background: #475569;
   padding: 8px 14px;
   margin-left: 6px;
-}
-.controls button:hover {
-  background: #334155;
 }
 </style>
 </head>
@@ -181,7 +158,7 @@ fetch('anime_data.json')
   .then(data => {
     animeData = data;
     document.getElementById('loadStatus').textContent = `✅ โหลดข้อมูลสำเร็จ (${animeData.length} เรื่อง)`;
-    allCategories = new Set(animeData.flatMap(a => a.category));
+    allCategories = new Set(animeData.flatMap(a => a.category || []));
     renderCategoryList();
     updateOutput();
   })
@@ -194,11 +171,10 @@ fetch('anime_data.json')
 function renderCategoryList() {
   const container = document.getElementById('categoryList');
   container.innerHTML = '';
-  if (allCategories.size === 0) {
-    const defaults = ["ตลก", "โรแมนติก", "แฟนตาซี", "โรงเรียน", "ต่อสู้", "ฮาเร็ม", "ชีวิตประจำวัน"];
-    defaults.forEach(cat => allCategories.add(cat));
-  }
-  [...allCategories].sort().forEach(cat => {
+  const defaults = animeData.length
+    ? [...new Set(animeData.flatMap(a => a.category || []))].sort()
+    : ["ตลก", "โรแมนติก", "แฟนตาซี", "โรงเรียน", "ต่อสู้", "ฮาเร็ม", "ชีวิตประจำวัน"];
+  defaults.forEach(cat => {
     const label = document.createElement('label');
     label.innerHTML = `<input type="checkbox" value="${cat}"> ${cat}`;
     container.appendChild(label);
@@ -219,29 +195,40 @@ function addAnime() {
   const image = document.getElementById('image').value.trim();
   const categories = [...document.querySelectorAll('#categoryList input:checked')].map(c => c.value);
 
-  if (!title || !link) return alert('⚠️ กรุณากรอกชื่อและลิงก์');
+  if (!title || !link) {
+    alert('⚠️ กรุณากรอกชื่อและลิงก์ให้ครบ');
+    return;
+  }
 
   const newAnime = {
-    id: animeData.length > 0 ? Math.max(...animeData.map(a => a.id)) + 1 : 1,
-    title,
-    link,
-    category: categories,
-    image
+    id: animeData.length > 0 ? Math.max(...animeData.map(a => Number(a.id) || 0)) + 1 : 1,
+    title: title,
+    link: link,
+    category: categories.length > 0 ? categories : ["ไม่ระบุ"],
+    image: image || ""
   };
 
   animeData.push(newAnime);
   updateOutput();
   clearForm();
 
-  if (outputMode === "file") downloadJSON();
-  else alert("✅ เพิ่มอนิเมะแล้ว! JSON อัปเดตแล้วด้านล่าง");
+  if (outputMode === "file") {
+    downloadJSON();
+  } else {
+    alert("✅ เพิ่มอนิเมะแล้ว! ข้อมูล JSON อัปเดตแล้วด้านล่าง");
+  }
 }
 
 function updateOutput() {
-  const jsonStr = JSON.stringify(animeData, null, 2);
-  const box = document.getElementById('outputContainer');
-  box.textContent = jsonStr;
-  box.scrollTop = box.scrollHeight;
+  const cleanData = animeData.map(a => ({
+    id: a.id,
+    title: a.title,
+    link: a.link,
+    category: a.category,
+    image: a.image
+  }));
+  const jsonStr = JSON.stringify(cleanData, null, 2);
+  document.getElementById('outputContainer').textContent = jsonStr;
 }
 
 function clearForm() {
@@ -257,7 +244,7 @@ function copyJSON() {
 }
 
 function downloadJSON() {
-  const blob = new Blob([JSON.stringify(animeData, null, 2)], {type: "application/json"});
+  const blob = new Blob([JSON.stringify(animeData, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
