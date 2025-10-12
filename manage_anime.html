@@ -434,7 +434,7 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   const newId = nextId();
   const newAnime = { id: newId, title, link, image: image||undefined, category: chosen.length? chosen : [] };
 
-  allAnimes.unshift(newAnime);
+  allAnimes.push(newAnime);
   // if new categories appeared, update global categories
   chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
   allCategories.sort((a,b)=>a.localeCompare(b,'th'));
