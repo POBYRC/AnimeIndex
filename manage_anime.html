@@ -1,151 +1,649 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<title>จัดการคลังอนิเมะ</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Manager — คลังอนิเมะ (Kawaii)</title>
+
+<!-- Favicon (เปลี่ยนได้โดยแก้ตัวเลขใน js แถว faviconUrls) -->
+<link rel="icon" id="site-favicon" href="https://raw.githubusercontent.com/POBYRC/AnimeIndex/refs/heads/main/1.png">
+
 <style>
-body {
-  font-family: 'Prompt', sans-serif;
-  background: #f8fafc;
-  color: #2d3748;
-  padding: 20px;
-  max-width: 1000px;
-  margin: auto;
+/* ---------- Kawaii minimal style ---------- */
+:root{
+  --bg: #fffafc;
+  --card: #ffffff;
+  --muted: #6b6b6b;
+  --accent: #ff9ccf;
+  --accent-2: #9ce1ff;
+  --tag-bg: #fff1f8;
+  --shadow: 0 8px 18px rgba(150,120,180,0.08);
+  --radius: 14px;
+  --glass: rgba(255,255,255,0.6);
+  font-family: 'Prompt', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
-h1 {
-  text-align: center;
-  color: #2b6cb0;
-  margin-bottom: 20px;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg, #fffafc 0%, #fbfbff 100%);
+  color:#2b2b2b;
+  padding:22px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+/* header */
+.header {
+  display:flex;
+  gap:16px;
+  align-items:center;
+  margin-bottom:18px;
 }
-th, td {
-  border-bottom: 1px solid #e2e8f0;
-  padding: 10px;
-  text-align: left;
-  font-size: 14px;
+.logo {
+  width:58px;
+  height:58px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:var(--shadow);
+  color:white;
+  font-weight:700;
+  font-size:20px;
 }
-th {
-  background: #2b6cb0;
-  color: white;
+.title {
+  font-size:20px;
+  line-height:1;
+  font-weight:700;
 }
-tr:hover {
-  background: #edf2f7;
+.subtitle {font-size:13px;color:var(--muted)}
+
+/* controls */
+.controls {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:14px;
+  flex-wrap:wrap;
 }
-input, select {
-  width: 100%;
-  border: 1px solid #cbd5e0;
-  border-radius: 6px;
-  padding: 6px;
-  font-size: 14px;
+.input, .select, .btn {
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.06);
+  padding:10px 12px;
+  font-size:14px;
+  background:white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
-button {
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
+.input {min-width:220px}
+.search {
+  display:flex;
+  gap:8px;
+  align-items:center;
 }
-button.edit { background: #38b2ac; color: white; }
-button.delete { background: #e53e3e; color: white; }
-button.add { background: #2b6cb0; color: white; margin-top: 15px; }
-button.save { background: #2f855a; color: white; margin-top: 20px; }
-button:hover { opacity: 0.85; }
-.controls { text-align: center; margin-top: 20px; }
+.btn {
+  cursor:pointer;
+  user-select:none;
+  transition:transform .12s ease, box-shadow .12s;
+}
+.btn:active {transform:translateY(1px)}
+.btn.primary{
+  background:linear-gradient(90deg,#ffb3da,#9de3ff);
+  color:#fff;
+  border:none;
+  box-shadow: 0 8px 18px rgba(150,120,180,0.12);
+}
+.btn.ghost{
+  background:transparent;
+}
+
+/* categories area */
+.category-wrap{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.cat-chip {
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--tag-bg);
+  font-size:13px;
+  color:#3a3a3a;
+  border:1px solid rgba(0,0,0,0.03);
+}
+.cat-chip input{cursor:pointer}
+
+/* layout grid */
+.layout {
+  display:grid;
+  grid-template-columns: 1fr 380px;
+  gap:20px;
+  align-items:start;
+}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+}
+
+/* card grid */
+.grid {
+  display:grid;
+  gap:14px;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+}
+.card {
+  background:var(--card);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform .14s ease, box-shadow .14s ease;
+  display:flex;
+  flex-direction:column;
+}
+.card:hover{ transform: translateY(-6px); box-shadow: 0 20px 40px rgba(150,120,180,0.08); }
+.card .thumb {
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  display:block;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+}
+.card .body {
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:110px;
+}
+.title-line{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+}
+.card h3{
+  margin:0;
+  font-size:15px;
+  line-height:1.1;
+}
+.small {
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* tags inside card */
+.card .tags {
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:6px;
+}
+.tag {
+  font-size:12px;
+  padding:6px 8px;
+  border-radius:10px;
+  background:#fff6fb;
+  border:1px solid rgba(0,0,0,0.03);
+  color:#6b3a5a;
+}
+
+/* actions inside card */
+.actions {
+  display:flex;
+  gap:8px;
+  margin-top:auto;
+}
+.icon-btn{
+  border-radius:10px;
+  padding:8px;
+  font-size:13px;
+  cursor:pointer;
+  border:1px solid rgba(0,0,0,0.04);
+  background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.95));
+}
+
+/* rightpanel form / json viewer */
+.panel {
+  background:var(--card);
+  border-radius:12px;
+  padding:12px;
+  box-shadow:var(--shadow);
+  position:sticky;
+  top:22px;
+}
+.panel h4{margin:6px 0 10px 0}
+.form-row{display:flex;gap:8px;margin-bottom:8px}
+.form-row .input {flex:1}
+.small-muted{font-size:12px;color:var(--muted);margin-bottom:8px}
+
+/* json viewer */
+.json-view {
+  max-height:360px;
+  overflow:auto;
+  background:#f7f7fb;
+  padding:10px;
+  border-radius:10px;
+  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Helvetica Neue", monospace;
+  font-size:13px;
+  border:1px solid rgba(0,0,0,0.03);
+  white-space:pre-wrap;
+}
+
+/* loader skeleton */
+.skeleton {
+  width:100%;
+  height:164px;
+  border-radius:12px;
+  background: linear-gradient(90deg,#f4f4f6,#fafafb,#f4f4f6);
+  background-size:200% 100%;
+  animation:shimmer 1.2s linear infinite;
+}
+@keyframes shimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* tiny helpers */
+.center {text-align:center}
+.flex {display:flex}
+.sep{height:10px}
+.footer-note{font-size:12px;color:var(--muted); margin-top:10px}
+
+/* pretty buttons */
+.controls-bottom {display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px}
 </style>
 </head>
 <body>
-<h1>📋 จัดการคลังอนิเมะ</h1>
+  <div class="header">
+    <div class="logo">AN</div>
+    <div>
+      <div class="title">Manager — คลังอนิเมะ</div>
+      <div class="subtitle">เพิ่ม แก้ไข ลบ และดาวน์โหลด JSON ของคุณ (Kawaii Dashboard)</div>
+    </div>
+  </div>
 
-<table id="animeTable">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>ชื่อเรื่อง</th>
-      <th>ลิงก์</th>
-      <th>หมวดหมู่</th>
-      <th>รูปภาพ</th>
-      <th>จัดการ</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search">
+      <input id="searchInput" class="input" placeholder="ค้นหาชื่ออนิเมะ..." />
+    </div>
 
-<div class="controls">
-  <button class="add" onclick="addNewRow()">➕ เพิ่มเรื่องใหม่</button>
-  <button class="save" onclick="downloadJSON()">💾 ดาวน์โหลด anime_data.json</button>
-</div>
+    <button id="showJsonBtn" class="btn">ดู JSON</button>
+    <button id="downloadBtn" class="btn primary">ดาวน์โหลด JSON</button>
+    <button id="clearAllBtn" class="btn">ลบทั้งหมด</button>
+  </div>
+
+  <!-- Category chips (dynamic) -->
+  <div class="category-wrap" id="categoryWrap">
+    <!-- dynamically filled -->
+  </div>
+
+  <div class="layout">
+    <!-- left: cards -->
+    <div>
+      <div id="grid" class="grid">
+        <!-- skeleton while loading -->
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+      </div>
+    </div>
+
+    <!-- right: panel (form + JSON viewer) -->
+    <aside class="panel">
+      <h4>เพิ่ม / แก้ไข อนิเมะ</h4>
+      <div class="small-muted">กรอกข้อมูลแล้วกด "เพิ่มใหม่" หรือเลือกการ์ดเพื่อแก้ไข</div>
+
+      <div class="form-row">
+        <input id="titleInput" class="input" placeholder="ชื่อเรื่อง" />
+      </div>
+      <div class="form-row">
+        <input id="linkInput" class="input" placeholder="ลิงก์ (https://...)" />
+      </div>
+      <div class="form-row">
+        <input id="imageInput" class="input" placeholder="URL รูป (ถ้ามี)" />
+      </div>
+      <div class="form-row">
+        <input id="catsInput" class="input" placeholder="หมวดหมู่ (คั่นด้วยเครื่องหมาย , ) เช่น ตลก,โรแมนติก" />
+      </div>
+
+      <div class="controls-bottom">
+        <button id="addBtn" class="btn primary">เพิ่มใหม่</button>
+        <button id="updateBtn" class="btn">อัปเดต</button>
+        <button id="resetFormBtn" class="btn">รีเซ็ตฟอร์ม</button>
+      </div>
+
+      <div class="sep"></div>
+
+      <h4>JSON (ตัวอย่าง / แก้ไข)</h4>
+      <div class="json-view" id="jsonView">ยังไม่โหลดข้อมูล...</div>
+
+      <div class="footer-note center">
+        เมื่อแก้ไขแล้วให้กด "ดาวน์โหลด JSON" เพื่อบันทึกเป็นไฟล์ `anime_data.json` แล้วอัปโหลดกลับไปที่ GitHub
+      </div>
+    </aside>
+  </div>
 
 <script>
-let animeData = [];
+/*
+ Manager Kawaii:
+ - โหลด anime_data.json
+ - แสดงการ์ด
+ - filter by categories (AND), search
+ - add / edit / delete
+ - view JSON pretty and download
+*/
 
-fetch('anime_data.json')
-  .then(res => res.json())
+// ---------- config ----------
+const DATA_URL = 'anime_data.json'; // ต้องอยู่ใน repo เดียวกัน
+const faviconUrls = [
+  "https://raw.githubusercontent.com/POBYRC/AnimeIndex/refs/heads/main/1.png",
+  "https://raw.githubusercontent.com/POBYRC/AnimeIndex/refs/heads/main/2.png"
+];
+// (แก้ index เพื่อเปลี่ยน favicon)
+let activeFaviconIndex = 0;
+
+// ---------- state ----------
+let allAnimes = [];
+let filteredAnimes = [];
+let categories = [];
+let activeCats = [];
+let editingId = null;
+
+// ---------- elements ----------
+const gridEl = document.getElementById('grid');
+const categoryWrap = document.getElementById('categoryWrap');
+const searchInput = document.getElementById('searchInput');
+const jsonView = document.getElementById('jsonView');
+const addBtn = document.getElementById('addBtn');
+const updateBtn = document.getElementById('updateBtn');
+const resetFormBtn = document.getElementById('resetFormBtn');
+const titleInput = document.getElementById('titleInput');
+const linkInput = document.getElementById('linkInput');
+const imageInput = document.getElementById('imageInput');
+const catsInput = document.getElementById('catsInput');
+const showJsonBtn = document.getElementById('showJsonBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
+
+// set favicon helper
+function setFavicon(index){
+  activeFaviconIndex = index % faviconUrls.length;
+  const link = document.getElementById('site-favicon');
+  if(link){
+    link.href = faviconUrls[activeFaviconIndex];
+  } else {
+    const l = document.createElement('link');
+    l.rel = 'icon';
+    l.id = 'site-favicon';
+    l.href = faviconUrls[activeFaviconIndex];
+    document.head.appendChild(l);
+  }
+}
+setFavicon(activeFaviconIndex);
+
+// ---------- fetch data ----------
+function showLoadingSkeleton(){
+  gridEl.innerHTML = '';
+  for(let i=0;i<6;i++){
+    const s = document.createElement('div');
+    s.className = 'skeleton';
+    gridEl.appendChild(s);
+  }
+}
+showLoadingSkeleton();
+
+fetch(DATA_URL)
+  .then(r => {
+    if(!r.ok) throw new Error('ไม่พบไฟล์ JSON หรือโดเมนถูกบล็อก');
+    return r.json();
+  })
   .then(data => {
-    animeData = data;
-    renderTable();
+    allAnimes = Array.isArray(data) ? data : [];
+    initCategories();
+    applyFilters();
+    renderJSONView();
   })
   .catch(err => {
-    alert('ไม่สามารถโหลด anime_data.json ได้');
+    gridEl.innerHTML = `<div class="center small-muted">ไม่สามารถโหลด anime_data.json ได้ — ตรวจสอบ path หรือเปิดไฟล์ในเครื่องก่อน<br><small style="color:#a00">${err.message}</small></div>`;
+    jsonView.textContent = 'เกิดข้อผิดพลาดในการโหลด JSON';
     console.error(err);
   });
 
-function renderTable() {
-  const tbody = document.querySelector('#animeTable tbody');
-  tbody.innerHTML = '';
-  animeData.forEach((a, i) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${a.id}</td>
-      <td><input value="${a.title}" onchange="updateField(${i}, 'title', this.value)"></td>
-      <td><input value="${a.link}" onchange="updateField(${i}, 'link', this.value)"></td>
-      <td><input value="${a.category.join(', ')}" onchange="updateCategory(${i}, this.value)"></td>
-      <td><input value="${a.image || ''}" onchange="updateField(${i}, 'image', this.value)"></td>
-      <td>
-        <button class="delete" onclick="deleteRow(${i})">ลบ</button>
-      </td>
-    `;
-    tbody.appendChild(row);
+// ---------- categories ----------
+function initCategories(){
+  const set = new Set();
+  allAnimes.forEach(a => {
+    (a.category || []).forEach(c => set.add(c));
+  });
+  categories = Array.from(set).sort((a,b)=>a.localeCompare(b,'th') || 0);
+  renderCategoryChips();
+}
+function renderCategoryChips(){
+  categoryWrap.innerHTML = '';
+  categories.forEach(cat => {
+    const chip = document.createElement('label');
+    chip.className = 'cat-chip';
+    chip.innerHTML = `<input type="checkbox" value="${cat}" /> ${cat}`;
+    chip.querySelector('input').addEventListener('change', onCatChange);
+    categoryWrap.appendChild(chip);
   });
 }
-
-function updateField(index, field, value) {
-  animeData[index][field] = value;
+function onCatChange(){
+  activeCats = Array.from(categoryWrap.querySelectorAll('input:checked')).map(i=>i.value);
+  applyFilters();
 }
 
-function updateCategory(index, value) {
-  animeData[index].category = value.split(',').map(v => v.trim()).filter(Boolean);
+// ---------- filters & search ----------
+searchInput.addEventListener('input', debounce(applyFilters, 180));
+
+function applyFilters(){
+  const kw = (searchInput.value || '').trim().toLowerCase();
+  filteredAnimes = allAnimes.filter(a => {
+    if(activeCats.length){
+      // AND logic: ทุกหมวดต้องอยู่ใน a.category
+      const catset = a.category || [];
+      if(!activeCats.every(c => catset.includes(c))) return false;
+    }
+    if(kw){
+      return (a.title || '').toLowerCase().includes(kw);
+    }
+    return true;
+  });
+  renderGrid(filteredAnimes);
 }
 
-function deleteRow(index) {
-  if (confirm('แน่ใจหรือไม่ว่าต้องการลบเรื่องนี้?')) {
-    animeData.splice(index, 1);
-    renderTable();
+// ---------- render grid ----------
+function renderGrid(list){
+  gridEl.innerHTML = '';
+  if(list.length === 0){
+    gridEl.innerHTML = `<div class="center small-muted">ไม่พบรายการ</div>`;
+    return;
+  }
+  list.forEach(a => gridEl.appendChild(createCard(a)));
+}
+
+function createCard(a){
+  const card = document.createElement('div');
+  card.className = 'card';
+  const img = document.createElement('img');
+  img.className = 'thumb';
+  img.src = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+  img.alt = a.title || '';
+  img.onerror = ()=>{ img.src = 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png' };
+
+  const body = document.createElement('div');
+  body.className = 'body';
+
+  const titleLine = document.createElement('div');
+  titleLine.className = 'title-line';
+  const h3 = document.createElement('h3');
+  h3.textContent = a.title || '(ไม่มีชื่อ)';
+  const smallId = document.createElement('div');
+  smallId.className = 'small';
+  smallId.textContent = `#${a.id || '-'}`;
+  titleLine.appendChild(h3);
+  titleLine.appendChild(smallId);
+
+  const linkRow = document.createElement('div');
+  linkRow.className = 'small';
+  linkRow.innerHTML = `<a href="${a.link || '#'}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">ไปยังลิงก์</a>`;
+
+  const tagsWrap = document.createElement('div');
+  tagsWrap.className = 'tags';
+  (a.category || []).forEach(t=>{
+    const tEl = document.createElement('span');
+    tEl.className = 'tag';
+    tEl.textContent = t;
+    tagsWrap.appendChild(tEl);
+  });
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  const editBtn = document.createElement('button');
+  editBtn.className = 'icon-btn';
+  editBtn.textContent = 'แก้ไข';
+  editBtn.addEventListener('click', ()=> startEdit(a));
+
+  const delBtn = document.createElement('button');
+  delBtn.className = 'icon-btn';
+  delBtn.textContent = 'ลบ';
+  delBtn.addEventListener('click', ()=> removeAnime(a.id));
+
+  actions.appendChild(editBtn);
+  actions.appendChild(delBtn);
+
+  body.appendChild(titleLine);
+  body.appendChild(linkRow);
+  body.appendChild(tagsWrap);
+  body.appendChild(actions);
+
+  card.appendChild(img);
+  card.appendChild(body);
+  return card;
+}
+
+// ---------- add / edit / delete ----------
+addBtn.addEventListener('click', ()=>{
+  const title = titleInput.value.trim();
+  const link = linkInput.value.trim();
+  if(!title){ alert('กรุณาใส่ชื่อเรื่อง'); return; }
+  const newId = generateNewId();
+  const item = {
+    id: newId,
+    title: title,
+    link: link || '',
+    image: imageInput.value.trim() || '',
+    category: parseCatsInput(catsInput.value)
+  };
+  allAnimes.unshift(item); // ใส่หน้า
+  initCategories();
+  applyFilters();
+  renderJSONView();
+  resetForm();
+});
+
+updateBtn.addEventListener('click', ()=>{
+  if(!editingId){ alert('ไม่ได้อยู่ในโหมดแก้ไข'); return; }
+  const item = allAnimes.find(x=>x.id === editingId);
+  if(!item){ alert('ไม่พบรายการที่จะอัปเดต'); return; }
+  item.title = titleInput.value.trim() || item.title;
+  item.link = linkInput.value.trim() || item.link;
+  item.image = imageInput.value.trim() || item.image;
+  item.category = parseCatsInput(catsInput.value);
+  editingId = null;
+  initCategories();
+  applyFilters();
+  renderJSONView();
+  resetForm();
+});
+
+resetFormBtn.addEventListener('click', ()=>{ editingId = null; resetForm(); });
+
+function startEdit(a){
+  editingId = a.id;
+  titleInput.value = a.title || '';
+  linkInput.value = a.link || '';
+  imageInput.value = a.image || '';
+  catsInput.value = (a.category || []).join(',');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function removeAnime(id){
+  if(!confirm('ยืนยันการลบรายการนี้?')) return;
+  allAnimes = allAnimes.filter(x=>x.id !== id);
+  initCategories();
+  applyFilters();
+  renderJSONView();
+}
+
+clearAllBtn.addEventListener('click', ()=>{
+  if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้')) return;
+  allAnimes = [];
+  initCategories();
+  applyFilters();
+  renderJSONView();
+});
+
+function generateNewId(){
+  const max = allAnimes.reduce((m,i)=> Math.max(m, i.id || 0), 0);
+  return max + 1;
+}
+function parseCatsInput(v){
+  if(!v) return [];
+  return v.split(',').map(s=>s.trim()).filter(Boolean);
+}
+function resetForm(){
+  titleInput.value = '';
+  linkInput.value = '';
+  imageInput.value = '';
+  catsInput.value = '';
+  editingId = null;
+}
+
+// ---------- JSON view / download ----------
+showJsonBtn.addEventListener('click', ()=>{
+  const visible = jsonView.style.display !== 'block';
+  jsonView.style.display = visible ? 'block' : 'none';
+  if(visible) renderJSONView();
+});
+
+function renderJSONView(){
+  try{
+    const pretty = JSON.stringify(allAnimes, null, 2);
+    jsonView.textContent = pretty;
+  }catch(e){
+    jsonView.textContent = 'ไม่สามารถแสดง JSON ได้';
   }
 }
 
-function addNewRow() {
-  const newId = animeData.length > 0 ? Math.max(...animeData.map(a => a.id)) + 1 : 1;
-  animeData.push({ id: newId, title: "ชื่อเรื่องใหม่", link: "", category: [], image: "" });
-  renderTable();
-}
-
-function downloadJSON() {
-  const blob = new Blob([JSON.stringify(animeData, null, 2)], { type: "application/json" });
+downloadBtn.addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(allAnimes, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = 'anime_data.json';
+  document.body.appendChild(a);
   a.click();
+  a.remove();
   URL.revokeObjectURL(url);
-  alert("✅ ดาวน์โหลด anime_data.json ใหม่เรียบร้อย!");
+});
+
+// ---------- helpers ----------
+function debounce(fn, wait=200){
+  let t;
+  return function(...args){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,args), wait); }
 }
+
+/* UX: click card title to edit? already have edit button */
+
+// If user wants to change favicon quickly with index:
+window.setFaviconIndex = (i)=> { setFavicon(i); }
+
+// initial
+renderJSONView();
 </script>
 </body>
 </html>
