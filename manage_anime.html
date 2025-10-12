@@ -271,11 +271,11 @@
       </div>
       <div class="full">
         <label>ลิงก์</label>
-        <input id="editLink" class="input" />
+        <input id="editLink" class="input full" />
       </div>
       <div class="full">
         <label>URL รูปภาพ</label>
-        <input id="editImage" class="input" />
+        <input id="editImage" class="input full" />
       </div>
 
       <div class="full">
@@ -556,7 +556,7 @@ document.getElementById('copyBtn').addEventListener('click', async ()=>{
 
 // clear all
 document.getElementById('clearAllBtn').addEventListener('click', ()=>{
-  if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้ในหน้านี้')) return;
+  if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับ[...]')) return;
   allAnimes = [];
   renderList(allAnimes);
   updateJsonView();
