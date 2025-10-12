@@ -56,18 +56,13 @@
   }
   .input, .select, .btn {
     border-radius:12px;
-    padding:12px 14px;
+    padding:10px 12px;
     border:1px solid rgba(0,0,0,0.06);
     background:#fff;
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    font-size:15px;
-    width:100%;
+    font-size:14px;
   }
-  .input:focus{
-    outline:none;
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(255,154,194,0.25);
-  }
+  .input{min-width:200px}
   .btn{
     cursor:pointer;
     user-select:none;
@@ -116,112 +111,158 @@
   .card-body{
     padding:10px; display:flex;flex-direction:column; gap:8px; flex:1;
   }
-  .title{font-weight:700;font-size:15px;margin:0}
+  .title{
+    font-weight:700;font-size:15px;
+    line-height:1.2;
+    margin:0 0 4px 0;
+  }
   .meta{font-size:12px;color:var(--muted); margin-bottom:6px}
   .tags{display:flex;flex-wrap:wrap;gap:6px}
-  .tag{background:#fff;padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid rgba(0,0,0,0.04)}
+  .tag{background:#fff;text-transform:none;padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid rgba(0,0,0,0.04)}
+  .small-btn{padding:8px 10px;border-radius:10px;border:none;cursor:pointer;background:transparent;font-weight:700}
+  .small-btn.edit{color:#ef6aa9}
+  .small-btn.del{color:#f26868}
 
-  .side{position:sticky; top:18px;display:flex; flex-direction:column; gap:12px;}
-  .form-row{display:flex;gap:8px;flex-direction:column}
-  label{font-size:13px;color:var(--muted);margin-bottom:6px}
-
+  /* --- Modal --- */
   .modal-backdrop{
-    position:fixed;inset:0;background:rgba(14,14,16,0.45);display:flex;align-items:center;justify-content:center;
+    position:fixed;inset:0;background:rgba(14,14,16,0.45);
+    display:flex;align-items:center;justify-content:center;
     z-index:9999;opacity:0;pointer-events:none;transition:opacity .18s ease;
   }
   .modal-backdrop.show{opacity:1;pointer-events:auto;}
   .modal{
-    width:min(700px,95%);border-radius:14px;padding:16px;background:var(--card);
+    width:min(700px,95%);
+    border-radius:14px;
+    padding:16px;
+    background:var(--card);
     box-shadow: 0 22px 60px rgba(0,0,0,0.25);
-    transform:translateY(12px);transition:transform .18s ease;
+    transform:translateY(12px);
+    transition:transform .18s ease;
   }
   .modal-backdrop.show .modal{ transform:none; }
-
-  .modal .fields{display:grid;grid-template-columns:1fr;gap:14px}
-  .checkbox-grid{display:flex;flex-wrap:wrap;gap:8px;max-height:140px;overflow:auto;padding:6px;border-radius:8px;border:1px dashed rgba(0,0,0,0.04);background:#fffaf6;}
-
-  pre.json-view{white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto;padding:12px;border-radius:12px;background:#fffefc;border:1px solid rgba(0,0,0,0.03)}
-
-  @media (max-width:980px){
-    main{grid-template-columns:1fr}
-    .side{position:static}
+  .modal .fields{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
   }
+  .modal .input{width:100%}
+  .modal label{font-size:13px;color:var(--muted);margin-bottom:4px;display:block}
 </style>
 </head>
 <body>
 
 <header>
   <div class="brand">
-    <div class="logo">Ani</div>
-    <div>
-      <h1>Manager — คลังอนิเมะ (Kawaii)</h1>
-      <div style="font-size:13px;color:var(--muted)">แก้ไข เพิ่ม ลบ และดาวน์โหลด JSON ได้จากที่นี่</div>
-    </div>
+    <div class="logo">KW</div>
+    <h1>Manager Anime</h1>
   </div>
-
   <div class="controls">
-    <input id="quickSearch" class="input" placeholder="ค้นหาโดยชื่อ..." />
-    <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
-    <button id="copyBtn" class="btn ghost">คัดลอก JSON</button>
+    <input class="input" type="search" placeholder="ค้นหาอนิเมะ..." />
+    <select class="select">
+      <option>ทั้งหมด</option>
+      <option>ต่อสู้</option>
+      <option>โรแมนติก</option>
+      <option>คอมเมดี้</option>
+    </select>
+    <button id="addAnimeBtn" class="btn primary">+ เพิ่มอนิเมะ</button>
   </div>
 </header>
 
 <main>
   <section class="panel">
-    <strong>รายการอนิเมะ</strong>
-    <div id="countText" style="font-size:13px;color:var(--muted);margin-top:4px"></div>
-    <div id="loading" class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div style="font-size:13px;color:var(--muted)">กำลังโหลดข้อมูล...</div></div>
-    <div id="grid" class="grid" style="margin-top:12px"></div>
-  </section>
-
-  <aside class="side">
-    <div class="panel">
-      <strong>เพิ่มอนิเมะใหม่</strong>
-      <div class="form-row"><label>ชื่อเรื่อง</label><input id="addTitle" class="input" style="width:100%" placeholder="ใส่ชื่ออนิเมะ" /></div>
-      <div class="form-row"><label>ลิงก์</label><input id="addLink" class="input" style="width:100%" placeholder="https://..." /></div>
-      <div class="form-row"><label>URL รูปภาพ (jpg/png)</label><input id="addImage" class="input" style="width:100%" placeholder="https://.../image.jpg (ไม่บังคับ)" /></div>
-      <label>เลือกหมวดหมู่</label><div id="addCategoryBox" class="checkbox-grid"></div>
-      <div style="display:flex;gap:10px;margin-top:12px"><button id="addBtn" class="btn primary">เพิ่มเรื่อง</button><button id="clearNew" class="btn">รีเซ็ต</button></div>
-    </div>
-
-    <div class="panel">
-      <strong>JSON (ที่อัปเดต)</strong>
-      <pre id="jsonView" class="json-view">ยังไม่โหลดข้อมูล...</pre>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
-        <button id="copyJsonBtn" class="btn ghost">คัดลอก</button>
-        <button id="clearAllBtn" class="btn" title="ลบทั้งหมด">ลบทั้งหมด</button>
+    <div class="grid" id="animeGrid">
+      <div class="card">
+        <img src="https://i.pinimg.com/564x/47/73/0a/47730aeb50a96c5a8d6ad17d4e312a4d.jpg" class="thumb" alt="anime">
+        <div class="card-body">
+          <div class="title">Your Name</div>
+          <div class="meta">หมวดหมู่: โรแมนติก, ดราม่า</div>
+          <div class="tags">
+            <span class="tag">Movie</span>
+            <span class="tag">Makoto Shinkai</span>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:auto;">
+            <button class="small-btn edit" onclick="openModal()">แก้ไข</button>
+            <button class="small-btn del">ลบ</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://i.pinimg.com/564x/3e/85/84/3e8584aeb568e7a32b07e6c8df1d8367.jpg" class="thumb" alt="anime">
+        <div class="card-body">
+          <div class="title">Demon Slayer</div>
+          <div class="meta">หมวดหมู่: แอ็คชัน, แฟนตาซี</div>
+          <div class="tags">
+            <span class="tag">TV</span>
+            <span class="tag">Ufotable</span>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:auto;">
+            <button class="small-btn edit" onclick="openModal()">แก้ไข</button>
+            <button class="small-btn del">ลบ</button>
+          </div>
+        </div>
       </div>
     </div>
-  </aside>
+  </section>
 </main>
 
-<!-- modal -->
+<!-- Modal -->
 <div id="modalBackdrop" class="modal-backdrop">
-  <div class="modal">
-    <strong style="display:block;margin-bottom:8px">แก้ไขอนิเมะ</strong>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong id="modalTitle">แก้ไขอนิเมะ</strong>
+      <button id="modalClose" class="btn">✕</button>
+    </div>
+
     <div class="fields">
-      <div><label>ชื่อเรื่อง</label><input id="editTitle" class="input" style="width:100%" /></div>
-      <div><label>ลิงก์</label><input id="editLink" class="input" style="width:100%" /></div>
-      <div><label>URL รูปภาพ</label><input id="editImage" class="input" style="width:100%" /></div>
-      <div><label>หมวดหมู่</label><div id="editCategoryBox" class="checkbox-grid"></div></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end"><button id="saveEdit" class="btn primary">บันทึก</button><button id="cancelEdit" class="btn">ยกเลิก</button></div>
+      <div>
+        <label>ชื่อเรื่อง</label>
+        <input id="editTitle" class="input" placeholder="ใส่ชื่ออนิเมะ" />
+      </div>
+      <div>
+        <label>ลิงก์</label>
+        <input id="editLink" class="input" placeholder="https://..." />
+      </div>
+      <div>
+        <label>URL รูปภาพ</label>
+        <input id="editImage" class="input" placeholder="https://.../image.jpg" />
+      </div>
+      <div>
+        <label>หมวดหมู่ (ติ๊กได้หลายอัน)</label>
+        <div id="editCategoryBox" class="checkbox-grid" style="border:1px dashed rgba(0,0,0,0.1);padding:8px;border-radius:8px">
+          <label><input type="checkbox"> โรแมนติก</label>
+          <label><input type="checkbox"> แอ็คชัน</label>
+          <label><input type="checkbox"> ดราม่า</label>
+          <label><input type="checkbox"> แฟนตาซี</label>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+        <button id="saveEdit" class="btn primary">บันทึก</button>
+        <button id="cancelEdit" class="btn">ยกเลิก</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-/* ย่อส่วน script เพื่อความกระชับ (ทำงานเหมือนเดิมทุกอย่าง) */
-let allAnimes=[],allCategories=[],editingId=null;
-const grid=document.getElementById("grid"),jsonView=document.getElementById("jsonView"),modal=document.getElementById("modalBackdrop");
-async function load(){const r=await fetch("anime_data.json");const j=await r.json();allAnimes=j;update();categories();}
-function categories(){const s=new Set();allAnimes.forEach(a=>(a.category||[]).forEach(c=>s.add(c)));allCategories=[...s];renderCat();}
-function renderCat(){const a=document.getElementById("addCategoryBox"),e=document.getElementById("editCategoryBox");a.innerHTML=e.innerHTML="";allCategories.forEach(c=>{const la=document.createElement("label");la.innerHTML=`<input type='checkbox' value='${c}' style='margin-right:6px'/>${c}`;a.appendChild(la);const le=document.createElement("label");le.innerHTML=`<input type='checkbox' value='${c}' style='margin-right:6px'/>${c}`;e.appendChild(le);});}
-function update(){grid.innerHTML="";jsonView.textContent=JSON.stringify(allAnimes,null,2);allAnimes.forEach(a=>{const d=document.createElement("div");d.className="card";d.innerHTML=`<img class='thumb' src='${a.image||"https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"}'><div class='card-body'><div class='title'>${a.title}</div><div class='tags'>${a.category.map(t=>`<span class='tag'>${t}</span>`).join("")}</div><div><button class='small-btn edit' data-id='${a.id}'>แก้ไข</button><button class='small-btn del' data-id='${a.id}'>ลบ</button></div></div>`;grid.appendChild(d);});grid.querySelectorAll(".edit").forEach(b=>b.onclick=e=>edit(parseInt(e.target.dataset.id)));grid.querySelectorAll(".del").forEach(b=>b.onclick=e=>{if(confirm("ลบรายการนี้?")){allAnimes=allAnimes.filter(x=>x.id!==parseInt(e.target.dataset.id));update();}});}
-document.getElementById("addBtn").onclick=()=>{const t=addTitle.value.trim(),l=addLink.value.trim(),i=addImage.value.trim(),c=[...addCategoryBox.querySelectorAll("input:checked")].map(x=>x.value);if(!t)return alert("กรอกชื่อ");const id=Math.max(0,...allAnimes.map(a=>a.id||0))+1;allAnimes.push({id,title:t,link:l,image:i,category:c});update();};
-function edit(id){const a=allAnimes.find(x=>x.id===id);if(!a)return;editingId=id;editTitle.value=a.title;editLink.value=a.link;editImage.value=a.image;editCategoryBox.querySelectorAll("input").forEach(i=>i.checked=a.category.includes(i.value));modal.classList.add("show");}
-document.getElementById("cancelEdit").onclick=()=>modal.classList.remove("show");document.getElementById("saveEdit").onclick=()=>{const a=allAnimes.find(x=>x.id===editingId);if(!a)return;a.title=editTitle.value;a.link=editLink.value;a.image=editImage.value;a.category=[...editCategoryBox.querySelectorAll("input:checked")].map(x=>x.value);modal.classList.remove("show");update();};
-load();
+const modalBackdrop = document.getElementById("modalBackdrop");
+const modalClose = document.getElementById("modalClose");
+const cancelEdit = document.getElementById("cancelEdit");
+const saveEdit = document.getElementById("saveEdit");
+
+function openModal() {
+  modalBackdrop.classList.add("show");
+}
+function closeModal() {
+  modalBackdrop.classList.remove("show");
+}
+
+modalClose.addEventListener("click", closeModal);
+cancelEdit.addEventListener("click", closeModal);
+saveEdit.addEventListener("click", () => {
+  alert("บันทึกข้อมูลสำเร็จ!");
+  closeModal();
+});
 </script>
+
 </body>
 </html>
