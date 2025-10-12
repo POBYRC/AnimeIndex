@@ -5,645 +5,569 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Manager — คลังอนิเมะ (Kawaii)</title>
 
-<!-- Favicon (เปลี่ยนได้โดยแก้ตัวเลขใน js แถว faviconUrls) -->
-<link rel="icon" id="site-favicon" href="https://raw.githubusercontent.com/POBYRC/AnimeIndex/refs/heads/main/1.png">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-/* ---------- Kawaii minimal style ---------- */
-:root{
-  --bg: #fffafc;
-  --card: #ffffff;
-  --muted: #6b6b6b;
-  --accent: #ff9ccf;
-  --accent-2: #9ce1ff;
-  --tag-bg: #fff1f8;
-  --shadow: 0 8px 18px rgba(150,120,180,0.08);
-  --radius: 14px;
-  --glass: rgba(255,255,255,0.6);
-  font-family: 'Prompt', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background: linear-gradient(180deg, #fffafc 0%, #fbfbff 100%);
-  color:#2b2b2b;
-  padding:22px;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
+  :root{
+    --bg:#fff7fb;
+    --card:#ffffff;
+    --accent:#ff9ac2;
+    --accent-2:#ffd57e;
+    --muted:#6b7280;
+    --shadow: 0 8px 24px rgba(204, 155, 178, 0.12);
+  }
+  /* Reset / base */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:'Baloo 2', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:linear-gradient(180deg,#fff7fb 0%, #fff9f1 100%);
+    color:#2b2b2b;
+    padding:18px;
+  }
 
-/* header */
-.header {
-  display:flex;
-  gap:16px;
-  align-items:center;
-  margin-bottom:18px;
-}
-.logo {
-  width:58px;
-  height:58px;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:var(--shadow);
-  color:white;
-  font-weight:700;
-  font-size:20px;
-}
-.title {
-  font-size:20px;
-  line-height:1;
-  font-weight:700;
-}
-.subtitle {font-size:13px;color:var(--muted)}
+  header{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .brand{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .logo{
+    width:56px;height:56px;border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow);
+    color:white;font-weight:800;font-size:20px;
+  }
+  h1{margin:0;font-size:20px}
 
-/* controls */
-.controls {
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:14px;
-  flex-wrap:wrap;
-}
-.input, .select, .btn {
-  border-radius:12px;
-  border:1px solid rgba(0,0,0,0.06);
-  padding:10px 12px;
-  font-size:14px;
-  background:white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-}
-.input {min-width:220px}
-.search {
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-.btn {
-  cursor:pointer;
-  user-select:none;
-  transition:transform .12s ease, box-shadow .12s;
-}
-.btn:active {transform:translateY(1px)}
-.btn.primary{
-  background:linear-gradient(90deg,#ffb3da,#9de3ff);
-  color:#fff;
-  border:none;
-  box-shadow: 0 8px 18px rgba(150,120,180,0.12);
-}
-.btn.ghost{
-  background:transparent;
-}
+  /* controls */
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .input, .select, .btn {
+    border-radius:12px;
+    padding:10px 12px;
+    border:1px solid rgba(0,0,0,0.06);
+    background:#fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    font-size:14px;
+  }
+  .input{min-width:200px}
+  .btn{
+    cursor:pointer;
+    user-select:none;
+  }
+  .btn.primary{
+    background:linear-gradient(90deg,var(--accent),#ff7bb0);
+    color:white;border:none;font-weight:700;
+    box-shadow: 0 8px 20px rgba(255,122,170,0.18);
+  }
+  .btn.ghost{
+    background:transparent;border:1px dashed rgba(0,0,0,0.06);
+  }
 
-/* categories area */
-.category-wrap{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
-.cat-chip {
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
-  padding:6px 10px;
-  border-radius:999px;
-  background:var(--tag-bg);
-  font-size:13px;
-  color:#3a3a3a;
-  border:1px solid rgba(0,0,0,0.03);
-}
-.cat-chip input{cursor:pointer}
+  main{
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:18px;
+    align-items:start;
+  }
 
-/* layout grid */
-.layout {
-  display:grid;
-  grid-template-columns: 1fr 380px;
-  gap:20px;
-  align-items:start;
-}
-@media (max-width:980px){
-  .layout{grid-template-columns:1fr}
-}
+  /* left: manager list */
+  .panel{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    box-shadow:var(--shadow);
+  }
+  .top-actions{
+    display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;
+  }
 
-/* card grid */
-.grid {
-  display:grid;
-  gap:14px;
-  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
-}
-.card {
-  background:var(--card);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  transition:transform .14s ease, box-shadow .14s ease;
-  display:flex;
-  flex-direction:column;
-}
-.card:hover{ transform: translateY(-6px); box-shadow: 0 20px 40px rgba(150,120,180,0.08); }
-.card .thumb {
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  display:block;
-  border-bottom-left-radius:0;
-  border-bottom-right-radius:0;
-}
-.card .body {
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  min-height:110px;
-}
-.title-line{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  align-items:center;
-}
-.card h3{
-  margin:0;
-  font-size:15px;
-  line-height:1.1;
-}
-.small {
-  font-size:12px;
-  color:var(--muted);
-}
+  /* grid cards */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:14px;
+  }
+  .card{
+    border-radius:12px;
+    overflow:hidden;
+    background:linear-gradient(180deg,#fff,#fffaf6);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition:transform .18s ease, box-shadow .18s ease;
+    display:flex;flex-direction:column;height:100%;
+  }
+  .card:hover{ transform:translateY(-6px); box-shadow:0 18px 36px rgba(0,0,0,0.08); }
+  .card .thumb{
+    height:140px; width:100%; object-fit:cover; display:block;
+    background:linear-gradient(90deg,#ffeef8,#fff7e9);
+  }
+  .card-body{
+    padding:10px; display:flex;flex-direction:column; gap:8px; flex:1;
+  }
+  .title{
+    font-weight:700;font-size:15px;
+    line-height:1.2;
+    margin:0 0 4px 0;
+  }
+  .meta{font-size:12px;color:var(--muted); margin-bottom:6px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{background:#fff;text-transform:none;padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid rgba(0,0,0,0.04)}
 
-/* tags inside card */
-.card .tags {
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-top:6px;
-}
-.tag {
-  font-size:12px;
-  padding:6px 8px;
-  border-radius:10px;
-  background:#fff6fb;
-  border:1px solid rgba(0,0,0,0.03);
-  color:#6b3a5a;
-}
+  .card-actions{display:flex;gap:8px;margin-top:auto}
+  .small-btn{padding:8px 10px;border-radius:10px;border:none;cursor:pointer;background:transparent;font-weight:700}
+  .small-btn.edit{color:#ef6aa9}
+  .small-btn.del{color:#f26868}
 
-/* actions inside card */
-.actions {
-  display:flex;
-  gap:8px;
-  margin-top:auto;
-}
-.icon-btn{
-  border-radius:10px;
-  padding:8px;
-  font-size:13px;
-  cursor:pointer;
-  border:1px solid rgba(0,0,0,0.04);
-  background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.95));
-}
+  /* right: editor panel */
+  .side{
+    position:sticky; top:18px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .form-row{display:flex;gap:8px;flex-direction:column}
+  label{font-size:13px;color:var(--muted);margin-bottom:6px}
 
-/* rightpanel form / json viewer */
-.panel {
-  background:var(--card);
-  border-radius:12px;
-  padding:12px;
-  box-shadow:var(--shadow);
-  position:sticky;
-  top:22px;
-}
-.panel h4{margin:6px 0 10px 0}
-.form-row{display:flex;gap:8px;margin-bottom:8px}
-.form-row .input {flex:1}
-.small-muted{font-size:12px;color:var(--muted);margin-bottom:8px}
+  /* modal */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(14,14,16,0.45);display:flex;align-items:center;justify-content:center;
+    z-index:9999;opacity:0;pointer-events:none;transition:opacity .18s ease;
+  }
+  .modal-backdrop.show{opacity:1;pointer-events:auto;}
+  .modal{
+    width:min(700px,95%);border-radius:14px;padding:16px;background:var(--card);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.25);
+    transform:translateY(12px);transition:transform .18s ease;
+  }
+  .modal-backdrop.show .modal{ transform:none; }
 
-/* json viewer */
-.json-view {
-  max-height:360px;
-  overflow:auto;
-  background:#f7f7fb;
-  padding:10px;
-  border-radius:10px;
-  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Helvetica Neue", monospace;
-  font-size:13px;
-  border:1px solid rgba(0,0,0,0.03);
-  white-space:pre-wrap;
-}
+  .modal .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .modal .full{grid-column:1/-1}
 
-/* loader skeleton */
-.skeleton {
-  width:100%;
-  height:164px;
-  border-radius:12px;
-  background: linear-gradient(90deg,#f4f4f6,#fafafb,#f4f4f6);
-  background-size:200% 100%;
-  animation:shimmer 1.2s linear infinite;
-}
-@keyframes shimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  .checkbox-grid{display:flex;flex-wrap:wrap;gap:8px;max-height:140px;overflow:auto;padding:6px;border-radius:8px;border:1px dashed rgba(0,0,0,0.04);background:#fffaf6;}
 
-/* tiny helpers */
-.center {text-align:center}
-.flex {display:flex}
-.sep{height:10px}
-.footer-note{font-size:12px;color:var(--muted); margin-top:10px}
+  /* loading */
+  .loading{
+    display:flex;align-items:center;gap:8px;padding:12px;border-radius:12px;background:white;border:1px dashed rgba(0,0,0,0.04);
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:#ff93bf;animation:pop 1s infinite linear;opacity:.9}
+  .dot:nth-child(2){animation-delay:.12s;background:#ffd27d}
+  .dot:nth-child(3){animation-delay:.24s;background:#b6f7ff}
+  @keyframes pop{0%{transform:translateY(0) scale(.8);opacity:.6}50%{transform:translateY(-8px) scale(1.1);opacity:1}100%{transform:translateY(0) scale(.8);opacity:.6}}
 
-/* pretty buttons */
-.controls-bottom {display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px}
+  /* JSON viewer */
+  pre.json-view{white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto;padding:12px;border-radius:12px;background:#fffefc;border:1px solid rgba(0,0,0,0.03)}
+  /* responsive */
+  @media (max-width:980px){
+    main{grid-template-columns:1fr}
+    .side{position:static}
+  }
 </style>
 </head>
 <body>
-  <div class="header">
-    <div class="logo">AN</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">Ani</div>
     <div>
-      <div class="title">Manager — คลังอนิเมะ</div>
-      <div class="subtitle">เพิ่ม แก้ไข ลบ และดาวน์โหลด JSON ของคุณ (Kawaii Dashboard)</div>
+      <h1>Manager — คลังอนิเมะ (Kawaii)</h1>
+      <div style="font-size:13px;color:var(--muted)">แก้ไข เพิ่ม ลบ และดาวน์โหลด JSON ได้จากที่นี่</div>
     </div>
   </div>
 
-  <!-- Controls -->
   <div class="controls">
-    <div class="search">
-      <input id="searchInput" class="input" placeholder="ค้นหาชื่ออนิเมะ..." />
+    <input id="quickSearch" class="input" placeholder="ค้นหาโดยชื่อ..." />
+    <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
+    <button id="copyBtn" class="btn ghost">คัดลอก JSON</button>
+  </div>
+</header>
+
+<main>
+  <!-- left: list -->
+  <section class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong>รายการอนิเมะ</strong>
+      <div id="countText" style="font-size:13px;color:var(--muted)"></div>
     </div>
 
-    <button id="showJsonBtn" class="btn">ดู JSON</button>
-    <button id="downloadBtn" class="btn primary">ดาวน์โหลด JSON</button>
-    <button id="clearAllBtn" class="btn">ลบทั้งหมด</button>
-  </div>
+    <div id="loading" class="loading" aria-hidden="true">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div style="font-size:13px;color:var(--muted)">กำลังโหลดข้อมูล...</div>
+    </div>
 
-  <!-- Category chips (dynamic) -->
-  <div class="category-wrap" id="categoryWrap">
-    <!-- dynamically filled -->
-  </div>
+    <div id="grid" class="grid" style="margin-top:12px"></div>
+  </section>
 
-  <div class="layout">
-    <!-- left: cards -->
-    <div>
-      <div id="grid" class="grid">
-        <!-- skeleton while loading -->
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
+  <!-- right: add / viewer -->
+  <aside class="side">
+    <div class="panel">
+      <strong>เพิ่มอนิเมะใหม่</strong>
+      <div style="height:8px"></div>
+      <div class="form-row">
+        <label>ชื่อเรื่อง</label>
+        <input id="addTitle" class="input" placeholder="ใส่ชื่ออนิเมะ" />
+      </div>
+      <div class="form-row">
+        <label>ลิงก์</label>
+        <input id="addLink" class="input" placeholder="https://..." />
+      </div>
+      <div class="form-row">
+        <label>URL รูปภาพ (jpg/png)</label>
+        <input id="addImage" class="input" placeholder="https://.../image.jpg (ไม่บังคับ)" />
+      </div>
+
+      <div style="margin-top:8px">
+        <label>เลือกหมวดหมู่ (ติ๊กได้หลายอัน)</label>
+        <div id="addCategoryBox" class="checkbox-grid" style="margin-top:6px"></div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
+        <button id="clearNew" class="btn">รีเซ็ต</button>
       </div>
     </div>
 
-    <!-- right: panel (form + JSON viewer) -->
-    <aside class="panel">
-      <h4>เพิ่ม / แก้ไข อนิเมะ</h4>
-      <div class="small-muted">กรอกข้อมูลแล้วกด "เพิ่มใหม่" หรือเลือกการ์ดเพื่อแก้ไข</div>
+    <div class="panel">
+      <strong>JSON (ที่อัปเดต)</strong>
+      <div style="height:8px"></div>
+      <pre id="jsonView" class="json-view">ยังไม่โหลดข้อมูล...</pre>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
+        <button id="copyJsonBtn" class="btn ghost">คัดลอก</button>
+        <button id="clearAllBtn" class="btn" title="ลบรายการทั้งหมด">ลบทั้งหมด</button>
+      </div>
+    </div>
 
-      <div class="form-row">
-        <input id="titleInput" class="input" placeholder="ชื่อเรื่อง" />
+  </aside>
+</main>
+
+<!-- modal -->
+<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong id="modalTitle">แก้ไขอนิเมะ</strong>
+      <button id="modalClose" class="btn">✕</button>
+    </div>
+
+    <div class="fields">
+      <div class="full">
+        <label>ชื่อเรื่อง</label>
+        <input id="editTitle" class="input full" />
       </div>
-      <div class="form-row">
-        <input id="linkInput" class="input" placeholder="ลิงก์ (https://...)" />
+      <div class="full">
+        <label>ลิงก์</label>
+        <input id="editLink" class="input" />
       </div>
-      <div class="form-row">
-        <input id="imageInput" class="input" placeholder="URL รูป (ถ้ามี)" />
-      </div>
-      <div class="form-row">
-        <input id="catsInput" class="input" placeholder="หมวดหมู่ (คั่นด้วยเครื่องหมาย , ) เช่น ตลก,โรแมนติก" />
+      <div class="full">
+        <label>URL รูปภาพ</label>
+        <input id="editImage" class="input" />
       </div>
 
-      <div class="controls-bottom">
-        <button id="addBtn" class="btn primary">เพิ่มใหม่</button>
-        <button id="updateBtn" class="btn">อัปเดต</button>
-        <button id="resetFormBtn" class="btn">รีเซ็ตฟอร์ม</button>
+      <div class="full">
+        <label>หมวดหมู่ (ติ๊กได้หลายอัน)</label>
+        <div id="editCategoryBox" class="checkbox-grid"></div>
       </div>
 
-      <div class="sep"></div>
-
-      <h4>JSON (ตัวอย่าง / แก้ไข)</h4>
-      <div class="json-view" id="jsonView">ยังไม่โหลดข้อมูล...</div>
-
-      <div class="footer-note center">
-        เมื่อแก้ไขแล้วให้กด "ดาวน์โหลด JSON" เพื่อบันทึกเป็นไฟล์ `anime_data.json` แล้วอัปโหลดกลับไปที่ GitHub
+      <div class="full" style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+        <button id="saveEdit" class="btn primary">บันทึก</button>
+        <button id="cancelEdit" class="btn">ยกเลิก</button>
       </div>
-    </aside>
+    </div>
   </div>
+</div>
 
 <script>
 /*
- Manager Kawaii:
- - โหลด anime_data.json
- - แสดงการ์ด
- - filter by categories (AND), search
- - add / edit / delete
- - view JSON pretty and download
+  manager_anime.html
+  - โหลดจาก anime_data.json
+  - แก้ไข / เพิ่ม / ลบ ในหน้านี้ได้
+  - สามารถดาวน์โหลด JSON หรือคัดลอกไปวางได้
+  - Modal edit ให้เลือกหมวดหมู่ด้วย checkbox (มาจาก dataset)
 */
 
-// ---------- config ----------
-const DATA_URL = 'anime_data.json'; // ต้องอยู่ใน repo เดียวกัน
-const faviconUrls = [
-  "https://raw.githubusercontent.com/POBYRC/AnimeIndex/refs/heads/main/1.png",
-  "https://raw.githubusercontent.com/POBYRC/AnimeIndex/refs/heads/main/2.png"
-];
-// (แก้ index เพื่อเปลี่ยน favicon)
-let activeFaviconIndex = 0;
-
-// ---------- state ----------
 let allAnimes = [];
-let filteredAnimes = [];
-let categories = [];
-let activeCats = [];
+let allCategories = [];
 let editingId = null;
 
-// ---------- elements ----------
 const gridEl = document.getElementById('grid');
-const categoryWrap = document.getElementById('categoryWrap');
-const searchInput = document.getElementById('searchInput');
+const loadingEl = document.getElementById('loading');
+const countText = document.getElementById('countText');
 const jsonView = document.getElementById('jsonView');
-const addBtn = document.getElementById('addBtn');
-const updateBtn = document.getElementById('updateBtn');
-const resetFormBtn = document.getElementById('resetFormBtn');
-const titleInput = document.getElementById('titleInput');
-const linkInput = document.getElementById('linkInput');
-const imageInput = document.getElementById('imageInput');
-const catsInput = document.getElementById('catsInput');
-const showJsonBtn = document.getElementById('showJsonBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const clearAllBtn = document.getElementById('clearAllBtn');
+const modalBackdrop = document.getElementById('modalBackdrop');
 
-// set favicon helper
-function setFavicon(index){
-  activeFaviconIndex = index % faviconUrls.length;
-  const link = document.getElementById('site-favicon');
-  if(link){
-    link.href = faviconUrls[activeFaviconIndex];
-  } else {
-    const l = document.createElement('link');
-    l.rel = 'icon';
-    l.id = 'site-favicon';
-    l.href = faviconUrls[activeFaviconIndex];
-    document.head.appendChild(l);
-  }
+function showLoading(show=true){
+  loadingEl.style.display = show ? 'flex' : 'none';
 }
-setFavicon(activeFaviconIndex);
 
-// ---------- fetch data ----------
-function showLoadingSkeleton(){
-  gridEl.innerHTML = '';
-  for(let i=0;i<6;i++){
-    const s = document.createElement('div');
-    s.className = 'skeleton';
-    gridEl.appendChild(s);
-  }
-}
-showLoadingSkeleton();
-
-fetch(DATA_URL)
-  .then(r => {
-    if(!r.ok) throw new Error('ไม่พบไฟล์ JSON หรือโดเมนถูกบล็อก');
-    return r.json();
-  })
-  .then(data => {
+// load json
+async function loadJSON(){
+  showLoading(true);
+  try{
+    const res = await fetch('anime_data.json', {cache: "no-store"});
+    if(!res.ok) throw new Error('ไม่สามารถโหลดไฟล์ได้: ' + res.status);
+    const data = await res.json();
     allAnimes = Array.isArray(data) ? data : [];
-    initCategories();
-    applyFilters();
-    renderJSONView();
-  })
-  .catch(err => {
-    gridEl.innerHTML = `<div class="center small-muted">ไม่สามารถโหลด anime_data.json ได้ — ตรวจสอบ path หรือเปิดไฟล์ในเครื่องก่อน<br><small style="color:#a00">${err.message}</small></div>`;
-    jsonView.textContent = 'เกิดข้อผิดพลาดในการโหลด JSON';
+    extractCategories();
+    renderList(allAnimes);
+    updateJsonView();
+  }catch(err){
+    gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#b04878">เกิดข้อผิดพลาดในการโหลด JSON — ดูคอนโซล</div>';
     console.error(err);
-  });
+  } finally {
+    showLoading(false);
+  }
+}
 
-// ---------- categories ----------
-function initCategories(){
+function extractCategories(){
   const set = new Set();
   allAnimes.forEach(a => {
-    (a.category || []).forEach(c => set.add(c));
+    if(Array.isArray(a.category)) a.category.forEach(c => set.add(c));
   });
-  categories = Array.from(set).sort((a,b)=>a.localeCompare(b,'th') || 0);
-  renderCategoryChips();
-}
-function renderCategoryChips(){
-  categoryWrap.innerHTML = '';
-  categories.forEach(cat => {
-    const chip = document.createElement('label');
-    chip.className = 'cat-chip';
-    chip.innerHTML = `<input type="checkbox" value="${cat}" /> ${cat}`;
-    chip.querySelector('input').addEventListener('change', onCatChange);
-    categoryWrap.appendChild(chip);
-  });
-}
-function onCatChange(){
-  activeCats = Array.from(categoryWrap.querySelectorAll('input:checked')).map(i=>i.value);
-  applyFilters();
+  allCategories = [...set].sort((x,y)=> x.localeCompare(y,'th') );
+  // render category lists for add/edit forms
+  renderCategoryCheckboxes();
 }
 
-// ---------- filters & search ----------
-searchInput.addEventListener('input', debounce(applyFilters, 180));
+function renderCategoryCheckboxes(){
+  const addBox = document.getElementById('addCategoryBox');
+  const editBox = document.getElementById('editCategoryBox');
+  addBox.innerHTML = '';
+  editBox.innerHTML = '';
+  allCategories.forEach(cat => {
+    const idA = 'addcat-' + cat.replace(/\s+/g,'_');
+    const idE = 'editcat-' + cat.replace(/\s+/g,'_');
 
-function applyFilters(){
-  const kw = (searchInput.value || '').trim().toLowerCase();
-  filteredAnimes = allAnimes.filter(a => {
-    if(activeCats.length){
-      // AND logic: ทุกหมวดต้องอยู่ใน a.category
-      const catset = a.category || [];
-      if(!activeCats.every(c => catset.includes(c))) return false;
-    }
-    if(kw){
-      return (a.title || '').toLowerCase().includes(kw);
-    }
-    return true;
+    const wrapperA = document.createElement('label');
+    wrapperA.style.fontSize = '13px';
+    wrapperA.innerHTML = `<input type="checkbox" value="${escapeHtml(cat)}" id="${idA}" style="margin-right:6px"/> ${escapeHtml(cat)}`;
+    addBox.appendChild(wrapperA);
+
+    const wrapperE = document.createElement('label');
+    wrapperE.style.fontSize = '13px';
+    wrapperE.innerHTML = `<input type="checkbox" value="${escapeHtml(cat)}" id="${idE}" style="margin-right:6px"/> ${escapeHtml(cat)}`;
+    editBox.appendChild(wrapperE);
   });
-  renderGrid(filteredAnimes);
 }
 
-// ---------- render grid ----------
-function renderGrid(list){
+// render cards
+function renderList(list){
   gridEl.innerHTML = '';
+  countText.textContent = `ทั้งหมด ${list.length} เรื่อง`;
   if(list.length === 0){
-    gridEl.innerHTML = `<div class="center small-muted">ไม่พบรายการ</div>`;
+    gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">ยังไม่มีรายการ</div>';
     return;
   }
-  list.forEach(a => gridEl.appendChild(createCard(a)));
-}
-
-function createCard(a){
-  const card = document.createElement('div');
-  card.className = 'card';
-  const img = document.createElement('img');
-  img.className = 'thumb';
-  img.src = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
-  img.alt = a.title || '';
-  img.onerror = ()=>{ img.src = 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png' };
-
-  const body = document.createElement('div');
-  body.className = 'body';
-
-  const titleLine = document.createElement('div');
-  titleLine.className = 'title-line';
-  const h3 = document.createElement('h3');
-  h3.textContent = a.title || '(ไม่มีชื่อ)';
-  const smallId = document.createElement('div');
-  smallId.className = 'small';
-  smallId.textContent = `#${a.id || '-'}`;
-  titleLine.appendChild(h3);
-  titleLine.appendChild(smallId);
-
-  const linkRow = document.createElement('div');
-  linkRow.className = 'small';
-  linkRow.innerHTML = `<a href="${a.link || '#'}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">ไปยังลิงก์</a>`;
-
-  const tagsWrap = document.createElement('div');
-  tagsWrap.className = 'tags';
-  (a.category || []).forEach(t=>{
-    const tEl = document.createElement('span');
-    tEl.className = 'tag';
-    tEl.textContent = t;
-    tagsWrap.appendChild(tEl);
+  list.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    const imgSrc = item.image || placeholderImage(item.title);
+    const tagsHtml = (item.category||[]).slice(0,6).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+    div.innerHTML = `
+      <img class="thumb" src="${escapeAttr(imgSrc)}" alt="${escapeAttr(item.title)}" onerror="this.src='${placeholderImage(item.title)}'"/>
+      <div class="card-body">
+        <div>
+          <div class="title">${escapeHtml(item.title)}</div>
+          <div class="meta"><a href="${escapeAttr(item.link || '#')}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${escapeHtml(item.link||'—')}</a></div>
+        </div>
+        <div class="tags">${tagsHtml}</div>
+        <div class="card-actions">
+          <button class="small-btn edit" data-id="${item.id}">แก้ไข</button>
+          <button class="small-btn del" data-id="${item.id}">ลบ</button>
+        </div>
+      </div>
+    `;
+    gridEl.appendChild(div);
   });
 
-  const actions = document.createElement('div');
-  actions.className = 'actions';
-  const editBtn = document.createElement('button');
-  editBtn.className = 'icon-btn';
-  editBtn.textContent = 'แก้ไข';
-  editBtn.addEventListener('click', ()=> startEdit(a));
-
-  const delBtn = document.createElement('button');
-  delBtn.className = 'icon-btn';
-  delBtn.textContent = 'ลบ';
-  delBtn.addEventListener('click', ()=> removeAnime(a.id));
-
-  actions.appendChild(editBtn);
-  actions.appendChild(delBtn);
-
-  body.appendChild(titleLine);
-  body.appendChild(linkRow);
-  body.appendChild(tagsWrap);
-  body.appendChild(actions);
-
-  card.appendChild(img);
-  card.appendChild(body);
-  return card;
+  // attach events
+  gridEl.querySelectorAll('.small-btn.edit').forEach(b => b.addEventListener('click', e => {
+    const id = parseInt(e.currentTarget.dataset.id);
+    openEditModal(id);
+  }));
+  gridEl.querySelectorAll('.small-btn.del').forEach(b => b.addEventListener('click', e => {
+    const id = parseInt(e.currentTarget.dataset.id);
+    if(confirm('ต้องการลบรายการนี้จริงหรือไม่?')) {
+      deleteAnime(id);
+    }
+  }));
 }
 
-// ---------- add / edit / delete ----------
-addBtn.addEventListener('click', ()=>{
-  const title = titleInput.value.trim();
-  const link = linkInput.value.trim();
-  if(!title){ alert('กรุณาใส่ชื่อเรื่อง'); return; }
-  const newId = generateNewId();
-  const item = {
-    id: newId,
-    title: title,
-    link: link || '',
-    image: imageInput.value.trim() || '',
-    category: parseCatsInput(catsInput.value)
-  };
-  allAnimes.unshift(item); // ใส่หน้า
-  initCategories();
-  applyFilters();
-  renderJSONView();
-  resetForm();
+// placeholder image generator (simple)
+function placeholderImage(title){
+  // return a cute placeholder svg as data URL
+  const txt = encodeURIComponent(title.slice(0,18));
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'>
+    <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#ffd7e8'/><stop offset='1' stop-color='#fff5d6'/></linearGradient></defs>
+    <rect width='100%' height='100%' fill='url(#g)'/>
+    <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Baloo 2, sans-serif' font-size='34' fill='#d05a8f'>${txt}</text>
+  </svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+// utils escape
+function escapeHtml(s){ if(s==null) return ''; return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function escapeAttr(s){ if(s==null) return ''; return String(s).replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
+
+// add new
+document.getElementById('addBtn').addEventListener('click',()=>{
+  const title = document.getElementById('addTitle').value.trim();
+  const link = document.getElementById('addLink').value.trim();
+  const image = document.getElementById('addImage').value.trim();
+  const chosen = Array.from(document.getElementById('addCategoryBox').querySelectorAll('input[type=checkbox]:checked')).map(i=>i.value);
+
+  if(!title){ alert('กรุณากรอกชื่อเรื่อง'); return; }
+  const newId = nextId();
+  const newAnime = { id: newId, title, link, image: image||undefined, category: chosen.length? chosen : [] };
+
+  allAnimes.unshift(newAnime);
+  // if new categories appeared, update global categories
+  chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
+  allCategories.sort((a,b)=>a.localeCompare(b,'th'));
+  renderCategoryCheckboxes();
+  renderList(allAnimes);
+  updateJsonView();
+  clearAddForm();
 });
 
-updateBtn.addEventListener('click', ()=>{
-  if(!editingId){ alert('ไม่ได้อยู่ในโหมดแก้ไข'); return; }
-  const item = allAnimes.find(x=>x.id === editingId);
-  if(!item){ alert('ไม่พบรายการที่จะอัปเดต'); return; }
-  item.title = titleInput.value.trim() || item.title;
-  item.link = linkInput.value.trim() || item.link;
-  item.image = imageInput.value.trim() || item.image;
-  item.category = parseCatsInput(catsInput.value);
-  editingId = null;
-  initCategories();
-  applyFilters();
-  renderJSONView();
-  resetForm();
+// clear add form
+document.getElementById('clearNew').addEventListener('click', clearAddForm);
+function clearAddForm(){
+  document.getElementById('addTitle').value='';
+  document.getElementById('addLink').value='';
+  document.getElementById('addImage').value='';
+  document.getElementById('addCategoryBox').querySelectorAll('input[type=checkbox]').forEach(ch=>ch.checked=false);
+}
+
+// generate next id (avoid collisions)
+function nextId(){
+  const ids = allAnimes.map(a=>Number(a.id)||0);
+  return ids.length ? Math.max(...ids)+1 : 1;
+}
+
+// delete
+function deleteAnime(id){
+  allAnimes = allAnimes.filter(a => a.id !== id);
+  renderList(allAnimes);
+  updateJsonView();
+}
+
+// modal functions
+function openEditModal(id){
+  const anime = allAnimes.find(a=>a.id === id);
+  if(!anime) return alert('ไม่พบรายการ');
+  editingId = id;
+  document.getElementById('editTitle').value = anime.title || '';
+  document.getElementById('editLink').value = anime.link || '';
+  document.getElementById('editImage').value = anime.image || '';
+  // check checkboxes
+  document.querySelectorAll('#editCategoryBox input[type=checkbox]').forEach(cb => cb.checked = anime.category && anime.category.includes(cb.value));
+  showModal(true);
+}
+
+document.getElementById('modalClose').addEventListener('click',()=>showModal(false));
+document.getElementById('cancelEdit').addEventListener('click',()=>showModal(false));
+document.getElementById('saveEdit').addEventListener('click',()=>{
+  if(editingId == null) return;
+  const title = document.getElementById('editTitle').value.trim();
+  const link = document.getElementById('editLink').value.trim();
+  const image = document.getElementById('editImage').value.trim();
+  const chosen = Array.from(document.querySelectorAll('#editCategoryBox input[type=checkbox]:checked')).map(i=>i.value);
+
+  if(!title){ alert('กรุณากรอกชื่อ'); return; }
+  // update object
+  const idx = allAnimes.findIndex(a=>a.id === editingId);
+  if(idx === -1) return alert('ไม่พบรายการ');
+  allAnimes[idx].title = title;
+  allAnimes[idx].link = link;
+  allAnimes[idx].image = image || undefined;
+  allAnimes[idx].category = chosen;
+
+  // add new categories to global (in case)
+  chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
+  allCategories.sort((a,b)=>a.localeCompare(b,'th'));
+  renderCategoryCheckboxes();
+
+  renderList(allAnimes);
+  updateJsonView();
+  showModal(false);
 });
 
-resetFormBtn.addEventListener('click', ()=>{ editingId = null; resetForm(); });
-
-function startEdit(a){
-  editingId = a.id;
-  titleInput.value = a.title || '';
-  linkInput.value = a.link || '';
-  imageInput.value = a.image || '';
-  catsInput.value = (a.category || []).join(',');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function removeAnime(id){
-  if(!confirm('ยืนยันการลบรายการนี้?')) return;
-  allAnimes = allAnimes.filter(x=>x.id !== id);
-  initCategories();
-  applyFilters();
-  renderJSONView();
-}
-
-clearAllBtn.addEventListener('click', ()=>{
-  if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้')) return;
-  allAnimes = [];
-  initCategories();
-  applyFilters();
-  renderJSONView();
-});
-
-function generateNewId(){
-  const max = allAnimes.reduce((m,i)=> Math.max(m, i.id || 0), 0);
-  return max + 1;
-}
-function parseCatsInput(v){
-  if(!v) return [];
-  return v.split(',').map(s=>s.trim()).filter(Boolean);
-}
-function resetForm(){
-  titleInput.value = '';
-  linkInput.value = '';
-  imageInput.value = '';
-  catsInput.value = '';
-  editingId = null;
-}
-
-// ---------- JSON view / download ----------
-showJsonBtn.addEventListener('click', ()=>{
-  const visible = jsonView.style.display !== 'block';
-  jsonView.style.display = visible ? 'block' : 'none';
-  if(visible) renderJSONView();
-});
-
-function renderJSONView(){
-  try{
-    const pretty = JSON.stringify(allAnimes, null, 2);
-    jsonView.textContent = pretty;
-  }catch(e){
-    jsonView.textContent = 'ไม่สามารถแสดง JSON ได้';
+function showModal(show){
+  if(show){
+    modalBackdrop.classList.add('show');
+    modalBackdrop.setAttribute('aria-hidden','false');
+  } else {
+    modalBackdrop.classList.remove('show');
+    modalBackdrop.setAttribute('aria-hidden','true');
+    editingId = null;
   }
 }
 
-downloadBtn.addEventListener('click', ()=>{
-  const blob = new Blob([JSON.stringify(allAnimes, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'anime_data.json';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-});
-
-// ---------- helpers ----------
-function debounce(fn, wait=200){
-  let t;
-  return function(...args){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,args), wait); }
+// JSON viewer / download / copy
+function updateJsonView(){
+  const pretty = JSON.stringify(allAnimes, null, 2);
+  jsonView.textContent = pretty;
 }
 
-/* UX: click card title to edit? already have edit button */
+// download blob
+function downloadJSONFile(filename='anime_data_updated.json'){
+  const blob = new Blob([JSON.stringify(allAnimes, null, 2)], {type:'application/json;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+document.getElementById('downloadJson').addEventListener('click', ()=> downloadJSONFile('anime_data.json'));
+document.getElementById('downloadBtn').addEventListener('click', ()=> downloadJSONFile('anime_data.json'));
 
-// If user wants to change favicon quickly with index:
-window.setFaviconIndex = (i)=> { setFavicon(i); }
+// copy to clipboard
+document.getElementById('copyJsonBtn').addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
+    alert('คัดลอก JSON เสร็จแล้ว 🎉');
+  }catch(e){
+    alert('คัดลอกไม่สำเร็จ: ' + e);
+  }
+});
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
+    alert('คัดลอก JSON เสร็จแล้ว 🎉');
+  }catch(e){
+    alert('คัดลอกไม่สำเร็จ: ' + e);
+  }
+});
 
-// initial
-renderJSONView();
-</script>
-</body>
-</html>
+// clear all
+document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+  if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้ในหน้านี้')) return;
+  allAnimes = [];
+  renderList(allAnimes);
+  updateJsonView();
+});
+
+// quick search filter (client-side)
+document.getElementById('quickSearch').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  const filtered = allAnimes.filter(a => (a.title||'').toLowerCase().includes(q) || (a.category||[]).some(c => c.toLowerCase().includes(q)));
+  renderList(filtered);
+});
+
+// initial load
+loadJSON();
+
+/* Extra: clicking outside modal closes it */
+modalBackdrop.addEventListener('click', (e
