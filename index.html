@@ -223,26 +223,73 @@ footer a:hover {
 // 🔹 Video Background Source
 // 1 = URL, 2 = Repo
 const videoSource = 1; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
-
 const bgVideo = document.getElementById('bgVideo');
 const urlVideo = "https://cdn.discordapp.com/attachments/1425045687216898068/1427180250575536209/11_05_Homescreen_VCT.webm?ex=68edecaf&is=68ec9b2f&hm=87e19f24ff6398748220ad5a7753ae3b6a0a311a1e07718b9631b2759fb0ae61&";
 const repoVideo = "videos/11_05_Homescreen_VCT.webm";
 
-if(videoSource === 1){
-  bgVideo.src = urlVideo;
-} else if(videoSource === 2){
-  bgVideo.src = repoVideo;
+// =======================
+// 🔹 Load video with IndexedDB cache + fallback
+function loadVideo(url, fallback=null) {
+  if (!('indexedDB' in window)) {
+    bgVideo.src = url;
+    bgVideo.play();
+    return;
+  }
+
+  const openRequest = indexedDB.open('videoDB',1);
+  openRequest.onupgradeneeded = e => {
+    e.target.result.createObjectStore('videos');
+  };
+
+  openRequest.onsuccess = e => {
+    const db = e.target.result;
+    const tx = db.transaction('videos','readonly');
+    const store = tx.objectStore('videos');
+    const getReq = store.get(url);
+
+    getReq.onsuccess = async () => {
+      if(getReq.result){
+        bgVideo.src = URL.createObjectURL(getReq.result);
+        bgVideo.play();
+      } else {
+        try {
+          const resp = await fetch(url);
+          const blob = await resp.blob();
+          const txPut = db.transaction('videos','readwrite');
+          txPut.objectStore('videos').put(blob,url);
+          txPut.oncomplete = () => console.log("Video cached!");
+          bgVideo.src = URL.createObjectURL(blob);
+          bgVideo.play();
+        } catch(err){
+          console.warn("Video load failed, trying fallback...", err);
+          if(fallback) loadVideo(fallback,null);
+          else { bgVideo.src = url; bgVideo.play(); }
+        }
+      }
+    };
+
+    getReq.onerror = () => {
+      bgVideo.src = url;
+      bgVideo.play();
+    };
+  };
+
+  openRequest.onerror = e => {
+    console.error("IndexedDB open error", e);
+    bgVideo.src = url;
+    bgVideo.play();
+  };
 }
 
-bgVideo.load();
-bgVideo.play();
-bgVideo.addEventListener('ended', () => {
-  bgVideo.currentTime = 0;
-  bgVideo.play();
-});
+// =======================
+// 🔹 Run video load
+if(videoSource===1) loadVideo(urlVideo, repoVideo);
+else loadVideo(repoVideo, urlVideo);
+
+bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
 
 // =======================
-// Fetch Anime Data
+// 🔹 Fetch Anime Data
 let allAnimes = [];
 let activeCategories = [];
 
@@ -268,8 +315,8 @@ fetch('anime_data.json')
       btn.textContent = cat;
       btn.addEventListener('click', () => {
         btn.classList.toggle('active');
-        if (activeCategories.includes(cat)) {
-          activeCategories = activeCategories.filter(c => c !== cat);
+        if(activeCategories.includes(cat)){
+          activeCategories = activeCategories.filter(c=>c!==cat);
         } else {
           activeCategories.push(cat);
         }
@@ -278,19 +325,18 @@ fetch('anime_data.json')
       categoryContainer.appendChild(btn);
     });
 
-    function renderAnimeList(list) {
+    function renderAnimeList(list){
       grid.innerHTML = '';
       countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
-      if (list.length === 0) {
+      if(list.length===0){
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
         return;
       }
-
-      list.forEach(a => {
+      list.forEach(a=>{
         const animeDiv = document.createElement('div');
         animeDiv.classList.add('anime');
         const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
-        const tagsHTML = a.category.map(cat => `<span class="tag">${cat}</span>`).join('');
+        const tagsHTML = a.category.map(cat=>`<span class="tag">${cat}</span>`).join('');
         animeDiv.innerHTML = `
           <a href="${a.link}" target="_blank">
             <img src="${imgSrc}" alt="${a.title}">
@@ -302,36 +348,37 @@ fetch('anime_data.json')
       });
     }
 
-    function applyFilters() {
+    function applyFilters(){
       const keyword = searchBox.value.toLowerCase();
       let filtered = animes;
-      if (activeCategories.length > 0) {
-        filtered = filtered.filter(a => activeCategories.every(cat => a.category.includes(cat)));
+      if(activeCategories.length>0){
+        filtered = filtered.filter(a=>activeCategories.every(cat=>a.category.includes(cat)));
       }
-      if (keyword) {
-        filtered = filtered.filter(a => a.title.toLowerCase().includes(keyword));
+      if(keyword){
+        filtered = filtered.filter(a=>a.title.toLowerCase().includes(keyword));
       }
       renderAnimeList(filtered);
     }
 
-    searchBox.addEventListener('input', applyFilters);
+    searchBox.addEventListener('input',applyFilters);
 
-    document.getElementById('randomButton').addEventListener('click', () => {
-      const randomAnime = allAnimes[Math.floor(Math.random() * allAnimes.length)];
-      window.open(randomAnime.link, '_blank');
+    document.getElementById('randomButton').addEventListener('click',()=>{
+      const randomAnime = allAnimes[Math.floor(Math.random()*allAnimes.length)];
+      window.open(randomAnime.link,'_blank');
     });
 
-    document.getElementById('scrollTop').addEventListener('click', e => {
+    document.getElementById('scrollTop').addEventListener('click', e=>{
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({top:0,behavior:'smooth'});
     });
 
     renderAnimeList(animes);
   })
-  .catch(err => {
+  .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
     console.error('โหลด anime_data.json ไม่ได้:', err);
   });
+
 </script>
 
 </body>
