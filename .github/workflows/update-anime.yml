@@ -1,0 +1,30 @@
+name: Merge update-requests into main
+
+on:
+  push:
+    branches:
+      - update-requests
+
+permissions:
+  contents: write
+
+jobs:
+  merge-update-requests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge and Push
+        run: |
+          git fetch origin main
+          git checkout main
+          git merge --no-edit origin/update-requests || exit 1
+          git push origin main
