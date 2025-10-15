@@ -236,7 +236,14 @@
         <div id="addCategoryBox" class="checkbox-grid" style="margin-top:6px"></div>
       </div>
 
-      <div style="display:flex;gap:10px;margin-top:12px">
+  <div class="form-row">
+    <label>ตำแหน่งที่จะเพิ่ม</label>
+    <select id="insertPosition" class="select">
+      <option value="last">ต่อจากเรื่องล่าสุด</option>
+    </select>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:12px">
         <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
         <button id="clearNew" class="btn">รีเซ็ต</button>
       </div>
@@ -325,7 +332,7 @@ async function loadJSON(){
     extractCategories();
     renderList(allAnimes);
     updateInsertPositionOptions();
-  updateJsonView();
+    updateJsonView();
   }catch(err){
     gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#b04878">เกิดข้อผิดพลาดในการโหลด JSON — ดูคอนโซล</div>';
     console.error(err);
@@ -373,21 +380,6 @@ function renderList(list){
     gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">ยังไม่มีรายการ</div>';
     return;
   }
-
-function updateInsertPositionOptions() {
-  const select = document.getElementById('insertPosition');
-  if (!select) return;
-  const current = select.value;
-  select.innerHTML = '<option value="last">ต่อจากเรื่องล่าสุด</option>';
-  allAnimes.forEach(a => {
-    const opt = document.createElement('option');
-    opt.value = a.id;
-    opt.textContent = `ต่อจาก: ${a.title}`;
-    select.appendChild(opt);
-  });
-  select.value = current || 'last';
-}
-
   list.forEach(item => {
     const div = document.createElement('div');
     div.className = 'card';
@@ -423,6 +415,23 @@ function updateInsertPositionOptions() {
   }));
 }
 
+function updateInsertPositionOptions() {
+  const select = document.getElementById('insertPosition');
+  if (!select) return;
+  const current = select.value;
+  select.innerHTML = '<option value="last">ต่อจากเรื่องล่าสุด</option>';
+  allAnimes.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a.id;
+    // แสดงชื่อเรื่อง โดยป้องกัน XSS ผ่าน textContent เมื่อสร้าง element
+    opt.textContent = `ต่อจาก: ${a.title}`;
+    select.appendChild(opt);
+  });
+  select.value = current || 'last';
+}
+
+
+
 // placeholder image generator (simple)
 function placeholderImage(title){
   // return a cute placeholder svg as data URL
@@ -440,6 +449,7 @@ function escapeHtml(s){ if(s==null) return ''; return String(s).replaceAll('&','
 function escapeAttr(s){ if(s==null) return ''; return String(s).replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
 
 // add new
+
 document.getElementById('addBtn').addEventListener('click',()=>{
   const title = document.getElementById('addTitle').value.trim();
   const link = document.getElementById('addLink').value.trim();
@@ -447,32 +457,36 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   const chosen = Array.from(document.getElementById('addCategoryBox').querySelectorAll('input[type=checkbox]:checked')).map(i=>i.value);
 
   if(!title){ alert('กรุณากรอกชื่อเรื่อง'); return; }
-  const newId = nextId();
-  const newAnime = { id: newId, title, link, image: image||undefined, category: chosen.length? chosen : [] };
+  // สร้าง object ใหม่ (id ชั่วคราว — จะรีคำนวณต่อไป)
+  const newAnime = { id: null, title, link, image: image||undefined, category: chosen.length? chosen : [] };
 
-  const pos = document.getElementById('insertPosition').value;
-if (pos === 'last') {
-  allAnimes.push(newAnime);
-} else {
-  const index = allAnimes.findIndex(a => a.id == pos);
-  if (index !== -1) {
-    allAnimes.splice(index + 1, 0, newAnime);
-  } else {
+  // ตำแหน่งที่จะเพิ่ม
+  const pos = document.getElementById('insertPosition') ? document.getElementById('insertPosition').value : 'last';
+  if (pos === 'last') {
     allAnimes.push(newAnime);
+  } else {
+    const index = allAnimes.findIndex(a => a.id == pos);
+    if (index !== -1) {
+      allAnimes.splice(index + 1, 0, newAnime);
+    } else {
+      allAnimes.push(newAnime);
+    }
   }
-}
-// จัดเรียง id ใหม่อัตโนมัติ
-allAnimes.forEach((a, i) => a.id = i + 1);
 
-  // if new categories appeared, update global categories
+  // จัดเรียง id ใหม่อัตโนมัติ (1..N)
+  allAnimes.forEach((a, i) => a.id = i + 1);
+
+  // ถ้ามีหมวดหมู่ใหม่ ให้รวมเข้า allCategories และอัปเดต checkbox lists
   chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
   allCategories.sort((a,b)=>a.localeCompare(b,'th'));
   renderCategoryCheckboxes();
+
   renderList(allAnimes);
   updateInsertPositionOptions();
   updateJsonView();
   clearAddForm();
 });
+
 
 // clear add form
 document.getElementById('clearNew').addEventListener('click', clearAddForm);
@@ -492,11 +506,13 @@ function nextId(){
 // delete
 function deleteAnime(id){
   allAnimes = allAnimes.filter(a => a.id !== id);
+  // รีคำนวณ id ใหม่
   allAnimes.forEach((a, i) => a.id = i + 1);
   renderList(allAnimes);
   updateInsertPositionOptions();
   updateJsonView();
 }
+
 
 // modal functions
 function openEditModal(id){
@@ -528,12 +544,13 @@ document.getElementById('saveEdit').addEventListener('click',()=>{
   allAnimes[idx].link = link;
   allAnimes[idx].image = image || undefined;
   allAnimes[idx].category = chosen;
-
   // add new categories to global (in case)
   chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
   allCategories.sort((a,b)=>a.localeCompare(b,'th'));
   renderCategoryCheckboxes();
 
+  // รีคำนวณ id และอัปเดต UI
+  allAnimes.forEach((a, i) => a.id = i + 1);
   renderList(allAnimes);
   updateInsertPositionOptions();
   updateJsonView();
@@ -592,7 +609,6 @@ document.getElementById('clearAllBtn').addEventListener('click', ()=>{
   if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับ[...]')) return;
   allAnimes = [];
   renderList(allAnimes);
-  updateInsertPositionOptions();
   updateJsonView();
 });
 
