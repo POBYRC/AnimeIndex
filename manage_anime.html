@@ -241,6 +241,8 @@
     <select id="insertPosition" class="select">
       <option value="last">ต่อจากเรื่องล่าสุด</option>
     </select>
+    <button id="openInsertPopup" class="btn" style="margin-top:6px;">เลือกเรื่อง</button>
+    <div id="selectedInsertInfo" style="font-size:13px;color:var(--muted);margin-top:4px"></div>
   </div>
 
   <div style="display:flex;gap:10px;margin-top:12px">
@@ -262,6 +264,18 @@
 
   </aside>
 </main>
+
+<!-- modal: select insert position -->
+<div id="insertModalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="insertModalTitle" style="max-height:90vh;overflow:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong id="insertModalTitle">เลือกเรื่องที่จะเพิ่มต่อจาก</strong>
+      <button id="insertModalClose" class="btn">✕</button>
+    </div>
+    <div id="insertGrid" class="grid"></div>
+  </div>
+</div>
+
 
 <!-- modal -->
 <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
@@ -626,6 +640,60 @@ loadJSON();
 modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) showModal(false);
 });
+
+// ========== INSERT POPUP ==========
+const insertModalBackdrop = document.getElementById('insertModalBackdrop');
+const insertGrid = document.getElementById('insertGrid');
+const openInsertPopup = document.getElementById('openInsertPopup');
+const insertModalClose = document.getElementById('insertModalClose');
+const selectedInsertInfo = document.getElementById('selectedInsertInfo');
+
+openInsertPopup.addEventListener('click', ()=>{
+  renderInsertPopup();
+  insertModalBackdrop.classList.add('show');
+  insertModalBackdrop.setAttribute('aria-hidden','false');
+});
+
+insertModalClose.addEventListener('click', ()=>closeInsertModal());
+insertModalBackdrop.addEventListener('click', (ev)=>{ if(ev.target===insertModalBackdrop) closeInsertModal(); });
+
+function closeInsertModal(){
+  insertModalBackdrop.classList.remove('show');
+  insertModalBackdrop.setAttribute('aria-hidden','true');
+}
+
+function renderInsertPopup(){
+  insertGrid.innerHTML = '';
+  if(allAnimes.length===0){
+    insertGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">ยังไม่มีรายการ</div>';
+    return;
+  }
+  allAnimes.forEach(item=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+    const imgSrc = item.image || placeholderImage(item.title);
+    div.innerHTML = `
+      <img class="thumb" src="${escapeAttr(imgSrc)}" alt="${escapeAttr(item.title)}"/>
+      <div class="card-body" style="align-items:center;text-align:center">
+        <div class="title">${escapeHtml(item.title)}</div>
+        <button class="btn primary small" data-id="${item.id}" style="font-size:13px;padding:6px 10px;margin-top:4px;">เลือกเรื่องนี้</button>
+      </div>`;
+    insertGrid.appendChild(div);
+  });
+
+  insertGrid.querySelectorAll('button[data-id]').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      const id = e.currentTarget.dataset.id;
+      const anime = allAnimes.find(a=>a.id==id);
+      if(anime){
+        document.getElementById('insertPosition').value = id;
+        selectedInsertInfo.textContent = `เลือกต่อจาก: ${anime.title}`;
+      }
+      closeInsertModal();
+    });
+  });
+}
+
 </script>
 
 </body>
