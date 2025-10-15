@@ -250,7 +250,6 @@
         <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
         <button id="copyJsonBtn" class="btn ghost">คัดลอก</button>
         <button id="clearAllBtn" class="btn" title="ลบรายการทั้งหมด">ลบทั้งหมด</button>
-        <button id="saveToGitHub" class="btn primary">บันทึกลง GitHub</button>
       </div>
     </div>
 
@@ -577,34 +576,6 @@ loadJSON();
 modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) showModal(false);
 });
-
-/* === บันทึกลง GitHub ผ่าน Server API === */
-document.getElementById('saveToGitHub').addEventListener('click', async ()=>{
-  if(!confirm('ต้องการบันทึกข้อมูลนี้ไปยัง GitHub หรือไม่?')) return;
-  const apiUrl = "https://animeindex-api.onrender.com/update-anime"; // 🔧 แก้ URL ให้เป็นของเซิร์ฟเวอร์คุณ
-  const payload = allAnimes;
-  try {
-    const res = await fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    if(!res.ok) {
-      const text = await res.text();
-      throw new Error("เซิร์ฟเวอร์ตอบกลับผิดพลาด: " + text);
-    }
-    const data = await res.json();
-    if (data.success) {
-      alert("✅ บันทึกสำเร็จ! GitHub Actions จะอัปเดตไฟล์ให้อัตโนมัติในไม่กี่วินาที 🎉");
-    } else {
-      alert("⚠️ บันทึกไม่สำเร็จ: " + (data.error || "ไม่ทราบสาเหตุ"));
-    }
-  } catch (err) {
-    console.error(err);
-    alert("❌ เกิดข้อผิดพลาดระหว่างบันทึก: " + err.message);
-  }
-});
-
 </script>
 
 </body>
