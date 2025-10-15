@@ -242,44 +242,44 @@
       "ไซ-ไฟ",
       "ตื่นเต้น"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2021/01/6iysgZr6Upm5RlAlVFo5f4D9euu-185x278.jpg"
   },
   {
     "id": 22,
     "title": "โคโดโมะ โนะ จิคัง (ภาค1-2)",
     "link": "https://animeyuzu.com/anime/kodomo-no-jikan/",
     "category": [
-      "ตลก",
       "ดราม่า",
+      "ตลก",
       "ทะลึ่ง",
       "โรงเรียน"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2007/10/Kodomo-no-Jikan-185x278.jpg"
   },
   {
     "id": 23,
     "title": "เส้นทางของผู้อัญเชิญ",
     "link": "https://animeyuzu.com/anime/zuihou-de-zhaohuan-shi/",
     "category": [
+      "ดราม่า",
       "ต่อสู้",
       "ผจญภัย",
-      "ดราม่า",
       "แฟนตาซี",
       "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2022/06/zAw6aQCuryV14iaHFX31NlKbKS2-185x278.jpg"
   },
   {
     "id": 24,
     "title": "ขอรุกเข้าไปใกล้ ๆ ใจเธอ",
     "link": "https://animeyuzu.com/anime/soredemo-ayumu-wa-yosetekuru/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
       "โรงเรียน",
-      "หนุ่มน้อย",
-      "ชีวิตประจำวัน"
+      "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2022/07/Soredemo-Ayumu-wa-Yosetekuru-185x278.jpg"
   },
   {
     "id": 25,
@@ -289,32 +289,32 @@
       "เกม",
       "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/04/oxoEWoANKedDJfYBAWTXiHuWQh9-185x278.jpg"
   },
   {
     "id": 26,
     "title": "นักเขียนสุดป่วนกับผู้ช่วยสุดแก่น",
     "link": "https://animeyuzu.com/anime/mangaka-san-to-assistantsan/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
       "ทะลึ่ง",
-      "ฮาเร็ม",
       "วัยรุ่น",
-      "ชีวิตประจำวัน"
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/11/lUqEA0BkzDlyCfkMbLy2obvfaCa-185x278.jpg"
   },
   {
     "id": 27,
     "title": "แก๊งสาวป่วน ก๊วนฟิตเนส",
     "link": "https://animeyuzu.com/anime/dumbbell-nan-kilo-moteru/",
     "category": [
-      "ตลก",
-      "ทะลึ่ง",
+      "กีฬา",
       "ชีวิตประจำวัน",
-      "กีฬา"
+      "ตลก",
+      "ทะลึ่ง"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2019/07/101060l-185x278.jpg"
   },
   {
     "id": 28,
@@ -322,10 +322,10 @@
     "link": "https://animeyuzu.com/anime/jaku-chara-tomozaki-kun/",
     "category": [
       "ดราม่า",
-      "โรแมนติก",
-      "โรงเรียน"
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2021/01/%E0%B9%80%E0%B8%81%E0%B8%A1%E0%B8%9E%E0%B8%A5%E0%B8%B4%E0%B8%81%E0%B9%82%E0%B8%89%E0%B8%A1%E0%B8%99%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%AD%E0%B8%81-185x278.jpg"
   },
   {
     "id": 29,
@@ -333,10 +333,10 @@
     "link": "https://animeyuzu.com/anime/jaku-chara-tomozaki-kun-2nd-stage/",
     "category": [
       "ดราม่า",
-      "โรแมนติก",
-      "โรงเรียน"
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2024/01/7kMLbuuNgs3FP3Qvxvuv1hW3Ait-185x278.jpg"
   },
   {
     "id": 30,
@@ -348,7 +348,7 @@
       "โรงเรียน",
       "วัยรุ่น"
     ],
-    "image": ""
+    "image": "https://fairyanime.net/uploads/6fea594cfc4c8f1e0a9da4a6867afdafJUsGn20.jpg"
   },
   {
     "id": 31,
@@ -357,30 +357,30 @@
     "category": [
       "ไซ-ไฟ",
       "ดราม่า",
-      "โรแมนติก",
-      "แฟนตาซี"
+      "แฟนตาซี",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "data:image/jpeg;base64,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"
   },
   {
     "id": 32,
     "title": "หน่วยงานสังคมสงเคราะห์อลเวง",
     "link": "https://animeyuzu.com/ep/52179/",
     "category": [
-      "ตลก",
-      "ชีวิตประจำวัน"
+      "ชีวิตประจำวัน",
+      "ตลก"
     ],
-    "image": ""
+    "image": "https://fairyanime.net/uploads/478f35125a33e5da56f5eaed452c2218TKEZKbq.jpg"
   },
   {
     "id": 33,
     "title": "โปรโตคอลสีฝนของเรา",
     "link": "https://animeyuzu.com/anime/bokura-no-ameiro-protocol/",
     "category": [
-      "ต่อสู้",
-      "เกม"
+      "เกม",
+      "ต่อสู้"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/10/5DFnJmZWCTjuMO65g92iqIKuIxF-1-185x278.jpg"
   },
   {
     "id": 34,
@@ -394,7 +394,7 @@
       "หนุ่มน้อย",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2019/10/Mairimashita-Iruma-kun-185x278.jpg"
   },
   {
     "id": 35,
@@ -408,7 +408,7 @@
       "หนุ่มน้อย",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2021/04/Mairimashita-Iruma-kun-2nd-Season-185x278.jpg"
   },
   {
     "id": 36,
@@ -422,18 +422,18 @@
       "หนุ่มน้อย",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2022/10/lO6fZddb7qySMn73wsm7uS54Xrh-185x278.jpg"
   },
   {
     "id": 37,
     "title": "RPG Fudousan นักเวทสาวนายหน้า",
     "link": "https://animeyuzu.com/anime/rpg-fudousan/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
-      "แฟนตาซี",
-      "ชีวิตประจำวัน"
+      "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2022/06/yThvCUigJRtguDcysLS9QIehPyX-185x278.jpg"
   },
   {
     "id": 38,
@@ -442,10 +442,10 @@
     "category": [
       "ตลก",
       "แฟนตาซี",
-      "โรงเรียน",
-      "ยูริ"
+      "ยูริ",
+      "โรงเรียน"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/10/29jtBbv4eSk0QHdVMLwl8P4p6NX-185x278.jpg"
   },
   {
     "id": 39,
@@ -456,87 +456,87 @@
       "แฟนตาซี",
       "แวมไพร์"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/10/9IfQxH5ORqYbsxtCNcUVCwID8Cg-185x278.jpg"
   },
   {
     "id": 40,
     "title": "ล่าสไลม์มา 300 ปี รู้ตัวอีกทีก็เลเวล MAX ซะแล้ว",
     "link": "https://animeyuzu.com/anime/slime-taoshite-300-nen/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
-      "แฟนตาซี",
-      "ชีวิตประจำวัน"
+      "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2021/04/l1I63ZAwUmCOH6PS7EfUb9DwoMz-185x278.jpg"
   },
   {
     "id": 41,
     "title": "ฮันดะคุง",
     "link": "https://animeyuzu.com/anime/handa-kun/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
-      "หนุ่มน้อย",
-      "ชีวิตประจำวัน"
+      "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/09/mSDLhlkEWGLKqGc5aR0RlYPGtZB-185x278.jpg"
   },
   {
     "id": 42,
     "title": "ก๊วนดนตรีแป๋วแหวว (ภาค1-2)",
     "link": "https://animeyuzu.com/anime/k-on/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
       "เพลง",
-      "โรงเรียน",
-      "ชีวิตประจำวัน"
+      "โรงเรียน"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/05/zzalompeC1sWeYtTCbna2jyd8RD-185x278.jpg"
   },
   {
     "id": 43,
     "title": "ก๊วนดนตรีแป๋วแหวว เดอะมูฟวี่",
     "link": "https://animeyuzu.com/movies/k-on-the-movie/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
-      "เพลง",
-      "ชีวิตประจำวัน"
+      "เพลง"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/05/aRe9m2K3IGhgruRc9yHUYxQIhI4-185x278.jpg"
   },
   {
     "id": 44,
     "title": "ปริ้นเซส คอนเน็กต์ รีไดฟ์ (ภาค1)",
     "link": "https://animeyuzu.com/anime/redive/",
     "category": [
+      "ตลก",
       "ต่อสู้",
       "ผจญภัย",
-      "ตลก",
       "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/04/rHijpbAPTlwLdtz5RWHwLWMyns4-185x278.jpg"
   },
   {
     "id": 45,
     "title": "ปริ้นเซส คอนเน็กต์ รีไดฟ์ (ภาค2)",
     "link": "https://animeyuzu.com/anime/princess-connect-redive-season-2v1/",
     "category": [
+      "ตลก",
       "ต่อสู้",
       "ผจญภัย",
-      "ตลก",
       "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2022/01/e0lgBtnrjBjFWGZJKFBFgnva0ed-185x278.jpg"
   },
   {
     "id": 46,
     "title": "คุณแม่ที่มีสกิลพื้นฐานเป็นการโจมตีหมู่",
     "link": "https://animeyuzu.com/anime/okaasan-online/",
     "category": [
-      "ผจญภัย",
       "ตลก",
+      "ผจญภัย",
       "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/01/99950l-185x278.jpg"
   },
   {
     "id": 47,
@@ -544,10 +544,10 @@
     "link": "https://animeyuzu.com/anime/otonari-no-tenshi-sama-ni-itsunomanika-dame-ningen-ni-sareteita-ken/",
     "category": [
       "ตลก",
-      "โรแมนติก",
-      "โรงเรียน"
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/01/i4Vxh8qdgH1OnXklWgBJPOdSJZx-185x278.jpg"
   },
   {
     "id": 48,
@@ -557,7 +557,7 @@
       "ตลก",
       "ยูริ"
     ],
-    "image": ""
+    "image": "https://static.anislime.com/pexels/image/YymOE.webp"
   },
   {
     "id": 49,
@@ -567,7 +567,7 @@
       "ตลก",
       "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://img.shirokami.me/images/2023/06/19/8eb815a8289c6651d2e7a5c78084237e.jpg"
   },
   {
     "id": 50,
@@ -575,10 +575,10 @@
     "link": "https://animeyuzu.com/ep/53356/",
     "category": [
       "ดราม่า",
-      "โรแมนติก",
-      "ทะลึ่ง"
+      "ทะลึ่ง",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://fairyanime.net/uploads/5b2890e03f4d892d682128f7f9b0b042GWKT50w.jpg"
   },
   {
     "id": 51,
@@ -586,11 +586,11 @@
     "link": "https://animeyuzu.com/anime/nokemono-tachi-no-yoru/",
     "category": [
       "ต่อสู้",
-      "แฟนตาซี",
       "ประวัติศาสตร์",
+      "แฟนตาซี",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/02/4EzlJHCuNfUUGQsuMsxg2bdWeRY-185x278.jpg"
   },
   {
     "id": 52,
@@ -600,17 +600,17 @@
       "ตลก",
       "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/01/xrfkZ2ssystUfl8sLnBfZQi2CcM-185x278.jpg"
   },
   {
     "id": 53,
     "title": "พิสูจน์นิยามความรักด้วยหลักวิชาสายวิทย์ (ภาค2)",
-    "link": "https://animeyuzu.com/anime/rikei-ga-koi-ni-ochita-no-de-shoumei-shitemita-heart/",
+    "link": "https://www.anime-yuzu.com/anime/rikei-ga-koi-ni-ochita-no-de-shoumei-shitemita-heart/",
     "category": [
       "ตลก",
       "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2022/04/uJ04XgOiBwg5Dem0PSlJK04bnhS-185x278.jpg"
   },
   {
     "id": 54,
@@ -618,13 +618,13 @@
     "link": "https://animeyuzu.com/anime/astarotte-no-omocha/",
     "category": [
       "ตลก",
-      "ปีศาจ",
       "ทะลึ่ง",
+      "ปีศาจ",
       "แฟนตาซี",
       "โรแมนติก",
       "วัยรุ่น"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/08/fvRvDhGsSvQpGGcg6sVnxFa2O4N-185x278.jpg"
   },
   {
     "id": 55,
@@ -636,7 +636,7 @@
       "แฟนตาซี",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/01/xiV695sPlizxNmydomcfbmLDXfA-185x278.jpg"
   },
   {
     "id": 56,
@@ -644,14 +644,14 @@
     "link": "https://animeyuzu.com/anime/taimadou-gakuen-35-shikenshoutai/",
     "category": [
       "ต่อสู้",
+      "ทหาร",
       "ทะลึ่ง",
       "แฟนตาซี",
-      "ฮาเร็ม",
-      "ทหาร",
       "โรแมนติก",
-      "เหนือธรรมชาติ"
+      "เหนือธรรมชาติ",
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2015/10/Taimadou-Gakuen-35-Shiken-Shoutai-185x278.jpg"
   },
   {
     "id": 57,
@@ -660,22 +660,22 @@
     "category": [
       "ตลก",
       "ทะลึ่ง",
-      "ฮาเร็ม",
+      "โรงเรียน",
       "โรแมนติก",
-      "โรงเรียน"
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2010/01/Ladies-Versus-Butlers-185x278.jpg"
   },
   {
     "id": 58,
     "title": "รีไลฟ์",
     "link": "https://animeyuzu.com/anime/relife/",
     "category": [
-      "โรแมนติก",
+      "ชีวิตประจำวัน",
       "โรงเรียน",
-      "ชีวิตประจำวัน"
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/05/oavCFoklxWAqPHSbuPaDZCZQ0gB-185x278.jpg"
   },
   {
     "id": 59,
@@ -683,26 +683,26 @@
     "link": "https://animeyuzu.com/anime/megami-no-cafe-terrace/",
     "category": [
       "ทะลึ่ง",
-      "ฮาเร็ม",
       "โรแมนติก",
-      "หนุ่มน้อย"
+      "หนุ่มน้อย",
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2023/04/1AvTzPI79ILROHgRnVrw2venxpU-185x278.jpg"
   },
   {
     "id": 60,
     "title": "ฮันเดรด",
     "link": "https://animeyuzu.com/anime/hundred/",
     "category": [
+      "ไซ-ไฟ",
       "ต่อสู้",
       "ทะลึ่ง",
-      "ฮาเร็ม",
-      "หุ่นยนต์",
-      "โรแมนติก",
       "โรงเรียน",
-      "ไซ-ไฟ"
+      "โรแมนติก",
+      "หุ่นยนต์",
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/04/5BL8QaoRvzPaY8EVo4GLcz9TsbZ-185x278.jpg"
   },
   {
     "id": 61,
@@ -711,24 +711,24 @@
     "category": [
       "ต่อสู้",
       "ทะลึ่ง",
-      "ฮาเร็ม",
-      "โรแมนติก",
       "โรงเรียน",
-      "เหนือธรรมชาติ"
+      "โรแมนติก",
+      "เหนือธรรมชาติ",
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/04/gVyHliwvG4vhfx3VVMRhTVDwkkO-185x278.jpg"
   },
   {
     "id": 62,
     "title": "Adachi to Shimamura",
     "link": "https://animeyuzu.com/anime/adachi-to-shimamura/",
     "category": [
-      "โรแมนติก",
-      "โรงเรียน",
+      "ชีวิตประจำวัน",
       "ยูริ",
-      "ชีวิตประจำวัน"
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/10/Adachi-to-Shimamura-185x278.jpg"
   },
   {
     "id": 63,
@@ -736,13 +736,13 @@
     "link": "https://animeyuzu.com/anime/shinmai-maou-no-testament/",
     "category": [
       "ต่อสู้",
-      "ปีศาจ",
       "ทะลึ่ง",
+      "ปีศาจ",
       "แฟนตาซี",
       "โรแมนติก",
       "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2015/01/Shinmai-Maou-no-Testament-185x278.jpg"
   },
   {
     "id": 64,
@@ -750,13 +750,13 @@
     "link": "https://animeyuzu.com/anime/shinmai-maou-no-testament-burst/",
     "category": [
       "ต่อสู้",
-      "ปีศาจ",
       "ทะลึ่ง",
+      "ปีศาจ",
       "แฟนตาซี",
       "โรแมนติก",
       "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2021/01/Shinmai-Maou-no-Testament-2-185x278.jpg"
   },
   {
     "id": 65,
@@ -764,13 +764,13 @@
     "link": "https://animeyuzu.com/movies/shinmai-maou-no-testament-departures/",
     "category": [
       "ต่อสู้",
-      "ปีศาจ",
       "ทะลึ่ง",
+      "ปีศาจ",
       "แฟนตาซี",
       "โรแมนติก",
       "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2018/01/Shinmai-Maou-no-Testament-Departures-185x278.jpg"
   },
   {
     "id": 66,
@@ -778,11 +778,11 @@
     "link": "https://animeyuzu.com/anime/dagashi-kashi/",
     "category": [
       "ตลก",
-      "อาหาร",
       "โรแมนติก",
-      "หนุ่มน้อย"
+      "หนุ่มน้อย",
+      "อาหาร"
     ],
-    "image": ""
+    "image": "https://www.anime-yuzu.com/wp-content/uploads/2020/08/lca8iodKGWfMIbVmq3Taizm91iF-185x278.jpg"
   },
   {
     "id": 67,
