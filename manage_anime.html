@@ -17,6 +17,7 @@
     --muted:#6b7280;
     --shadow: 0 8px 24px rgba(204, 155, 178, 0.12);
   }
+  /* Reset / base */
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
@@ -26,6 +27,7 @@
     color:#2b2b2b;
     padding:18px;
   }
+
   header{
     display:flex;
     gap:16px;
@@ -44,17 +46,10 @@
     display:flex;align-items:center;justify-content:center;
     box-shadow:var(--shadow);
     color:white;font-weight:800;font-size:20px;
-    overflow: hidden;
   }
-  .logo img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:12px;
-  display:block;
- }
   h1{margin:0;font-size:20px}
 
+  /* controls */
   .controls{
     display:flex;
     gap:10px;
@@ -89,6 +84,8 @@
     gap:18px;
     align-items:start;
   }
+
+  /* left: manager list */
   .panel{
     background:var(--card);
     border-radius:14px;
@@ -98,6 +95,8 @@
   .top-actions{
     display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;
   }
+
+  /* grid cards */
   .grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
@@ -113,7 +112,7 @@
   }
   .card:hover{ transform:translateY(-6px); box-shadow:0 18px 36px rgba(0,0,0,0.08); }
   .card .thumb{
-    height:350px; width:100%; object-fit:cover; display:block;
+    height:140px; width:100%; object-fit:cover; display:block;
     background:linear-gradient(90deg,#ffeef8,#fff7e9);
   }
   .card-body{
@@ -127,17 +126,21 @@
   .meta{font-size:12px;color:var(--muted); margin-bottom:6px}
   .tags{display:flex;flex-wrap:wrap;gap:6px}
   .tag{background:#fff;text-transform:none;padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid rgba(0,0,0,0.04)}
+
   .card-actions{display:flex;gap:8px;margin-top:auto}
   .small-btn{padding:8px 10px;border-radius:10px;border:none;cursor:pointer;background:transparent;font-weight:700}
   .small-btn.edit{color:#ef6aa9}
   .small-btn.del{color:#f26868}
 
+  /* right: editor panel */
   .side{
     position:sticky; top:18px;
     display:flex; flex-direction:column; gap:12px;
   }
   .form-row{display:flex;gap:8px;flex-direction:column}
   label{font-size:13px;color:var(--muted);margin-bottom:6px}
+
+  /* modal */
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(14,14,16,0.45);display:flex;align-items:center;justify-content:center;
     z-index:9999;opacity:0;pointer-events:none;transition:opacity .18s ease;
@@ -149,21 +152,30 @@
     transform:translateY(12px);transition:transform .18s ease;
   }
   .modal-backdrop.show .modal{ transform:none; }
+
   .modal .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .modal .full{grid-column:1/-1}
+
   .checkbox-grid{display:flex;flex-wrap:wrap;gap:8px;max-height:140px;overflow:auto;padding:6px;border-radius:8px;border:1px dashed rgba(0,0,0,0.04);background:#fffaf6;}
+
+  /* loading */
   .loading{
     display:flex;align-items:center;gap:8px;padding:12px;border-radius:12px;background:white;border:1px dashed rgba(0,0,0,0.04);
   }
   .dot{width:8px;height:8px;border-radius:50%;background:#ff93bf;animation:pop 1s infinite linear;opacity:.9}
   .dot:nth-child(2){animation-delay:.12s;background:#ffd27d}
   .dot:nth-child(3){animation-delay:.24s;background:#b6f7ff}
-  @keyframes pop{0%{transform:translateY(0) scale(.8);opacity:.6}50%{transform:translateY(-8px) scale(1.1);opacity:1}100%{transform:translateY(0) scale(.8);opacity:.6}
+  @keyframes pop{0%{transform:translateY(0) scale(.8);opacity:.6}50%{transform:translateY(-8px) scale(1.1);opacity:1}100%{transform:translateY(0) scale(.8);opacity:.6}}
+
+  /* JSON viewer */
   pre.json-view{white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto;padding:12px;border-radius:12px;background:#fffefc;border:1px solid rgba(0,0,0,0.03)}
+  /* responsive */
   @media (max-width:980px){
     main{grid-template-columns:1fr}
     .side{position:static}
   }
+
+  /* เพิ่มตรงนี้ให้ input ใน modal เต็มความกว้าง */
   .input.full { width: 100%; box-sizing: border-box; }
 </style>
 </head>
@@ -171,14 +183,13 @@
 
 <header>
   <div class="brand">
-    <div class="logo">
-      <img src="https://imagex1.sx.cdn.live/images/pinporn/2022/03/03/26818392.jpg?width=620" alt="Logo">
-    </div>
+    <div class="logo">Ani</div>
     <div>
-      <h1>Manager Anime</h1>
+      <h1>Manager — คลังอนิเมะ (Kawaii)</h1>
       <div style="font-size:13px;color:var(--muted)">แก้ไข เพิ่ม ลบ และดาวน์โหลด JSON ได้จากที่นี่</div>
     </div>
   </div>
+
   <div class="controls">
     <input id="quickSearch" class="input" placeholder="ค้นหาโดยชื่อ..." />
     <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
@@ -187,17 +198,22 @@
 </header>
 
 <main>
+  <!-- left: list -->
   <section class="panel">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <strong>รายการอนิเมะ</strong>
       <div id="countText" style="font-size:13px;color:var(--muted)"></div>
     </div>
+
     <div id="loading" class="loading" aria-hidden="true">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      <div id="loadingText" style="font-size:13px;color:var(--muted)">กำลังโหลดข้อมูล...</div>
+      <div style="font-size:13px;color:var(--muted)">กำลังโหลดข้อมูล...</div>
     </div>
+
     <div id="grid" class="grid" style="margin-top:12px"></div>
   </section>
+
+  <!-- right: add / viewer -->
   <aside class="side">
     <div class="panel">
       <strong>เพิ่มอนิเมะใหม่</strong>
@@ -214,21 +230,21 @@
         <label>URL รูปภาพ (jpg/png)</label>
         <input id="addImage" class="input" placeholder="https://.../image.jpg (ไม่บังคับ)" />
       </div>
+
       <div style="margin-top:8px">
         <label>เลือกหมวดหมู่ (ติ๊กได้หลายอัน)</label>
         <div id="addCategoryBox" class="checkbox-grid" style="margin-top:6px"></div>
       </div>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
+        <button id="clearNew" class="btn">รีเซ็ต</button>
+      </div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:12px">
-      <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
-      <button id="clearNew" class="btn">รีเซ็ต</button>
-    </div>
+
     <div class="panel">
       <strong>JSON (ที่อัปเดต)</strong>
       <div style="height:8px"></div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button id="toggleJsonBtn" class="btn ghost">ซ่อน JSON</button>
-      </div>
       <pre id="jsonView" class="json-view">ยังไม่โหลดข้อมูล...</pre>
       <div style="display:flex;gap:8px;margin-top:8px">
         <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
@@ -236,38 +252,18 @@
         <button id="clearAllBtn" class="btn" title="ลบรายการทั้งหมด">ลบทั้งหมด</button>
       </div>
     </div>
+
   </aside>
 </main>
 
-<div id="chooseInsertModal" class="modal-backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="chooseInsertTitle" style="max-width:420px;">
-    <div style="text-align:center">
-      <strong id="chooseInsertTitle" style="font-size:18px;">ต้องการเพิ่มเรื่องแบบใด?</strong>
-      <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
-        <button id="chooseInsertLatest" class="btn primary" style="width:100%;font-size:15px;">เพิ่มต่อจากเรื่องล่าสุด</button>
-        <button id="chooseInsertSpecific" class="btn" style="width:100%;font-size:15px;">เพิ่มต่อจากเรื่อง</button>
-        <button id="chooseInsertCancel" class="btn ghost" style="width:100%;font-size:14px;">ยกเลิก</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="insertModalBackdrop" class="modal-backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="insertModalTitle" style="max-height:90vh;overflow:auto;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <strong id="insertModalTitle">เลือกเรื่องที่จะเพิ่มต่อจาก</strong>
-      <button id="insertModalClose" class="btn">✕</button>
-    </div>
-    <div id="insertGrid" class="grid"></div>
-  </div>
-</div>
-
+<!-- modal -->
 <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
       <strong id="modalTitle">แก้ไขอนิเมะ</strong>
       <button id="modalClose" class="btn">✕</button>
     </div>
+
     <div class="fields">
       <div class="full">
         <label>ชื่อเรื่อง</label>
@@ -281,10 +277,12 @@
         <label>URL รูปภาพ</label>
         <input id="editImage" class="input full" />
       </div>
+
       <div class="full">
         <label>หมวดหมู่ (ติ๊กได้หลายอัน)</label>
         <div id="editCategoryBox" class="checkbox-grid"></div>
       </div>
+
       <div class="full" style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
         <button id="saveEdit" class="btn primary">บันทึก</button>
         <button id="cancelEdit" class="btn">ยกเลิก</button>
@@ -294,6 +292,14 @@
 </div>
 
 <script>
+/*
+  manager_anime.html
+  - โหลดจาก anime_data.json
+  - แก้ไข / เพิ่ม / ลบ ในหน้านี้ได้
+  - สามารถดาวน์โหลด JSON หรือคัดลอกไปวางได้
+  - Modal edit ให้เลือกหมวดหมู่ด้วย checkbox (มาจาก dataset)
+*/
+
 let allAnimes = [];
 let allCategories = [];
 let editingId = null;
@@ -308,44 +314,24 @@ function showLoading(show=true){
   loadingEl.style.display = show ? 'flex' : 'none';
 }
 
-// ================== โหลดข้อมูล JSON (DOM Ready) ==================
+// load json
 async function loadJSON(){
-  try {
-    const res = await fetch('anime_data.json');
-    if(!res.ok) throw new Error('ไม่พบไฟล์ anime_data.json');
+  showLoading(true);
+  try{
+    const res = await fetch('anime_data.json', {cache: "no-store"});
+    if(!res.ok) throw new Error('ไม่สามารถโหลดไฟล์ได้: ' + res.status);
     const data = await res.json();
     allAnimes = Array.isArray(data) ? data : [];
-
-    if(typeof renderList === 'function') renderList(allAnimes);
-    if(typeof updateJsonView === 'function') updateJsonView();
-    if(typeof updateInsertPositionOptions === 'function') updateInsertPositionOptions();
-    // 🩷 เพิ่มเพื่อให้ checkbox หมวดหมู่กลับมาแสดงผล
-    if(typeof extractCategories === 'function') extractCategories();
-
-    // ✅ ซ่อนหรือเอา animation โหลดออกให้หมด
-    const loadingElem = document.getElementById('loadingText');
-    if(loadingElem) {
-      const loadingContainer = loadingElem.closest('.loading');
-      if (loadingContainer) loadingContainer.remove();  // ลบ overlay ทั้งก้อน
-      else loadingElem.remove();
-    }
-
-    console.log(`✅ โหลด JSON สำเร็จ: พบทั้งหมด ${allAnimes.length} เรื่อง`);
-  } catch(err){
-    console.error('❌ เกิดข้อผิดพลาดในการโหลด JSON:', err);
-    const loadingElem = document.getElementById('loadingText');
-    if(loadingElem) loadingElem.textContent = '❌ โหลดข้อมูลไม่สำเร็จ';
-    alert('ไม่สามารถโหลดไฟล์ anime_data.json ได้\nโปรดตรวจสอบว่าไฟล์อยู่ในโฟลเดอร์เดียวกับ HTML');
-    allAnimes = [];
-    if(typeof renderList === 'function') renderList(allAnimes);
+    extractCategories();
+    renderList(allAnimes);
+    updateJsonView();
+  }catch(err){
+    gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#b04878">เกิดข้อผิดพลาดในการโหลด JSON — ดูคอนโซล</div>';
+    console.error(err);
+  } finally {
+    showLoading(false);
   }
 }
-
-// ✅ เรียกหลังจาก DOM โหลดครบ
-window.addEventListener('DOMContentLoaded', ()=>{
-  console.log('DOM โหลดครบ กำลังโหลดข้อมูล JSON...');
-  setTimeout(loadJSON, 100);
-});
 
 function extractCategories(){
   const set = new Set();
@@ -353,6 +339,7 @@ function extractCategories(){
     if(Array.isArray(a.category)) a.category.forEach(c => set.add(c));
   });
   allCategories = [...set].sort((x,y)=> x.localeCompare(y,'th') );
+  // render category lists for add/edit forms
   renderCategoryCheckboxes();
 }
 
@@ -364,10 +351,12 @@ function renderCategoryCheckboxes(){
   allCategories.forEach(cat => {
     const idA = 'addcat-' + cat.replace(/\s+/g,'_');
     const idE = 'editcat-' + cat.replace(/\s+/g,'_');
+
     const wrapperA = document.createElement('label');
     wrapperA.style.fontSize = '13px';
     wrapperA.innerHTML = `<input type="checkbox" value="${escapeHtml(cat)}" id="${idA}" style="margin-right:6px"/> ${escapeHtml(cat)}`;
     addBox.appendChild(wrapperA);
+
     const wrapperE = document.createElement('label');
     wrapperE.style.fontSize = '13px';
     wrapperE.innerHTML = `<input type="checkbox" value="${escapeHtml(cat)}" id="${idE}" style="margin-right:6px"/> ${escapeHtml(cat)}`;
@@ -375,6 +364,7 @@ function renderCategoryCheckboxes(){
   });
 }
 
+// render cards
 function renderList(list){
   gridEl.innerHTML = '';
   countText.textContent = `ทั้งหมด ${list.length} เรื่อง`;
@@ -403,6 +393,8 @@ function renderList(list){
     `;
     gridEl.appendChild(div);
   });
+
+  // attach events
   gridEl.querySelectorAll('.small-btn.edit').forEach(b => b.addEventListener('click', e => {
     const id = parseInt(e.currentTarget.dataset.id);
     openEditModal(id);
@@ -415,21 +407,9 @@ function renderList(list){
   }));
 }
 
-function updateInsertPositionOptions() {
-  const select = document.getElementById('insertPosition');
-  if (!select) return;
-  const current = select.value;
-  select.innerHTML = '<option value="last">ต่อจากเรื่องล่าสุด</option>';
-  allAnimes.forEach(a => {
-    const opt = document.createElement('option');
-    opt.value = a.id;
-    opt.textContent = `ต่อจาก: ${a.title}`;
-    select.appendChild(opt);
-  });
-  select.value = current || 'last';
-}
-
+// placeholder image generator (simple)
 function placeholderImage(title){
+  // return a cute placeholder svg as data URL
   const txt = encodeURIComponent(title.slice(0,18));
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'>
     <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#ffd7e8'/><stop offset='1' stop-color='#fff5d6'/></linearGradient></defs>
@@ -439,109 +419,32 @@ function placeholderImage(title){
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
 }
 
+// utils escape
 function escapeHtml(s){ if(s==null) return ''; return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 function escapeAttr(s){ if(s==null) return ''; return String(s).replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
 
-let pendingNewAnime = null;
-
+// add new
 document.getElementById('addBtn').addEventListener('click',()=>{
   const title = document.getElementById('addTitle').value.trim();
   const link = document.getElementById('addLink').value.trim();
   const image = document.getElementById('addImage').value.trim();
   const chosen = Array.from(document.getElementById('addCategoryBox').querySelectorAll('input[type=checkbox]:checked')).map(i=>i.value);
+
   if(!title){ alert('กรุณากรอกชื่อเรื่อง'); return; }
-  pendingNewAnime = { id: null, title, link, image: image||undefined, category: chosen.length? chosen : [] };
-  openChooseInsertModal();
-});
+  const newId = nextId();
+  const newAnime = { id: newId, title, link, image: image||undefined, category: chosen.length? chosen : [] };
 
-const chooseInsertModal = document.getElementById('chooseInsertModal');
-const chooseInsertLatest = document.getElementById('chooseInsertLatest');
-const chooseInsertSpecific = document.getElementById('chooseInsertSpecific');
-const chooseInsertCancel = document.getElementById('chooseInsertCancel');
-
-function openChooseInsertModal(){
-  chooseInsertModal.classList.add('show');
-  chooseInsertModal.setAttribute('aria-hidden','false');
-}
-function closeChooseInsertModal(){
-  chooseInsertModal.classList.remove('show');
-  chooseInsertModal.setAttribute('aria-hidden','true');
-}
-chooseInsertCancel.addEventListener('click', ()=> closeChooseInsertModal());
-chooseInsertModal.addEventListener('click', ev=>{ if(ev.target===chooseInsertModal) closeChooseInsertModal(); });
-
-chooseInsertLatest.addEventListener('click', ()=>{
-  if(!pendingNewAnime) return closeChooseInsertModal();
-  allAnimes.push(pendingNewAnime);
-  finalizeAdd('ต่อจากเรื่องล่าสุด');
-  closeChooseInsertModal();
-});
-chooseInsertSpecific.addEventListener('click', ()=>{
-  closeChooseInsertModal();
-  openInsertModal();
-});
-
-const insertModalBackdrop = document.getElementById('insertModalBackdrop');
-const insertGrid = document.getElementById('insertGrid');
-const insertModalClose = document.getElementById('insertModalClose');
-function openInsertModal(){
-  renderInsertList();
-  insertModalBackdrop.classList.add('show');
-  insertModalBackdrop.setAttribute('aria-hidden','false');
-}
-function closeInsertModal(){
-  insertModalBackdrop.classList.remove('show');
-  insertModalBackdrop.setAttribute('aria-hidden','true');
-}
-insertModalClose.addEventListener('click', ()=>closeInsertModal());
-insertModalBackdrop.addEventListener('click', ev=>{ if(ev.target===insertModalBackdrop) closeInsertModal(); });
-
-function renderInsertList(){
-  insertGrid.innerHTML = '';
-  if(allAnimes.length===0){
-    insertGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">ยังไม่มีรายการ</div>';
-    return;
-  }
-  allAnimes.forEach(item=>{
-    const div = document.createElement('div');
-    div.className = 'card';
-    const imgSrc = item.image || placeholderImage(item.title);
-    div.innerHTML = `
-      <img class="thumb" src="${escapeAttr(imgSrc)}" alt="${escapeAttr(item.title)}"/>
-      <div class="card-body" style="align-items:center;text-align:center">
-        <div class="title">${escapeHtml(item.title)}</div>
-        <button class="btn primary small" data-id="${item.id}" style="font-size:13px;padding:6px 10px;margin-top:4px;">เพิ่มต่อจากเรื่องนี้</button>
-      </div>`;
-    insertGrid.appendChild(div);
-  });
-  insertGrid.querySelectorAll('button[data-id]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const id = e.currentTarget.dataset.id;
-      const index = allAnimes.findIndex(a=>a.id==id);
-      if(index !== -1 && pendingNewAnime){
-        allAnimes.splice(index+1,0,pendingNewAnime);
-        finalizeAdd(`ต่อจากเรื่อง: ${allAnimes[index].title}`);
-      }
-      closeInsertModal();
-    });
-  });
-}
-
-function finalizeAdd(msg){
-  allAnimes.forEach((a,i)=>a.id=i+1);
-  if(pendingNewAnime){
-    const chosen = pendingNewAnime.category || [];
-    chosen.forEach(c=>{ if(!allCategories.includes(c)) allCategories.push(c); });
-    allCategories.sort((a,b)=>a.localeCompare(b,'th'));
-    renderCategoryCheckboxes();
-  }
+  allAnimes.push(newAnime);
+  // if new categories appeared, update global categories
+  chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
+  allCategories.sort((a,b)=>a.localeCompare(b,'th'));
+  renderCategoryCheckboxes();
   renderList(allAnimes);
   updateJsonView();
   clearAddForm();
-  alert('เพิ่มเรื่องใหม่สำเร็จ ('+msg+') 🎉');
-  pendingNewAnime = null;
-}
+});
 
+// clear add form
 document.getElementById('clearNew').addEventListener('click', clearAddForm);
 function clearAddForm(){
   document.getElementById('addTitle').value='';
@@ -549,17 +452,21 @@ function clearAddForm(){
   document.getElementById('addImage').value='';
   document.getElementById('addCategoryBox').querySelectorAll('input[type=checkbox]').forEach(ch=>ch.checked=false);
 }
+
+// generate next id (avoid collisions)
 function nextId(){
   const ids = allAnimes.map(a=>Number(a.id)||0);
   return ids.length ? Math.max(...ids)+1 : 1;
 }
+
+// delete
 function deleteAnime(id){
   allAnimes = allAnimes.filter(a => a.id !== id);
-  allAnimes.forEach((a, i) => a.id = i + 1);
   renderList(allAnimes);
-  updateInsertPositionOptions();
   updateJsonView();
 }
+
+// modal functions
 function openEditModal(id){
   const anime = allAnimes.find(a=>a.id === id);
   if(!anime) return alert('ไม่พบรายการ');
@@ -567,9 +474,11 @@ function openEditModal(id){
   document.getElementById('editTitle').value = anime.title || '';
   document.getElementById('editLink').value = anime.link || '';
   document.getElementById('editImage').value = anime.image || '';
+  // check checkboxes
   document.querySelectorAll('#editCategoryBox input[type=checkbox]').forEach(cb => cb.checked = anime.category && anime.category.includes(cb.value));
   showModal(true);
 }
+
 document.getElementById('modalClose').addEventListener('click',()=>showModal(false));
 document.getElementById('cancelEdit').addEventListener('click',()=>showModal(false));
 document.getElementById('saveEdit').addEventListener('click',()=>{
@@ -580,22 +489,24 @@ document.getElementById('saveEdit').addEventListener('click',()=>{
   const chosen = Array.from(document.querySelectorAll('#editCategoryBox input[type=checkbox]:checked')).map(i=>i.value);
 
   if(!title){ alert('กรุณากรอกชื่อ'); return; }
+  // update object
   const idx = allAnimes.findIndex(a=>a.id === editingId);
   if(idx === -1) return alert('ไม่พบรายการ');
   allAnimes[idx].title = title;
   allAnimes[idx].link = link;
   allAnimes[idx].image = image || undefined;
   allAnimes[idx].category = chosen;
+
+  // add new categories to global (in case)
   chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
   allCategories.sort((a,b)=>a.localeCompare(b,'th'));
   renderCategoryCheckboxes();
 
-  allAnimes.forEach((a, i) => a.id = i + 1);
   renderList(allAnimes);
-  updateInsertPositionOptions();
   updateJsonView();
   showModal(false);
 });
+
 function showModal(show){
   if(show){
     modalBackdrop.classList.add('show');
@@ -606,10 +517,14 @@ function showModal(show){
     editingId = null;
   }
 }
+
+// JSON viewer / download / copy
 function updateJsonView(){
   const pretty = JSON.stringify(allAnimes, null, 2);
   jsonView.textContent = pretty;
 }
+
+// download blob
 function downloadJSONFile(filename='anime_data_updated.json'){
   const blob = new Blob([JSON.stringify(allAnimes, null, 2)], {type:'application/json;charset=utf-8'});
   const url = URL.createObjectURL(blob);
@@ -620,6 +535,8 @@ function downloadJSONFile(filename='anime_data_updated.json'){
 }
 document.getElementById('downloadJson').addEventListener('click', ()=> downloadJSONFile('anime_data.json'));
 document.getElementById('downloadBtn').addEventListener('click', ()=> downloadJSONFile('anime_data.json'));
+
+// copy to clipboard
 document.getElementById('copyJsonBtn').addEventListener('click', async ()=>{
   try{
     await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
@@ -636,29 +553,30 @@ document.getElementById('copyBtn').addEventListener('click', async ()=>{
     alert('คัดลอกไม่สำเร็จ: ' + e);
   }
 });
+
+// clear all
 document.getElementById('clearAllBtn').addEventListener('click', ()=>{
   if(!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับ[...]')) return;
   allAnimes = [];
   renderList(allAnimes);
   updateJsonView();
 });
+
+// quick search filter (client-side)
 document.getElementById('quickSearch').addEventListener('input', (e)=>{
   const q = e.target.value.trim().toLowerCase();
   const filtered = allAnimes.filter(a => (a.title||'').toLowerCase().includes(q) || (a.category||[]).some(c => c.toLowerCase().includes(q)));
   renderList(filtered);
 });
+
+// initial load
+loadJSON();
+
+/* Extra: clicking outside modal closes it */
 modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) showModal(false);
 });
-
-// ====== JSON viewer toggle ======
-const toggleJsonBtn = document.getElementById('toggleJsonBtn');
-let jsonVisible = true;
-toggleJsonBtn.addEventListener('click', () => {
-  jsonVisible = !jsonVisible;
-  jsonView.style.display = jsonVisible ? '' : 'none';
-  toggleJsonBtn.textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
-});
 </script>
+
 </body>
 </html>
