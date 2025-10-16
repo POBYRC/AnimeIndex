@@ -1243,21 +1243,21 @@
     "link": "https://animeyuzu.com/anime/citrus-thai/",
     "category": [
       "ดราม่า",
-      "โรแมนติก",
+      "ยูริ",
       "โรงเรียน",
-      "ยูริ"
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/02/25eb544d51246367e29ea84b34c09376.jpg?v=4"
   },
   {
     "id": 107,
     "title": "สาวน้อยอโตมาตะ อดีตเครื่องจักรสังหาร",
     "link": "https://animeyuzu.com/anime/prima-doll-subthai/",
     "category": [
-      "ไซ-ไฟ",
-      "ชีวิตประจำวัน"
+      "ชีวิตประจำวัน",
+      "ไซ-ไฟ"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2022/07/8b32508f1cbade9b23520e2ab0d92bdd.jpg?v=4"
   },
   {
     "id": 108,
@@ -1265,35 +1265,35 @@
     "link": "https://animeyuzu.com/anime/gekkan-shoujo-nozaki-kun/",
     "category": [
       "ตลก",
-      "โรแมนติก",
       "โรงเรียน",
+      "โรแมนติก",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/08/01e935d2f2e48dbc1bef8a7d13c18bb8.jpg?v=4"
   },
   {
     "id": 109,
     "title": "เมืองจักรกล เรกิออส",
     "link": "https://animeyuzu.com/anime/chrome-shelledregios/",
     "category": [
+      "ไซ-ไฟ",
       "ต่อสู้",
       "ผจญภัย",
       "แฟนตาซี",
-      "โรงเรียน",
-      "ไซ-ไฟ"
+      "โรงเรียน"
     ],
-    "image": ""
+    "image": "https://i.pinimg.com/736x/ee/0b/3a/ee0b3aed00a79574715e64c2109d3bba.jpg"
   },
   {
     "id": 110,
     "title": "เกิดใหม่ต่างโลก เพื่อนผมน่ารักโฮกเลยครับ",
     "link": "https://animeyuzu.com/anime/fantasy-bishoujo-juniku-ojisan-to/",
     "category": [
-      "ผจญภัย",
       "ตลก",
+      "ผจญภัย",
       "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/660e128a0a9bb6bd01b7478e30665a5a.jpg?v=4"
   },
   {
     "id": 111,
@@ -1301,23 +1301,23 @@
     "link": "https://animeyuzu.com/anime/ouran-high-school-host-club/",
     "category": [
       "ตลก",
-      "ฮาเร็ม",
-      "โรแมนติก",
       "โรงเรียน",
-      "สาวน้อย"
+      "โรแมนติก",
+      "สาวน้อย",
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/3097fa9e2cf335832679d82f15d3fdff.jpg?v=6"
   },
   {
     "id": 112,
     "title": "ขบวนการ 3 สี แก๊งนี้มีป่วน",
     "link": "https://animeyuzu.com/anime/mitsuboshicolorsv1/",
     "category": [
+      "ชีวิตประจำวัน",
       "ตลก",
-      "หนุ่มน้อย",
-      "ชีวิตประจำวัน"
+      "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/2dd6df1d9b6680c9ea0c426cfe31993d.jpg?v=6"
   },
   {
     "id": 113,
@@ -1328,7 +1328,7 @@
       "ตลก",
       "ล้อเลียน"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/808163ef557b674213b42217738310c2.jpg?v=6"
   },
   {
     "id": 114,
@@ -1339,10 +1339,21 @@
       "ตลก",
       "ล้อเลียน"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/43116ab400b89ec646e50acf00aca7af.jpg?v=6"
   },
   {
     "id": 115,
+    "title": "เทพพิทักษ์จอมยุ่ง เนียลโกะ (OVA)",
+    "link": "https://www.anime-seven.com/222/",
+    "image": "https://www.anime-seven.com/upload/1394c7e86e48bb6fc93613f2b6f6d653.jpg",
+    "category": [
+      "ไซ-ไฟ",
+      "ตลก",
+      "ล้อเลียน"
+    ]
+  },
+  {
+    "id": 116,
     "title": "ยุทธศาสตร์กู้ชาติของราชามือใหม่ (ภาค1)",
     "link": "https://fairyanime.net/genjitsu-shugi-yuushath/",
     "category": [
@@ -1351,10 +1362,10 @@
       "โรแมนติก",
       "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/99b1fe0231e1facb0fb0d1903eade7ba.jpg?v=4"
   },
   {
-    "id": 116,
+    "id": 117,
     "title": "ยุทธศาสตร์กู้ชาติของราชามือใหม่ (ภาค2)",
     "link": "https://fairyanime.net/genjitsu-ss2-th/",
     "category": [
@@ -1362,197 +1373,156 @@
       "แฟนตาซี",
       "โรแมนติก"
     ],
-    "image": ""
-  },
-  {
-    "id": 117,
-    "title": "โคตรเซียนโรงเรียนพนัน (ภาค1)",
-    "link": "https://fairyanime.net/kakeguruith/",
-    "category": [
-      "ดราม่า",
-      "เกม",
-      "ลึกลับ",
-      "จิตวิทยา",
-      "โรงเรียน",
-      "หนุ่มน้อย"
-    ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/cb8548d21dc0659de8979884d41d1363.jpg?v=4"
   },
   {
     "id": 118,
-    "title": "โคตรเซียนโรงเรียนพนัน (ภาค2)",
-    "link": "https://fairyanime.net/kakegurui-xxth/",
+    "title": "โคตรเซียนโรงเรียนพนัน (ภาค1)",
+    "link": "https://fairyanime.net/kakeguruith/",
     "category": [
-      "ดราม่า",
       "เกม",
-      "ลึกลับ",
       "จิตวิทยา",
+      "ดราม่า",
       "โรงเรียน",
+      "ลึกลับ",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/d0bfa0d92bd8004751395c6c41c4d3b3.jpg?v=6"
   },
   {
     "id": 119,
-    "title": "โคตรเซียนโรงเรียนพนัน Twin (ตอนที่ 1-6)",
-    "link": "https://fairyanime.net/kakegurui-twin-th/",
+    "title": "โคตรเซียนโรงเรียนพนัน (ภาค2)",
+    "link": "https://fairyanime.net/kakegurui-xxth/",
     "category": [
-      "ดราม่า",
       "เกม",
-      "ลึกลับ",
       "จิตวิทยา",
+      "ดราม่า",
       "โรงเรียน",
+      "ลึกลับ",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/3f871fbcb3b3a0d8f3a8a6164694fe4c.jpg?v=6"
   },
   {
     "id": 120,
-    "title": "ย้อนเวลา รีเมคชีวิต",
-    "link": "https://animeyuzu.com/anime/bokutachi-no-remake/",
+    "title": "โคตรเซียนโรงเรียนพนัน Twin",
+    "link": "https://fairyanime.net/kakegurui-twin-th/",
     "category": [
+      "เกม",
+      "จิตวิทยา",
       "ดราม่า",
-      "โรแมนติก",
-      "ชีวิตประจำวัน"
+      "โรงเรียน",
+      "ลึกลับ",
+      "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/bea370fba9d7312f444ada9fee219492.jpg?v=6"
   },
   {
     "id": 121,
+    "title": "ย้อนเวลา รีเมคชีวิต",
+    "link": "https://animeyuzu.com/anime/bokutachi-no-remake/",
+    "category": [
+      "ชีวิตประจำวัน",
+      "ดราม่า",
+      "โรแมนติก"
+    ],
+    "image": "https://www.anime-smm.com/wp-content/uploads/2022/22/d0ac8becc9a74f6ef5d7396a2790feaa.jpg?v=4"
+  },
+  {
+    "id": 122,
     "title": "รวมอนิเมะ Hibike! Euphonium ทุกภาค",
     "link": "https://animeyuzu.com/tag/hibike-euphonium/",
     "category": [
       "ไม่ระบุ"
     ],
-    "image": ""
-  },
-  {
-    "id": 122,
-    "title": "โมโมะคุริ",
-    "link": "https://animeyuzu.com/ep/45749/",
-    "category": [
-      "ตลก",
-      "โรแมนติก",
-      "ชีวิตประจำวัน"
-    ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2024/04/8142a57a2b2065c071c2a2b3b4b397f1.jpg?v=4"
   },
   {
     "id": 123,
-    "title": "พอได้เกิดใหม่เป็นองค์ชายลำดับที่เจ็ด ก็เพื่อเรียนเวทให้สนุก",
-    "link": "https://animeyuzu.com/anime/tensei-shitara-dainana-ouji-datta-node-kimama-ni-majutsu-wo-kiwamemasu/",
+    "title": "โมโมะคุริ",
+    "link": "https://animeyuzu.com/ep/45749/",
     "category": [
-      "ผจญภัย",
-      "แฟนตาซี",
-      "การกลับชาติมาเกิดใหม่"
+      "ชีวิตประจำวัน",
+      "ตลก",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/03e17dcd44c48301edf2df05b65ed53b.jpg?v=6"
   },
   {
     "id": 124,
-    "title": "รวมอนิเมะ จันทรานำพาสู่ต่างโลก ทุกภาค",
-    "link": "https://animeyuzu.com/tag/tsuki-ga-michibiku-isekai-douchuu/",
+    "title": "พอได้เกิดใหม่เป็นองค์ชายลำดับที่เจ็ด ก็เพื่อเรียนเวทให้สนุก (ภาค1)",
+    "link": "https://animeyuzu.com/anime/tensei-shitara-dainana-ouji-datta-node-kimama-ni-majutsu-wo-kiwamemasu/",
     "category": [
-      "ต่อสู้",
+      "การกลับชาติมาเกิดใหม่",
       "ผจญภัย",
-      "ตลก",
-      "แฟนตาซี",
-      "ต่างโลก"
+      "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2024/04/072c81ec29c21af7687e06f8d8ccb73a.jpg?v=4"
   },
   {
     "id": 125,
-    "title": "โทระโดระ ยัยตัวร้ายกับนายหน้าโหด",
-    "link": "https://animeyuzu.com/anime/toradora/",
+    "title": "พอได้เกิดใหม่เป็นองค์ชายลำดับที่เจ็ด ก็เพื่อเรียนเวทให้สนุก (ภาค2)",
+    "link": "https://www.anime-yuzu.com/anime/tensei-shitara-dainana-ouji-datta-node-season-2/",
+    "image": "https://www.anime-smm.com/wp-content/uploads/2025/07/6b4f32341f3b921a1b9d4b64f3290ae0.jpg?v=4",
     "category": [
-      "ตลก",
-      "โรแมนติก",
-      "โรงเรียน",
-      "ชีวิตประจำวัน"
-    ],
-    "image": ""
+      "การกลับชาติมาเกิดใหม่",
+      "ผจญภัย",
+      "แฟนตาซี"
+    ]
   },
   {
     "id": 126,
-    "title": "เลิฟ ไลฟ์ ♥ (ภาค1)",
-    "link": "https://fairyanime.net/love-live-school-idol-project-1/",
+    "title": "รวมอนิเมะ จันทรานำพาสู่ต่างโลก ทุกภาค",
+    "link": "https://animeyuzu.com/tag/tsuki-ga-michibiku-isekai-douchuu/",
     "category": [
-      "เพลง",
-      "ชีวิตประจำวัน",
-      "โรงเรียน"
+      "ตลก",
+      "ต่อสู้",
+      "ต่างโลก",
+      "ผจญภัย",
+      "แฟนตาซี"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2024/09/c8de9effe99b3d5d4e742ec0f6829579.jpg?v=4"
   },
   {
     "id": 127,
-    "title": "เลิฟ ไลฟ์ (ภาค2)",
-    "link": "https://fairyanime.net/love-live-school-idol-project-2nd-season/",
+    "title": "โทระโดระ ยัยตัวร้ายกับนายหน้าโหด",
+    "link": "https://animeyuzu.com/anime/toradora/",
     "category": [
-      "เพลง",
       "ชีวิตประจำวัน",
-      "โรงเรียน"
+      "ตลก",
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://img.shirokami.me/images/2021/10/05/image6ca79ab962543f88.png"
   },
   {
     "id": 128,
-    "title": "รวมอนิเมะ Tsuki ga Michibiku Isekai Douchuu ทุกภาค",
-    "link": "https://animeyuzu.com/tag/tsuki-ga-michibiku-isekai-douchuu/",
-    "category": [
-      "ไม่ระบุ"
-    ],
-    "image": ""
-  },
-  {
-    "id": 129,
     "title": "แฟนผมอยู่ในรูปนี้",
     "link": "https://fairyanime.net/photokano-bd/",
     "category": [
       "ทะลึ่ง",
-      "โรแมนติก",
-      "โรงเรียน"
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://img.shirokami.me/images/2021/10/05/image8ac23a2b6b0d463b.jpg"
   },
   {
-    "id": 130,
+    "id": 129,
     "title": "ซังกะเรอา ซอมบี้โมเอะ",
     "link": "https://animeyuzu.com/anime/sankarea/",
     "category": [
       "ตลก",
       "ทะลึ่ง",
-      "สยองขวัญ",
       "โรแมนติก",
+      "สยองขวัญ",
       "หนุ่มน้อย",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/03/c48bc37d5386dc9c701a0a29347a24f0.jpg?v=4"
   },
   {
-    "id": 131,
-    "title": "ตลาดป่วน ก๊วนทามาโกะ",
-    "link": "https://animeyuzu.com/ep/54326/",
-    "category": [
-      "ตลก",
-      "ชีวิตประจำวัน"
-    ],
-    "image": ""
-  },
-  {
-    "id": 132,
-    "title": "Tamako Love Story The Movie",
-    "link": "https://fairyanime.net/tamako-love-story-the-movie/",
-    "category": [
-      "ตลก",
-      "โรแมนติก",
-      "ชีวิตประจำวัน"
-    ],
-    "image": ""
-  },
-  {
-    "id": 133,
-    "title": "Dakara Boku wa, H ga Dekinai",
+    "id": 130,
+    "title": "เพราะฉะนั้นผมจึง H มากไม่ได้",
     "link": "https://animeyuzu.com/anime/dakara-boku-wa-h-ga-dekinai/",
     "category": [
       "ตลก",
@@ -1560,131 +1530,131 @@
       "โรแมนติก",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/02/b98164ceb6d9a810eb9d3a58d0771336.jpg?v=4"
   },
   {
-    "id": 134,
+    "id": 131,
     "title": "22/7 (nanabun no nijyuuni)",
     "link": "https://animeyuzu.com/anime/nanabun-nonijyuuniv1/",
     "category": [
       "เพลง"
     ],
-    "image": ""
+    "image": "https://img.shirokami.me/images/2021/10/05/image68a656d1bfd79dec.jpg"
   },
   {
-    "id": 135,
+    "id": 132,
     "title": "รักติดหนึบของฮานาโนอิคุง",
     "link": "https://animeyuzu.com/anime/hananoi-kun-to-koi-no-yamai/",
     "category": [
-      "โรแมนติก",
       "โรงเรียน",
+      "โรแมนติก",
       "สาวน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2024/04/3fff7674bd362e9e9dbd634034a57be8.jpg?v=4"
   },
   {
-    "id": 136,
-    "title": "C^3 (Cube x Cursed x Curious)",
+    "id": 133,
+    "title": "Cube x Cursed x Curious",
     "link": "https://animeyuzu.com/anime/cube-x-cursed-x-curious/",
     "category": [
-      "ต่อสู้",
       "ตลก",
+      "ต่อสู้",
       "ทะลึ่ง",
       "โรงเรียน",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://img.shirokami.me/images/2021/10/05/image419fafdb77b50c52.jpg"
   },
   {
-    "id": 137,
+    "id": 134,
     "title": "ไอดอลสาวชาวไร่",
     "link": "https://animeyuzu.com/anime/no-rin/",
     "category": [
       "ตลก",
       "ทะลึ่ง",
-      "ล้อเลียน",
+      "โรงเรียน",
       "โรแมนติก",
-      "โรงเรียน"
+      "ล้อเลียน"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/01/81705c6c4047185bba9c49e4b033fc4d.jpg?v=4"
   },
   {
-    "id": 138,
+    "id": 135,
     "title": "Kishuku Gakkou no Juliet",
     "link": "https://animeyuzu.com/anime/kishuku-gakkou-no-juliet/",
     "category": [
-      "ต่อสู้",
       "ตลก",
-      "โรแมนติก",
+      "ต่อสู้",
       "โรงเรียน",
+      "โรแมนติก",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/01/8cf821cbe61c9b19c2f3cbae1085b4d3.jpg?v=4"
   },
   {
-    "id": 139,
+    "id": 136,
     "title": "สาวน้อยเวอร์จิ้นอยากเป็นคลาสโนวี่",
     "link": "https://animeyuzu.com/anime/b-gata-h-kei/",
     "category": [
       "ตลก",
       "ทะลึ่ง",
-      "โรแมนติก",
       "โรงเรียน",
+      "โรแมนติก",
       "วัยรุ่น"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/08/9b0504219504db8d35565e0ad70e9db4.jpg?v=4"
   },
   {
-    "id": 140,
+    "id": 137,
     "title": "เจ้านี่เหรอซอมบี้? (ภาค1-2)",
     "link": "https://animeyuzu.com/anime/kore-wa-zombie-desu-ka/",
     "category": [
-      "ต่อสู้",
       "ตลก",
+      "ต่อสู้",
       "ทะลึ่ง",
-      "ฮาเร็ม",
       "เวทย์มนต์",
-      "เหนือธรรมชาติ"
+      "เหนือธรรมชาติ",
+      "ฮาเร็ม"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/a6345224a6cd724341527643273766e7.jpg?v=6"
   },
   {
-    "id": 141,
+    "id": 138,
     "title": "เกมเมอร์ส!",
     "link": "https://animeyuzu.com/anime/gamers/",
     "category": [
       "ตลก",
-      "โรแมนติก",
-      "โรงเรียน"
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/01/e14518bd5b581f496c88efdb2ba78330.jpg?v=4"
   },
   {
-    "id": 142,
+    "id": 139,
     "title": "Tsurezure Children",
     "link": "https://animeyuzu.com/anime/tsurezure-children/",
     "category": [
       "ตลก",
-      "โรแมนติก",
       "โรงเรียน",
+      "โรแมนติก",
       "หนุ่มน้อย"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/03/ff38adb7a8bfac560756867bee88332d.jpg?v=4"
   },
   {
-    "id": 143,
+    "id": 140,
     "title": "Akkun to Kanojo",
     "link": "https://animeyuzu.com/anime/akkun/",
     "category": [
-      "ตลก",
       "เด็กผู้หญิง",
-      "โรแมนติก",
-      "โรงเรียน"
+      "ตลก",
+      "โรงเรียน",
+      "โรแมนติก"
     ],
-    "image": ""
+    "image": "https://www.anime-seven.com/upload/b1f4f25c599794c1f12e59afcea2f7e8.jpg?v=6"
   },
   {
-    "id": 144,
+    "id": 141,
     "title": "นางฟ้าติดเกม",
     "link": "https://animeyuzu.com/anime/gabriel-dropout/",
     "category": [
@@ -1694,10 +1664,10 @@
       "หนุ่มน้อย",
       "เหนือธรรมชาติ"
     ],
-    "image": ""
+    "image": "https://www.anime-smm.com/wp-content/uploads/2023/03/46235e92acdb55b457596e3cba0bef2b.jpg?v=4"
   },
   {
-    "id": 145,
+    "id": 142,
     "title": "Renai Boukun",
     "link": "https://animeyuzu.com/anime/renai-boukunv1/",
     "category": [
@@ -1711,7 +1681,7 @@
     "image": ""
   },
   {
-    "id": 146,
+    "id": 143,
     "title": "ตับอ่อนเธอนั้น ขอฉันเถอะนะ (มูฟวี่)",
     "link": "https://animeyuzu.com/movies/kimisui/",
     "category": [
@@ -1720,7 +1690,7 @@
     "image": ""
   },
   {
-    "id": 147,
+    "id": 144,
     "title": "โกลเด้น ไทม์",
     "link": "https://animeyuzu.com/anime/golden-time/",
     "category": [
@@ -1731,7 +1701,7 @@
     "image": ""
   },
   {
-    "id": 148,
+    "id": 145,
     "title": "บูรณะมันวุ่นวาย ขายชาติเลยแล้วกัน!",
     "link": "https://animeyuzu.com/anime/tensai-ouji-no-akaji-kokka-saisei-jutsu/",
     "category": [
@@ -1741,7 +1711,7 @@
     "image": ""
   },
   {
-    "id": 149,
+    "id": 146,
     "title": "Yama no Susume Next Summit",
     "link": "https://animeyuzu.com/anime/yama-no-susume-next-summit/",
     "category": [
@@ -1753,7 +1723,7 @@
     "image": ""
   },
   {
-    "id": 150,
+    "id": 147,
     "title": "เรย์ไวท์ จอมเวทดาบเหมันต์",
     "link": "https://animeyuzu.com/anime/hyouken-no-majutsushi-ga-sekai-wo-suberu/",
     "category": [
@@ -1764,7 +1734,7 @@
     "image": ""
   },
   {
-    "id": 151,
+    "id": 148,
     "title": "วันๆของพวกผมก็งี้แหละ",
     "link": "https://animeyuzu.com/anime/danshi-koukousei-no-nichijou/",
     "category": [
@@ -1775,7 +1745,7 @@
     "image": ""
   },
   {
-    "id": 152,
+    "id": 149,
     "title": "พี่สาวจ้าวต่างโลก เริ่มต้นชีวิตร่วมเดินทางต่างโลกกับพี่สาว",
     "link": "https://animeyuzu.com/anime/isekai-one-turn-kill-nee-san/",
     "category": [
@@ -1787,7 +1757,7 @@
     "image": ""
   },
   {
-    "id": 153,
+    "id": 150,
     "title": "โทรจิตละอองดาว",
     "link": "https://animeyuzu.com/anime/hoshikuzu-telepath/",
     "category": [
@@ -1799,7 +1769,7 @@
     "image": ""
   },
   {
-    "id": 154,
+    "id": 151,
     "title": "นินจาเครื่องเทศ",
     "link": "https://animeyuzu.com/anime/release-the-spyce/",
     "category": [
@@ -1809,7 +1779,7 @@
     "image": ""
   },
   {
-    "id": 155,
+    "id": 152,
     "title": "ยามาดะคุงกับแม่มดทั้ง 7",
     "link": "https://animeyuzu.com/anime/yamada-kun-to-7-nin-no-majo/",
     "category": [
@@ -1824,7 +1794,7 @@
     "image": ""
   },
   {
-    "id": 156,
+    "id": 153,
     "title": "รวมอนิเมะ ขอต้อนรับสู่ห้องเรียนนิยม (เฉพาะ) ยอดคน ทุกภาค",
     "link": "https://animeyuzu.com/tag/ขอต้อนรับสู่ห้องเรียนน/",
     "category": [
@@ -1833,7 +1803,7 @@
     "image": ""
   },
   {
-    "id": 157,
+    "id": 154,
     "title": "ซิ่งมั๊ยเพ่",
     "link": "https://fairyanime.net/bakuon/",
     "category": [
@@ -1844,7 +1814,7 @@
     "image": ""
   },
   {
-    "id": 158,
+    "id": 155,
     "title": "ภรรยาผมเป็นประธานนักเรียน",
     "link": "https://www.anime-sm.com/okusama-ga-seitokaichou/",
     "category": [
@@ -1857,7 +1827,7 @@
     "image": ""
   },
   {
-    "id": 159,
+    "id": 156,
     "title": "ภรรยาผมเป็นประธานนักเรียน (ภาค2)",
     "link": "https://www.anime-sm.com/okusama-ga-seitokaichou-plus/",
     "category": [
@@ -1870,7 +1840,7 @@
     "image": ""
   },
   {
-    "id": 160,
+    "id": 157,
     "title": "รักอลวนคนสลับบ้าน",
     "link": "https://animeyuzu.com/anime/kakkou-no-iinazuke/",
     "category": [
@@ -1882,7 +1852,7 @@
     "image": ""
   },
   {
-    "id": 161,
+    "id": 158,
     "title": "รวมอนิเมะ วิธีปั้นสาวบ้านให้มาเป็นนางเอกของผม ทุกภาค",
     "link": "https://animeyuzu.com/tag/saenai-heroine-no-sodatekata/",
     "category": [
@@ -1894,7 +1864,7 @@
     "image": ""
   },
   {
-    "id": 162,
+    "id": 159,
     "title": "รวมอนิเมะ Classroom of the Elite ทุกภาค",
     "link": "https://animeyuzu.com/tag/classroom-of-the-elite/",
     "category": [
@@ -1903,7 +1873,7 @@
     "image": ""
   },
   {
-    "id": 163,
+    "id": 160,
     "title": "ตำนานดาบและคทาแห่งวิสตอเรีย",
     "link": "https://animeyuzu.com/anime/tsue-to-tsurugi-no-wistoria/",
     "category": [
@@ -1916,7 +1886,7 @@
     "image": ""
   },
   {
-    "id": 164,
+    "id": 161,
     "title": "Tonari no Kyuuketsuki-san",
     "link": "https://animeyuzu.com/anime/tonari-no-kyuuketsuki-san/",
     "category": [
@@ -1929,7 +1899,7 @@
     "image": ""
   },
   {
-    "id": 165,
+    "id": 162,
     "title": "ช่วยที She ติดเกาะ",
     "link": "https://animeyuzu.com/anime/sounan-desu-ka/",
     "category": [
@@ -1940,7 +1910,7 @@
     "image": ""
   },
   {
-    "id": 166,
+    "id": 163,
     "title": "Danchigai",
     "link": "https://www.anime-sugoi.com/472/",
     "category": [
@@ -1951,7 +1921,7 @@
     "image": ""
   },
   {
-    "id": 167,
+    "id": 164,
     "title": "Love Lab",
     "link": "https://fairyanime.net/love-lab/",
     "category": [
@@ -1962,7 +1932,7 @@
     "image": ""
   },
   {
-    "id": 168,
+    "id": 165,
     "title": "นักเขียนการ์ตูนสาวน้อยรายเดือนโนซากิคุง",
     "link": "https://animeyuzu.com/anime/gekkan-shoujo-nozaki-kun/",
     "category": [
@@ -1974,7 +1944,7 @@
     "image": ""
   },
   {
-    "id": 169,
+    "id": 166,
     "title": "สาวเมดผจญหนุ่มสุดป่วน",
     "link": "https://fairyanime.net/kaichou-wa-maid-sama1080p/",
     "category": [
@@ -1986,7 +1956,7 @@
     "image": ""
   },
   {
-    "id": 170,
+    "id": 167,
     "title": "เกรียนข้างโต๊ะ",
     "link": "https://www.anime-sugoi.com/916/",
     "category": [
@@ -1997,7 +1967,7 @@
     "image": ""
   },
   {
-    "id": 171,
+    "id": 168,
     "title": "ปฏิบัติการลับบ้านโยซากุระ",
     "link": "https://fairyanime.net/yozakura-san-chi-no-daisakusen-sub/",
     "category": [
@@ -2009,7 +1979,7 @@
     "image": ""
   },
   {
-    "id": 172,
+    "id": 169,
     "title": "โลกหน้า ข้าก็เป็นพระเจ้า",
     "link": "https://fairyanime.net/kaminaki-sekai-no-นี้",
     "category": [
@@ -2022,7 +1992,7 @@
     "image": ""
   },
   {
-    "id": 173,
+    "id": 170,
     "title": "เซียนเกมรักขอเป็นเทพนักจีบ (ภาค1)",
     "link": "https://fairyanime.net/kami-nomi-zo-shiru-sekai-the-world-god-only-knows/",
     "category": [
@@ -2035,7 +2005,7 @@
     "image": ""
   },
   {
-    "id": 174,
+    "id": 171,
     "title": "เซียนเกมรักขอเป็นเทพนักจีบ (ภาค2)",
     "link": "https://fairyanime.net/kami-nomi-zo-shiru-sekai-ii-the-world-god-only-knows-ii/",
     "category": [
@@ -2048,7 +2018,7 @@
     "image": ""
   },
   {
-    "id": 175,
+    "id": 172,
     "title": "เซียนเกมรักขอเป็นเทพนักจีบ (ภาค3)",
     "link": "https://fairyanime.net/kami-nomi-zo-shiru-sekai-megami-hen-3/",
     "category": [
@@ -2061,7 +2031,7 @@
     "image": ""
   },
   {
-    "id": 176,
+    "id": 173,
     "title": "ดินแดนที่ห่างไกลยิ่งกว่าอวกาศ",
     "link": "https://www.anime-sugoi.com/1322/",
     "category": [
@@ -2071,7 +2041,7 @@
     "image": ""
   },
   {
-    "id": 177,
+    "id": 174,
     "title": "คนสืบผี",
     "link": "https://www.anime-sugoi.com/297/",
     "category": [
@@ -2085,7 +2055,7 @@
     "image": ""
   },
   {
-    "id": 178,
+    "id": 175,
     "title": "สามสาวซ่าแก๊งสุดป่วน",
     "link": "https://fairyanime.net/aiura/",
     "image": "https://fairyanime.net/uploads/48717b93f61f2c7c75e519ced01464feGA0Ukym.jpg",
@@ -2097,7 +2067,7 @@
     ]
   },
   {
-    "id": 179,
+    "id": 176,
     "title": "จิคาวะ",
     "link": "https://fairyanime.net/chiikawa-th/",
     "image": "https://fairyanime.net/uploads/5a881af77ce215aaf4fa6bb2e9bbc818LRhti46.jpg",
