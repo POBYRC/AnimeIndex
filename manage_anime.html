@@ -319,6 +319,8 @@ async function loadJSON(){
     if(typeof renderList === 'function') renderList(allAnimes);
     if(typeof updateJsonView === 'function') updateJsonView();
     if(typeof updateInsertPositionOptions === 'function') updateInsertPositionOptions();
+    // 🩷 เพิ่มเพื่อให้ checkbox หมวดหมู่กลับมาแสดงผล
+    if(typeof extractCategories === 'function') extractCategories();
 
     // ✅ ซ่อนหรือเอา animation โหลดออกให้หมด
     const loadingElem = document.getElementById('loadingText');
