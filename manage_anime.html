@@ -44,6 +44,14 @@
     display:flex;align-items:center;justify-content:center;
     box-shadow:var(--shadow);
     color:white;font-weight:800;font-size:20px;
+    overflow: hidden;
+  }
+  .logo img {
+    width:40px;
+    height:40px;
+    object-fit:cover;
+    border-radius:8px;
+    display:block;
   }
   h1{margin:0;font-size:20px}
 
@@ -163,7 +171,9 @@
 
 <header>
   <div class="brand">
-    <div class="logo">Ani</div>
+    <div class="logo">
+      <img src="https://imagex1.sx.cdn.live/images/pinporn/2022/03/03/26818392.jpg?width=620" alt="Logo">
+    </div>
     <div>
       <h1>Manager — คลังอนิเมะ (Kawaii)</h1>
       <div style="font-size:13px;color:var(--muted)">แก้ไข เพิ่ม ลบ และดาวน์โหลด JSON ได้จากที่นี่</div>
