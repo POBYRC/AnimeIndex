@@ -163,7 +163,7 @@
 
 <header>
   <div class="brand">
-   <div class="logo"><img src="https://pbs.twimg.com/media/G3OX6YCW4AAquvA?format=jpg&name=900x900" style="width:40px;height:40px;border-radius:8px;"></div>
+    <div class="logo">Ani</div>
     <div>
       <h1>Manager — คลังอนิเมะ (Kawaii)</h1>
       <div style="font-size:13px;color:var(--muted)">แก้ไข เพิ่ม ลบ และดาวน์โหลด JSON ได้จากที่นี่</div>
@@ -216,6 +216,9 @@
     <div class="panel">
       <strong>JSON (ที่อัปเดต)</strong>
       <div style="height:8px"></div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button id="toggleJsonBtn" class="btn ghost">ซ่อน JSON</button>
+      </div>
       <pre id="jsonView" class="json-view">ยังไม่โหลดข้อมูล...</pre>
       <div style="display:flex;gap:8px;margin-top:8px">
         <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
@@ -634,6 +637,15 @@ document.getElementById('quickSearch').addEventListener('input', (e)=>{
 });
 modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) showModal(false);
+});
+
+// ====== JSON viewer toggle ======
+const toggleJsonBtn = document.getElementById('toggleJsonBtn');
+let jsonVisible = true;
+toggleJsonBtn.addEventListener('click', () => {
+  jsonVisible = !jsonVisible;
+  jsonView.style.display = jsonVisible ? '' : 'none';
+  toggleJsonBtn.textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
 });
 </script>
 </body>
