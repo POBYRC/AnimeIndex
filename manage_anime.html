@@ -236,13 +236,7 @@
         <div id="addCategoryBox" class="checkbox-grid" style="margin-top:6px"></div>
       </div>
 
-  <div class="form-row">
-    <label>ตำแหน่งที่จะเพิ่ม</label>
-    <select id="insertPosition" class="select">
-      <option value="last">ต่อจากเรื่องล่าสุด</option>
-    </select>
-    <button id="openInsertPopup" class="btn" style="margin-top:6px;">เลือกเรื่อง</button>
-    <div id="selectedInsertInfo" style="font-size:13px;color:var(--muted);margin-top:4px"></div>
+  
   </div>
 
   <div style="display:flex;gap:10px;margin-top:12px">
@@ -265,7 +259,21 @@
   </aside>
 </main>
 
-<!-- modal: select insert position -->
+<!-- modal: เลือกวิธีเพิ่ม -->
+<div id="chooseInsertModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="chooseInsertTitle" style="max-width:420px;">
+    <div style="text-align:center">
+      <strong id="chooseInsertTitle" style="font-size:18px;">ต้องการเพิ่มเรื่องแบบใด?</strong>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+        <button id="chooseInsertLatest" class="btn primary" style="width:100%;font-size:15px;">เพิ่มต่อจากเรื่องล่าสุด</button>
+        <button id="chooseInsertSpecific" class="btn" style="width:100%;font-size:15px;">เพิ่มต่อจากเรื่อง</button>
+        <button id="chooseInsertCancel" class="btn ghost" style="width:100%;font-size:14px;">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal: เลือกเรื่องที่จะต่อ -->
 <div id="insertModalBackdrop" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="insertModalTitle" style="max-height:90vh;overflow:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -464,6 +472,10 @@ function escapeAttr(s){ if(s==null) return ''; return String(s).replaceAll('"','
 
 // add new
 
+
+// ================== ปุ่มเพิ่มเรื่อง ==================
+let pendingNewAnime = null;
+
 document.getElementById('addBtn').addEventListener('click',()=>{
   const title = document.getElementById('addTitle').value.trim();
   const link = document.getElementById('addLink').value.trim();
@@ -471,35 +483,105 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   const chosen = Array.from(document.getElementById('addCategoryBox').querySelectorAll('input[type=checkbox]:checked')).map(i=>i.value);
 
   if(!title){ alert('กรุณากรอกชื่อเรื่อง'); return; }
-  // สร้าง object ใหม่ (id ชั่วคราว — จะรีคำนวณต่อไป)
-  const newAnime = { id: null, title, link, image: image||undefined, category: chosen.length? chosen : [] };
 
-  // ตำแหน่งที่จะเพิ่ม
-  const pos = document.getElementById('insertPosition') ? document.getElementById('insertPosition').value : 'last';
-  if (pos === 'last') {
-    allAnimes.push(newAnime);
-  } else {
-    const index = allAnimes.findIndex(a => a.id == pos);
-    if (index !== -1) {
-      allAnimes.splice(index + 1, 0, newAnime);
-    } else {
-      allAnimes.push(newAnime);
-    }
+  pendingNewAnime = { id: null, title, link, image: image||undefined, category: chosen.length? chosen : [] };
+  openChooseInsertModal();
+});
+
+// ================== Modal เลือกวิธีเพิ่ม ==================
+const chooseInsertModal = document.getElementById('chooseInsertModal');
+const chooseInsertLatest = document.getElementById('chooseInsertLatest');
+const chooseInsertSpecific = document.getElementById('chooseInsertSpecific');
+const chooseInsertCancel = document.getElementById('chooseInsertCancel');
+
+function openChooseInsertModal(){
+  chooseInsertModal.classList.add('show');
+  chooseInsertModal.setAttribute('aria-hidden','false');
+}
+function closeChooseInsertModal(){
+  chooseInsertModal.classList.remove('show');
+  chooseInsertModal.setAttribute('aria-hidden','true');
+}
+chooseInsertCancel.addEventListener('click', ()=> closeChooseInsertModal());
+chooseInsertModal.addEventListener('click', ev=>{ if(ev.target===chooseInsertModal) closeChooseInsertModal(); });
+
+chooseInsertLatest.addEventListener('click', ()=>{
+  if(!pendingNewAnime) return closeChooseInsertModal();
+  allAnimes.push(pendingNewAnime);
+  finalizeAdd('ต่อจากเรื่องล่าสุด');
+  closeChooseInsertModal();
+});
+
+chooseInsertSpecific.addEventListener('click', ()=>{
+  closeChooseInsertModal();
+  openInsertModal();
+});
+
+// ================== Modal เลือกเรื่องที่จะต่อ ==================
+const insertModalBackdrop = document.getElementById('insertModalBackdrop');
+const insertGrid = document.getElementById('insertGrid');
+const insertModalClose = document.getElementById('insertModalClose');
+
+function openInsertModal(){
+  renderInsertList();
+  insertModalBackdrop.classList.add('show');
+  insertModalBackdrop.setAttribute('aria-hidden','false');
+}
+function closeInsertModal(){
+  insertModalBackdrop.classList.remove('show');
+  insertModalBackdrop.setAttribute('aria-hidden','true');
+}
+insertModalClose.addEventListener('click', ()=>closeInsertModal());
+insertModalBackdrop.addEventListener('click', ev=>{ if(ev.target===insertModalBackdrop) closeInsertModal(); });
+
+function renderInsertList(){
+  insertGrid.innerHTML = '';
+  if(allAnimes.length===0){
+    insertGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">ยังไม่มีรายการ</div>';
+    return;
   }
+  allAnimes.forEach(item=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+    const imgSrc = item.image || placeholderImage(item.title);
+    div.innerHTML = `
+      <img class="thumb" src="${escapeAttr(imgSrc)}" alt="${escapeAttr(item.title)}"/>
+      <div class="card-body" style="align-items:center;text-align:center">
+        <div class="title">${escapeHtml(item.title)}</div>
+        <button class="btn primary small" data-id="${item.id}" style="font-size:13px;padding:6px 10px;margin-top:4px;">เพิ่มต่อจากเรื่องนี้</button>
+      </div>`;
+    insertGrid.appendChild(div);
+  });
 
-  // จัดเรียง id ใหม่อัตโนมัติ (1..N)
-  allAnimes.forEach((a, i) => a.id = i + 1);
+  insertGrid.querySelectorAll('button[data-id]').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      const id = e.currentTarget.dataset.id;
+      const index = allAnimes.findIndex(a=>a.id==id);
+      if(index !== -1 && pendingNewAnime){
+        allAnimes.splice(index+1,0,pendingNewAnime);
+        finalizeAdd(`ต่อจากเรื่อง: ${allAnimes[index].title}`);
+      }
+      closeInsertModal();
+    });
+  });
+}
 
-  // ถ้ามีหมวดหมู่ใหม่ ให้รวมเข้า allCategories และอัปเดต checkbox lists
-  chosen.forEach(c => { if(!allCategories.includes(c)) allCategories.push(c); });
-  allCategories.sort((a,b)=>a.localeCompare(b,'th'));
-  renderCategoryCheckboxes();
-
+// ================== finalize add ==================
+function finalizeAdd(msg){
+  allAnimes.forEach((a,i)=>a.id=i+1);
+  if(pendingNewAnime){
+    const chosen = pendingNewAnime.category || [];
+    chosen.forEach(c=>{ if(!allCategories.includes(c)) allCategories.push(c); });
+    allCategories.sort((a,b)=>a.localeCompare(b,'th'));
+    renderCategoryCheckboxes();
+  }
   renderList(allAnimes);
-  updateInsertPositionOptions();
   updateJsonView();
   clearAddForm();
-});
+  alert('เพิ่มเรื่องใหม่สำเร็จ ('+msg+') 🎉');
+  pendingNewAnime = null;
+}
+
 
 
 // clear add form
@@ -641,60 +723,3 @@ modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) showModal(false);
 });
 
-// ========== INSERT POPUP ==========
-const insertModalBackdrop = document.getElementById('insertModalBackdrop');
-const insertGrid = document.getElementById('insertGrid');
-const openInsertPopup = document.getElementById('openInsertPopup');
-const insertModalClose = document.getElementById('insertModalClose');
-const selectedInsertInfo = document.getElementById('selectedInsertInfo');
-
-openInsertPopup.addEventListener('click', ()=>{
-  renderInsertPopup();
-  insertModalBackdrop.classList.add('show');
-  insertModalBackdrop.setAttribute('aria-hidden','false');
-});
-
-insertModalClose.addEventListener('click', ()=>closeInsertModal());
-insertModalBackdrop.addEventListener('click', (ev)=>{ if(ev.target===insertModalBackdrop) closeInsertModal(); });
-
-function closeInsertModal(){
-  insertModalBackdrop.classList.remove('show');
-  insertModalBackdrop.setAttribute('aria-hidden','true');
-}
-
-function renderInsertPopup(){
-  insertGrid.innerHTML = '';
-  if(allAnimes.length===0){
-    insertGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">ยังไม่มีรายการ</div>';
-    return;
-  }
-  allAnimes.forEach(item=>{
-    const div = document.createElement('div');
-    div.className = 'card';
-    const imgSrc = item.image || placeholderImage(item.title);
-    div.innerHTML = `
-      <img class="thumb" src="${escapeAttr(imgSrc)}" alt="${escapeAttr(item.title)}"/>
-      <div class="card-body" style="align-items:center;text-align:center">
-        <div class="title">${escapeHtml(item.title)}</div>
-        <button class="btn primary small" data-id="${item.id}" style="font-size:13px;padding:6px 10px;margin-top:4px;">เลือกเรื่องนี้</button>
-      </div>`;
-    insertGrid.appendChild(div);
-  });
-
-  insertGrid.querySelectorAll('button[data-id]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const id = e.currentTarget.dataset.id;
-      const anime = allAnimes.find(a=>a.id==id);
-      if(anime){
-        document.getElementById('insertPosition').value = id;
-        selectedInsertInfo.textContent = `เลือกต่อจาก: ${anime.title}`;
-      }
-      closeInsertModal();
-    });
-  });
-}
-
-</script>
-
-</body>
-</html>
