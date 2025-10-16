@@ -344,23 +344,30 @@ function showLoading(show=true){
 }
 
 // load json
+
+// ================== โหลดข้อมูล JSON ==================
 async function loadJSON(){
-  showLoading(true);
-  try{
-    const res = await fetch('anime_data.json', {cache: "no-store"});
-    if(!res.ok) throw new Error('ไม่สามารถโหลดไฟล์ได้: ' + res.status);
+  const loadingElem = document.getElementById('loadingText');
+  if(loadingElem) loadingElem.textContent = 'กำลังโหลดข้อมูล...';
+  try {
+    const res = await fetch('anime_data.json');
+    if(!res.ok) throw new Error('ไม่พบไฟล์ anime_data.json');
     const data = await res.json();
     allAnimes = Array.isArray(data) ? data : [];
-    extractCategories();
     renderList(allAnimes);
-    updateInsertPositionOptions();
     updateJsonView();
-  }catch(err){
-    gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#b04878">เกิดข้อผิดพลาดในการโหลด JSON — ดูคอนโซล</div>';
+    if(typeof updateInsertPositionOptions === 'function') updateInsertPositionOptions();
+    if(loadingElem) loadingElem.remove();
+  } catch(err){
     console.error(err);
-  } finally {
-    showLoading(false);
+    if(loadingElem) loadingElem.textContent = '❌ โหลดข้อมูลไม่สำเร็จ';
+    alert('ไม่สามารถโหลดไฟล์ anime_data.json ได้
+โปรดตรวจสอบว่าไฟล์อยู่ในโฟลเดอร์เดียวกับ HTML');
+    allAnimes = [];
+    renderList(allAnimes);
   }
+}
+
 }
 
 function extractCategories(){
