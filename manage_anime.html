@@ -235,7 +235,6 @@
         <label>เลือกหมวดหมู่ (ติ๊กได้หลายอัน)</label>
         <div id="addCategoryBox" class="checkbox-grid" style="margin-top:6px"></div>
       </div>
-
   
   </div>
 
@@ -343,9 +342,7 @@ function showLoading(show=true){
   loadingEl.style.display = show ? 'flex' : 'none';
 }
 
-// load json
-
-// ================== โหลดข้อมูล JSON ==================
+// ================== โหลดข้อมูล JSON (DOM Ready) ==================
 async function loadJSON(){
   const loadingElem = document.getElementById('loadingText');
   if(loadingElem) loadingElem.textContent = 'กำลังโหลดข้อมูล...';
@@ -354,21 +351,25 @@ async function loadJSON(){
     if(!res.ok) throw new Error('ไม่พบไฟล์ anime_data.json');
     const data = await res.json();
     allAnimes = Array.isArray(data) ? data : [];
-    renderList(allAnimes);
-    updateJsonView();
+    if(typeof renderList === 'function') renderList(allAnimes);
+    if(typeof updateJsonView === 'function') updateJsonView();
     if(typeof updateInsertPositionOptions === 'function') updateInsertPositionOptions();
     if(loadingElem) loadingElem.remove();
+    console.log(`✅ โหลด JSON สำเร็จ: พบทั้งหมด ${allAnimes.length} เรื่อง`);
   } catch(err){
-    console.error(err);
+    console.error('❌ เกิดข้อผิดพลาดในการโหลด JSON:', err);
     if(loadingElem) loadingElem.textContent = '❌ โหลดข้อมูลไม่สำเร็จ';
-    alert('ไม่สามารถโหลดไฟล์ anime_data.json ได้
-โปรดตรวจสอบว่าไฟล์อยู่ในโฟลเดอร์เดียวกับ HTML');
+    alert('ไม่สามารถโหลดไฟล์ anime_data.json ได้\nโปรดตรวจสอบว่าไฟล์อยู่ในโฟลเดอร์เดียวกับ HTML');
     allAnimes = [];
-    renderList(allAnimes);
+    if(typeof renderList === 'function') renderList(allAnimes);
   }
 }
 
-}
+// ✅ เรียกหลังจาก DOM โหลดครบ
+window.addEventListener('DOMContentLoaded', ()=>{
+  console.log('DOM โหลดครบ กำลังโหลดข้อมูล JSON...');
+  setTimeout(loadJSON, 100);
+});
 
 function extractCategories(){
   const set = new Set();
@@ -479,7 +480,6 @@ function escapeAttr(s){ if(s==null) return ''; return String(s).replaceAll('"','
 
 // add new
 
-
 // ================== ปุ่มเพิ่มเรื่อง ==================
 let pendingNewAnime = null;
 
@@ -589,8 +589,6 @@ function finalizeAdd(msg){
   pendingNewAnime = null;
 }
 
-
-
 // clear add form
 document.getElementById('clearNew').addEventListener('click', clearAddForm);
 function clearAddForm(){
@@ -615,7 +613,6 @@ function deleteAnime(id){
   updateInsertPositionOptions();
   updateJsonView();
 }
-
 
 // modal functions
 function openEditModal(id){
@@ -722,11 +719,12 @@ document.getElementById('quickSearch').addEventListener('input', (e)=>{
   renderList(filtered);
 });
 
-// initial load
-loadJSON();
-
 /* Extra: clicking outside modal closes it */
 modalBackdrop.addEventListener('click', (ev)=>{
   if(ev.target === modalBackdrop) showModal(false);
 });
 
+</script>
+
+</body>
+</html>
