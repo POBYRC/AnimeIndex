@@ -390,32 +390,48 @@ fetch('anime_data.json')
 </script>
 
 
+
 <script>
-// ✅ ตรวจจับอุปกรณ์ (มือถือจริงเท่านั้น)
-function isRealMobileDevice() {
+// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
+function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  const isMobileUA = /android|iphone|ipad|ipod|mobile/.test(ua);
-  const isSmallScreen = window.innerWidth < 768 && window.devicePixelRatio >= 1;
-  return isMobileUA && isTouch && isSmallScreen;
+  return /android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
-// ✅ ปรับ UI มือถือให้เหมือนคอมแต่ย่อขนาดพอดีจอ
+// ✅ ปรับ UI สำหรับมือถือ
+function adjustForMobile() {
+  document.body.style.zoom = "0.9";
+  document.body.style.padding = "10px";
+  document.body.style.overflowX = "hidden";
+
+  const grid = document.querySelector('.grid');
+  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+
+  document.querySelectorAll('.anime img').forEach(img => {
+    img.style.height = "220px";
+  });
+
+  document.querySelectorAll('.anime-title').forEach(title => {
+    title.style.fontSize = "13px";
+  });
+
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — UI adjusted for small screen");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
 window.addEventListener('DOMContentLoaded', () => {
-  if (isRealMobileDevice()) {
-    document.body.style.transform = 'scale(0.85)';
-    document.body.style.transformOrigin = 'top center';
-    document.body.style.padding = '10px';
-    document.body.style.overflowX = 'hidden';
-    document.querySelectorAll('.anime img').forEach(img => {
-      img.style.height = '260px';
-    });
-    console.log("📱 Mobile detected — scaled UI to fit 5 cards per row.");
+  if (isMobileDevice()) {
+    adjustForMobile();
   } else {
-    console.log("💻 Desktop detected — original layout.");
+    console.log("💻 Desktop detected — using default layout");
   }
 });
 </script>
+
 
 </body>
 </html>
