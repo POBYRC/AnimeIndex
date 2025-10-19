@@ -400,29 +400,10 @@ function isMobileDevice() {
 
 // ✅ ปรับ UI สำหรับมือถือ
 function adjustForMobile() {
-  document.body.style.zoom = "0.9";
+  // ปรับขอบเขตและ padding ให้นิดหน่อยเพื่อพอดีกับมือถือ
   document.body.style.padding = "10px";
   document.body.style.overflowX = "hidden";
-
-  const grid = document.querySelector('.grid');
-  if (grid) {
-    // ใช้ขนาด minmax ประมาณ 120px เพื่อให้แสดงได้ 5 คอลัมน์พอดีในมือถือ
-    grid.style.gridTemplateColumns = "repeat(5, minmax(0, 1fr))";
-  }
-
-  document.querySelectorAll('.anime img').forEach(img => {
-    img.style.height = "180px";
-  });
-
-  document.querySelectorAll('.anime-title').forEach(title => {
-    title.style.fontSize = "12px";
-  });
-
-  document.querySelectorAll('.tag').forEach(tag => {
-    tag.style.fontSize = "10px";
-  });
-
-  console.log("📱 Mobile detected — UI adjusted to 5 cards layout");
+  console.log("📱 Mobile detected — using same layout as desktop (5 cards)");
 });
 </script>
 
