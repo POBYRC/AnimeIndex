@@ -199,17 +199,27 @@ footer a:hover {
   background:#2c5282;
 }
 
-/* ✅ บังคับมือถือให้แสดง 5 การ์ดเหมือนคอม */
+/* ✅ ปรับให้มือถือแสดง 5 การ์ดพอดีหน้าจอ ไม่แคบ */
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-columns: repeat(5, minmax(120px, 1fr)) !important;
+    gap: 10px !important;
   }
+
+  .anime {
+    border-radius: 10px !important;
+  }
+
   .anime img {
-    height: 180px !important;
+    height: 160px !important;
+    object-fit: cover !important;
   }
+
   .anime-title {
     font-size: 12px !important;
+    min-height: 36px !important;
   }
+
   .tag {
     font-size: 10px !important;
   }
