@@ -405,30 +405,24 @@ function adjustForMobile() {
   document.body.style.overflowX = "hidden";
 
   const grid = document.querySelector('.grid');
-  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+  if (grid) {
+    // ใช้ขนาด minmax ประมาณ 120px เพื่อให้แสดงได้ 5 คอลัมน์พอดีในมือถือ
+    grid.style.gridTemplateColumns = "repeat(5, minmax(0, 1fr))";
+  }
 
   document.querySelectorAll('.anime img').forEach(img => {
-    img.style.height = "220px";
+    img.style.height = "180px";
   });
 
   document.querySelectorAll('.anime-title').forEach(title => {
-    title.style.fontSize = "13px";
+    title.style.fontSize = "12px";
   });
 
   document.querySelectorAll('.tag').forEach(tag => {
-    tag.style.fontSize = "11px";
+    tag.style.fontSize = "10px";
   });
 
-  console.log("📱 Mobile detected — UI adjusted for small screen");
-}
-
-// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
-window.addEventListener('DOMContentLoaded', () => {
-  if (isMobileDevice()) {
-    adjustForMobile();
-  } else {
-    console.log("💻 Desktop detected — using default layout");
-  }
+  console.log("📱 Mobile detected — UI adjusted to 5 cards layout");
 });
 </script>
 
