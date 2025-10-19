@@ -381,6 +381,7 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
+    if (isMobileDevice()) adjustForMobile();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -399,7 +400,7 @@ function isMobileDevice() {
 }
 
 // ✅ ปรับ UI สำหรับมือถือ
-function adjustForMobile() {
+
   // ปรับขอบเขตและ padding ให้นิดหน่อยเพื่อพอดีกับมือถือ
   document.body.style.padding = "10px";
   document.body.style.overflowX = "hidden";
