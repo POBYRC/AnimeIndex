@@ -198,6 +198,23 @@ footer a:hover {
 #randomButton:hover {
   background:#2c5282;
 }
+
+/* ✅ บังคับมือถือให้แสดง 5 การ์ดเหมือนคอม */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+  .anime img {
+    height: 180px !important;
+  }
+  .anime-title {
+    font-size: 12px !important;
+  }
+  .tag {
+    font-size: 10px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -381,7 +398,6 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
-    if (isMobileDevice()) adjustForMobile();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -400,11 +416,36 @@ function isMobileDevice() {
 }
 
 // ✅ ปรับ UI สำหรับมือถือ
-
-  // ปรับขอบเขตและ padding ให้นิดหน่อยเพื่อพอดีกับมือถือ
+function adjustForMobile() {
+  document.body.style.zoom = "0.9";
   document.body.style.padding = "10px";
   document.body.style.overflowX = "hidden";
-  console.log("📱 Mobile detected — using same layout as desktop (5 cards)");
+
+  const grid = document.querySelector('.grid');
+  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+
+  document.querySelectorAll('.anime img').forEach(img => {
+    img.style.height = "220px";
+  });
+
+  document.querySelectorAll('.anime-title').forEach(title => {
+    title.style.fontSize = "13px";
+  });
+
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — UI adjusted for small screen");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileDevice()) {
+    adjustForMobile();
+  } else {
+    console.log("💻 Desktop detected — using default layout");
+  }
 });
 </script>
 
