@@ -199,34 +199,7 @@ footer a:hover {
   background:#2c5282;
 }
 
-/* ✅ ปรับให้มือถือแสดง 5 การ์ดพอดีหน้าจอ ไม่แคบ */
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(5, minmax(120px, 1fr)) !important;
-    gap: 10px !important;
-  }
-
-  .anime {
-    border-radius: 10px !important;
-  }
-
-  .anime img {
-    height: 160px !important;
-    object-fit: cover !important;
-  }
-
-  .anime-title {
-    font-size: 12px !important;
-    min-height: 36px !important;
-  }
-
-  .tag {
-    font-size: 10px !important;
-  }
-}
-
-
-/* ✅ ปรับมือถือให้ 5 การ์ดพอดีหน้าจอโดยไม่ต้องซูม */
+/* ✅ ปรับมือถือให้ 5 การ์ดพอดี หน้าสวย ไม่แคบ ไม่สูงเกิน */
 @media (max-width: 768px) {
   body {
     overflow-x: hidden !important;
@@ -235,8 +208,8 @@ footer a:hover {
 
   .grid {
     display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 8px !important;
+    grid-template-columns: repeat(5, minmax(130px, 1fr)) !important;
+    gap: 10px !important;
     width: 100% !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
@@ -247,18 +220,18 @@ footer a:hover {
   }
 
   .anime img {
-    height: 150px !important;
+    height: 130px !important;
     object-fit: cover !important;
     width: 100% !important;
   }
 
   .anime-title {
-    font-size: 11px !important;
-    min-height: 32px !important;
+    font-size: 12px !important;
+    min-height: 30px !important;
   }
 
   .tag {
-    font-size: 9px !important;
+    font-size: 10px !important;
   }
 }
 
@@ -463,7 +436,37 @@ function isMobileDevice() {
 }
 
 // ✅ ปรับ UI สำหรับมือถือ
-);
+function adjustForMobile() {
+  document.body.style.zoom = "0.9";
+  document.body.style.padding = "10px";
+  document.body.style.overflowX = "hidden";
+
+  const grid = document.querySelector('.grid');
+  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+
+  document.querySelectorAll('.anime img').forEach(img => {
+    img.style.height = "220px";
+  });
+
+  document.querySelectorAll('.anime-title').forEach(title => {
+    title.style.fontSize = "13px";
+  });
+
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — UI adjusted for small screen");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileDevice()) {
+    adjustForMobile();
+  } else {
+    console.log("💻 Desktop detected — using default layout");
+  }
+});
 </script>
 
 
