@@ -198,6 +198,71 @@ footer a:hover {
 #randomButton:hover {
   background:#2c5282;
 }
+
+/* ✅ ปรับให้มือถือแสดง 5 การ์ดพอดีหน้าจอ ไม่แคบ */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(120px, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .anime {
+    border-radius: 10px !important;
+  }
+
+  .anime img {
+    height: 160px !important;
+    object-fit: cover !important;
+  }
+
+  .anime-title {
+    font-size: 12px !important;
+    min-height: 36px !important;
+  }
+
+  .tag {
+    font-size: 10px !important;
+  }
+}
+
+
+/* ✅ แก้ให้ 5 การ์ดพอดีหน้าจอมือถือจริง ๆ โดยไม่ต้องซูม */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden !important;
+    padding: 4px !important;
+    margin: 0 !important;
+  }
+
+  .grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, 19vw) !important; /* แต่ละการ์ดกว้าง 19% ของหน้าจอ */
+    gap: 1.5vw !important; /* ระยะห่างใช้หน่วย viewport */
+    justify-content: center !important;
+    width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  .anime {
+    border-radius: 10px !important;
+  }
+
+  .anime img {
+    width: 100% !important;
+    height: 26vw !important; /* ความสูงสัมพันธ์กับหน้าจอ */
+    object-fit: cover !important;
+  }
+
+  .anime-title {
+    font-size: 2.5vw !important;
+    min-height: 5vw !important;
+  }
+
+  .tag {
+    font-size: 2vw !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -432,20 +497,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
-
-<script>
-function scaleDesktopLayoutForMobile() {
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  if (isMobile) {
-    document.body.style.transformOrigin = "top center";
-    document.body.style.transform = "scale(0.8)";
-    document.body.style.width = "125%";
-    document.body.style.overflowX = "hidden";
-  }
-}
-window.addEventListener("load", scaleDesktopLayoutForMobile);
-</script>
 
 </body>
 </html>
