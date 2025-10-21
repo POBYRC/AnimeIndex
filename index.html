@@ -199,19 +199,47 @@ footer a:hover {
   background:#2c5282;
 }
 
-/* ✅ ปรับมือถือให้ 5 การ์ดพอดี หน้าสวย ไม่แคบ ไม่สูงเกิน */
+/* ✅ ปรับให้มือถือแสดง 5 การ์ดพอดีหน้าจอ ไม่แคบ */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(120px, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .anime {
+    border-radius: 10px !important;
+  }
+
+  .anime img {
+    height: 160px !important;
+    object-fit: cover !important;
+  }
+
+  .anime-title {
+    font-size: 12px !important;
+    min-height: 36px !important;
+  }
+
+  .tag {
+    font-size: 10px !important;
+  }
+}
+
+
+/* ✅ แก้ให้ 5 การ์ดพอดีหน้าจอมือถือจริง ๆ โดยไม่ต้องซูม */
 @media (max-width: 768px) {
   body {
     overflow-x: hidden !important;
-    padding: 5px !important;
+    padding: 4px !important;
+    margin: 0 !important;
   }
 
   .grid {
     display: grid !important;
-    grid-template-columns: repeat(5, minmax(130px, 1fr)) !important;
-    gap: 10px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
+    grid-template-columns: repeat(5, 19vw) !important; /* แต่ละการ์ดกว้าง 19% ของหน้าจอ */
+    gap: 1.5vw !important; /* ระยะห่างใช้หน่วย viewport */
+    justify-content: center !important;
+    width: 100vw !important;
     box-sizing: border-box !important;
   }
 
@@ -220,18 +248,18 @@ footer a:hover {
   }
 
   .anime img {
-    height: 130px !important;
-    object-fit: cover !important;
     width: 100% !important;
+    height: 26vw !important; /* ความสูงสัมพันธ์กับหน้าจอ */
+    object-fit: cover !important;
   }
 
   .anime-title {
-    font-size: 12px !important;
-    min-height: 30px !important;
+    font-size: 2.5vw !important;
+    min-height: 5vw !important;
   }
 
   .tag {
-    font-size: 10px !important;
+    font-size: 2vw !important;
   }
 }
 
