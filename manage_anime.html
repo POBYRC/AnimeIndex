@@ -165,6 +165,49 @@
     .side{position:static}
   }
   .input.full { width: 100%; box-sizing: border-box; }
+
+@media (max-width: 768px) {
+  body {
+    padding: 8px !important;
+    overflow-x: hidden !important;
+  }
+
+  main {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .panel {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ✅ ปรับกริดให้แสดง 3 การ์ดต่อแถว */
+  .grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .card .thumb {
+    height: 150px !important;
+    object-fit: cover !important;
+  }
+
+  .card .title {
+    font-size: 13px !important;
+  }
+
+  .tag {
+    font-size: 11px !important;
+  }
+
+  /* ✅ ย้ายแถบข้างลงล่างในมือถือ */
+  .side {
+    position: static !important;
+    margin-top: 20px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -676,12 +719,10 @@ function adjustForMobile() {
 
   const grid = document.querySelector('.grid');
   if (grid) {
-    // ✅ ปรับให้ 3 การ์ดต่อแถวในมือถือ
     grid.style.gridTemplateColumns = "repeat(3, 1fr)";
     grid.style.gap = "10px";
   }
 
-  // ✅ ปรับขนาดรูปและฟอนต์ให้เข้ากับมือถือ
   document.querySelectorAll('.card .thumb').forEach(img => {
     img.style.height = "180px";
     img.style.objectFit = "cover";
@@ -698,7 +739,6 @@ function adjustForMobile() {
   console.log("📱 Mobile detected — adjusted Manage Anime layout");
 }
 
-// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
 window.addEventListener('DOMContentLoaded', () => {
   if (isMobileDevice()) {
     adjustForMobile();
