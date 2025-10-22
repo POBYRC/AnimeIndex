@@ -660,5 +660,53 @@ toggleJsonBtn.addEventListener('click', () => {
   toggleJsonBtn.textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
 });
 </script>
+
+<script>
+// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
+function isMobileDevice() {
+  const ua = navigator.userAgent.toLowerCase();
+  return /android|iphone|ipad|ipod|mobile/.test(ua);
+}
+
+// ✅ ปรับ UI สำหรับมือถือ
+function adjustForMobile() {
+  document.body.style.zoom = "0.9";
+  document.body.style.padding = "10px";
+  document.body.style.overflowX = "hidden";
+
+  const grid = document.querySelector('.grid');
+  if (grid) {
+    // ✅ ปรับให้ 3 การ์ดต่อแถวในมือถือ
+    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+    grid.style.gap = "10px";
+  }
+
+  // ✅ ปรับขนาดรูปและฟอนต์ให้เข้ากับมือถือ
+  document.querySelectorAll('.card .thumb').forEach(img => {
+    img.style.height = "180px";
+    img.style.objectFit = "cover";
+  });
+
+  document.querySelectorAll('.card .title').forEach(t => {
+    t.style.fontSize = "13px";
+  });
+
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — adjusted Manage Anime layout");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileDevice()) {
+    adjustForMobile();
+  } else {
+    console.log("💻 Desktop detected — default layout");
+  }
+});
+</script>
+
 </body>
 </html>
