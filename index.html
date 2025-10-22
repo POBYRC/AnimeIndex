@@ -225,44 +225,6 @@ footer a:hover {
   }
 }
 
-
-/* ✅ แก้ให้ 5 การ์ดพอดีหน้าจอมือถือจริง ๆ โดยไม่ต้องซูม */
-@media (max-width: 768px) {
-  body {
-    overflow-x: hidden !important;
-    padding: 4px !important;
-    margin: 0 !important;
-  }
-
-  .grid {
-    display: grid !important;
-    grid-template-columns: repeat(5, 19vw) !important; /* แต่ละการ์ดกว้าง 19% ของหน้าจอ */
-    gap: 1.5vw !important; /* ระยะห่างใช้หน่วย viewport */
-    justify-content: center !important;
-    width: 100vw !important;
-    box-sizing: border-box !important;
-  }
-
-  .anime {
-    border-radius: 10px !important;
-  }
-
-  .anime img {
-    width: 100% !important;
-    height: 26vw !important; /* ความสูงสัมพันธ์กับหน้าจอ */
-    object-fit: cover !important;
-  }
-
-  .anime-title {
-    font-size: 2.5vw !important;
-    min-height: 5vw !important;
-  }
-
-  .tag {
-    font-size: 2vw !important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -456,6 +418,7 @@ fetch('anime_data.json')
 
 
 
+
 <script>
 // ✅ ตรวจจับว่าเป็นมือถือหรือไม่
 function isMobileDevice() {
@@ -463,17 +426,17 @@ function isMobileDevice() {
   return /android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
-// ✅ ปรับ UI สำหรับมือถือ
+// ✅ ปรับ UI สำหรับมือถือ (3 การ์ดต่อแถว)
 function adjustForMobile() {
   document.body.style.zoom = "0.9";
   document.body.style.padding = "10px";
   document.body.style.overflowX = "hidden";
 
   const grid = document.querySelector('.grid');
-  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+  if (grid) grid.style.gridTemplateColumns = "repeat(3, 1fr)"; // ✅ ปรับเป็น 3 การ์ดต่อแถว
 
   document.querySelectorAll('.anime img').forEach(img => {
-    img.style.height = "220px";
+    img.style.height = "220px"; // พอดีจอ
   });
 
   document.querySelectorAll('.anime-title').forEach(title => {
@@ -484,7 +447,7 @@ function adjustForMobile() {
     tag.style.fontSize = "11px";
   });
 
-  console.log("📱 Mobile detected — UI adjusted for small screen");
+  console.log("📱 Mobile detected — แสดง 3 การ์ดต่อแถว");
 }
 
 // ✅ โหลดเมื่อ DOM พร้อมใช้งาน
@@ -496,6 +459,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
 
 
 </body>
