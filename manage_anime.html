@@ -165,51 +165,6 @@
     .side{position:static}
   }
   .input.full { width: 100%; box-sizing: border-box; }
-
-/* 🌸 มือถือแสดง 3 การ์ดต่อแถวแน่นอน */
-@media screen and (max-width: 900px) {
-  .grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
-    justify-items: center !important;
-    align-items: start !important;
-  }
-
-  .card {
-    width: 100% !important;
-    max-width: none !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-  }
-
-  .card .thumb {
-    height: 130px !important;
-    object-fit: cover !important;
-  }
-
-  .card .title {
-    font-size: 12px !important;
-    text-align: center !important;
-  }
-
-  main {
-    flex-direction: column !important;
-    gap: 10px !important;
-  }
-
-  .side {
-    order: 2 !important;
-    width: 100% !important;
-    margin-top: 20px !important;
-  }
-
-  .panel {
-    order: 1 !important;
-    width: 100% !important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -707,21 +662,56 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-// 🌸 ตรวจจับมือถือและซ่อน JSON เริ่มต้น
+// ✅ ตรวจจับอุปกรณ์มือถือ
 function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
   return /android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
-function adjustForMobile() {
-  document.body.style.zoom = "0.9";
-  document.body.style.padding = "10px";
-  document.body.style.overflowX = "hidden";
-  console.log("📱 Mobile detected — adjusted layout");
+// ✅ ปรับ layout สำหรับมือถือโดยตรงให้แสดง 3 การ์ดต่อแถว
+function adjustGridForMobile() {
+  const grid = document.querySelector('.grid');
+  if (grid) {
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+    grid.style.gap = "8px";
+    grid.style.justifyItems = "center";
+    console.log("📱 ปรับกริดมือถือให้เป็น 3 การ์ดต่อแถวแล้ว");
+  }
+
+  document.querySelectorAll('.card .thumb').forEach(img => {
+    img.style.height = "130px";
+    img.style.objectFit = "cover";
+  });
+
+  document.querySelectorAll('.card .title').forEach(t => {
+    t.style.fontSize = "12px";
+    t.style.textAlign = "center";
+  });
+
+  const main = document.querySelector('main');
+  if (main) {
+    main.style.flexDirection = "column";
+    main.style.gap = "10px";
+  }
+
+  const side = document.querySelector('.side');
+  if (side) {
+    side.style.order = "2";
+    side.style.width = "100%";
+    side.style.marginTop = "20px";
+  }
+
+  const panel = document.querySelector('.panel');
+  if (panel) {
+    panel.style.order = "1";
+    panel.style.width = "100%";
+  }
 }
 
+// ✅ ซ่อน JSON เป็นค่าเริ่มต้นด้วย
 window.addEventListener('DOMContentLoaded', () => {
-  if (isMobileDevice()) adjustForMobile();
+  if (isMobileDevice()) adjustGridForMobile();
 
   const jsonView = document.getElementById('jsonView');
   const toggleJsonBtn = document.getElementById('toggleJsonBtn');
