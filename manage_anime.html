@@ -166,47 +166,47 @@
   }
   .input.full { width: 100%; box-sizing: border-box; }
 
-/* 🌸 ปรับเฉพาะมือถือ ให้แสดง 3 การ์ดต่อแถวแน่นอน */
+/* 🌸 มือถือแสดง 3 การ์ดต่อแถวแน่นอน */
 @media screen and (max-width: 900px) {
-  main {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  .side {
-    position: static !important;
-    width: 100% !important;
-    margin-top: 16px !important;
-  }
-
-  .panel {
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
   .grid {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
     gap: 8px !important;
+    justify-items: center !important;
+    align-items: start !important;
   }
 
   .card {
-    border-radius: 10px !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 12px !important;
     overflow: hidden !important;
   }
 
   .card .thumb {
-    height: 120px !important;
+    height: 130px !important;
     object-fit: cover !important;
   }
 
   .card .title {
     font-size: 12px !important;
-    line-height: 1.2 !important;
+    text-align: center !important;
   }
 
-  .tag {
-    font-size: 10px !important;
+  main {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .side {
+    order: 2 !important;
+    width: 100% !important;
+    margin-top: 20px !important;
+  }
+
+  .panel {
+    order: 1 !important;
+    width: 100% !important;
   }
 }
 
@@ -707,7 +707,7 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-// 🌸 ตรวจจับมือถือและปรับ layout
+// 🌸 ตรวจจับมือถือและซ่อน JSON เริ่มต้น
 function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
   return /android|iphone|ipad|ipod|mobile/.test(ua);
@@ -720,7 +720,6 @@ function adjustForMobile() {
   console.log("📱 Mobile detected — adjusted layout");
 }
 
-// 🌸 ซ่อน JSON เป็นค่าเริ่มต้นเมื่อโหลดหน้า
 window.addEventListener('DOMContentLoaded', () => {
   if (isMobileDevice()) adjustForMobile();
 
