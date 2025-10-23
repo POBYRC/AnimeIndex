@@ -166,15 +166,16 @@
   }
   .input.full { width: 100%; box-sizing: border-box; }
 
-@media (max-width: 768px) {
-  body {
-    padding: 8px !important;
-    overflow-x: hidden !important;
-  }
-
+/* 🌸 ปรับเฉพาะมือถือ ให้แสดง 3 การ์ดต่อแถวแน่นอน */
+@media screen and (max-width: 900px) {
   main {
     display: flex !important;
     flex-direction: column !important;
+  }
+
+  .side {
+    position: static !important;
+    margin-top: 16px !important;
   }
 
   .panel {
@@ -182,10 +183,14 @@
     box-sizing: border-box !important;
   }
 
-  /* ✅ ปรับกริดให้แสดง 3 การ์ดต่อแถว */
   .grid {
+    display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 10px !important;
+  }
+
+  .card {
+    border-radius: 10px !important;
   }
 
   .card .thumb {
@@ -199,12 +204,6 @@
 
   .tag {
     font-size: 11px !important;
-  }
-
-  /* ✅ ย้ายแถบข้างลงล่างในมือถือ */
-  .side {
-    position: static !important;
-    margin-top: 20px !important;
   }
 }
 
@@ -705,38 +704,16 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
 function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
   return /android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
-// ✅ ปรับ UI สำหรับมือถือ
 function adjustForMobile() {
   document.body.style.zoom = "0.9";
   document.body.style.padding = "10px";
   document.body.style.overflowX = "hidden";
-
-  const grid = document.querySelector('.grid');
-  if (grid) {
-    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
-    grid.style.gap = "10px";
-  }
-
-  document.querySelectorAll('.card .thumb').forEach(img => {
-    img.style.height = "180px";
-    img.style.objectFit = "cover";
-  });
-
-  document.querySelectorAll('.card .title').forEach(t => {
-    t.style.fontSize = "13px";
-  });
-
-  document.querySelectorAll('.tag').forEach(tag => {
-    tag.style.fontSize = "11px";
-  });
-
-  console.log("📱 Mobile detected — adjusted Manage Anime layout");
+  console.log("📱 Mobile detected — adjusted layout");
 }
 
 window.addEventListener('DOMContentLoaded', () => {
