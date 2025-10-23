@@ -175,6 +175,7 @@
 
   .side {
     position: static !important;
+    width: 100% !important;
     margin-top: 16px !important;
   }
 
@@ -185,25 +186,27 @@
 
   .grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
   }
 
   .card {
     border-radius: 10px !important;
+    overflow: hidden !important;
   }
 
   .card .thumb {
-    height: 150px !important;
+    height: 120px !important;
     object-fit: cover !important;
   }
 
   .card .title {
-    font-size: 13px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
   }
 
   .tag {
-    font-size: 11px !important;
+    font-size: 10px !important;
   }
 }
 
@@ -704,6 +707,7 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
+// 🌸 ตรวจจับมือถือและปรับ layout
 function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
   return /android|iphone|ipad|ipod|mobile/.test(ua);
@@ -716,11 +720,16 @@ function adjustForMobile() {
   console.log("📱 Mobile detected — adjusted layout");
 }
 
+// 🌸 ซ่อน JSON เป็นค่าเริ่มต้นเมื่อโหลดหน้า
 window.addEventListener('DOMContentLoaded', () => {
-  if (isMobileDevice()) {
-    adjustForMobile();
-  } else {
-    console.log("💻 Desktop detected — default layout");
+  if (isMobileDevice()) adjustForMobile();
+
+  const jsonView = document.getElementById('jsonView');
+  const toggleJsonBtn = document.getElementById('toggleJsonBtn');
+  if (jsonView && toggleJsonBtn) {
+    jsonView.style.display = 'none';
+    toggleJsonBtn.textContent = 'แสดง JSON';
+    console.log("🩵 JSON ถูกซ่อนเป็นค่าเริ่มต้น");
   }
 });
 </script>
