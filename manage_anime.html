@@ -165,45 +165,54 @@
     .side{position:static}
   }
   .input.full { width: 100%; box-sizing: border-box; }
-</style>
 
-<style id="mobile-ui-override">
-/* Strong mobile-only overrides — placed late to beat other rules */
+/* Mobile polish — วางท้าย <style> */
 @media screen and (max-width: 900px) {
-  html,body { overflow-x: hidden !important; padding: 8px !important; }
+  .grid > .card {
+    min-width: 0 !important;            /* สำคัญ ป้องกัน minmax ถูกบังคับ */
+    flex: 0 0 calc(33.333% - 8px) !important;
+    width: calc(33.333% - 8px) !important;
+    margin-bottom: 12px !important;
+    background: linear-gradient(180deg,#fff,#fffaf6) !important;
+  }
 
-  /* Make main full width and stack panels */
-  main { display: block !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; box-sizing: border-box !important; }
-  .side { position: static !important; order: 2 !important; width: 100% !important; margin-top: 12px !important; }
-  main > .panel { order: 1 !important; width: 100% !important; box-sizing: border-box !important; }
+  .card .thumb {
+    height: 100px !important;           /* ย่อรูปเล็กลงเพื่อให้การ์ดดูไม่สูงเกิน */
+    border-radius: 8px 8px 0 0 !important;
+  }
 
-  /* Force grid -> flex-wrap layout so minmax cannot force 1-per-row */
-  .grid, main .grid, .panel .grid { display: flex !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: space-between !important; align-items: stretch !important; width: 100% !important; margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
+  .card .card-body {
+    padding: 10px 10px 14px 10px !important;
+  }
 
-  /* Force each card to be roughly 1/3 width */
-  .grid > .card, .panel .grid > .card, .grid .card { flex: 0 0 calc(33.333% - 8px) !important; width: calc(33.333% - 8px) !important; min-width: 0 !important; max-width: none !important; box-sizing: border-box !important; margin: 0 !important; }
+  .title {
+    font-size: 13px !important;
+    text-align: center !important;
+    margin-bottom: 6px !important;
+    min-height: 38px !important;        /* ให้บรรทัด title ไม่ยุบตัวต่างกัน */
+  }
 
-  /* Visual adjustments */
-  .card { border-radius: 10px !important; overflow: hidden !important; }
-  .card .thumb { height: 110px !important; width: 100% !important; object-fit: cover !important; display: block !important; }
-  .card .card-body { padding: 8px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
-  .title { font-size: 13px !important; line-height: 1.2 !important; text-align: center !important; }
-  .tags { justify-content: center !important; gap: 6px !important; }
-  .tag { font-size: 10px !important; padding: 3px 6px !important; }
+  .meta {
+    text-align: center !important;
+    font-size: 13px !important;
+    margin-bottom: 8px !important;
+  }
 
-  .card-actions { justify-content: center !important; gap: 6px !important; margin-top: 6px !important; }
+  .tags { justify-content: center !important; }
+  .tag { font-size: 11px !important; padding: 4px 6px !important; }
 
-  /* Ensure side content doesn't push layout */
-  .side .panel { width: 100% !important; box-sizing: border-box !important; }
+  /* ปรับการ์ด-actions ให้อยู่ตรงกลางและมีช่องว่างเท่ากัน */
+  .card-actions { justify-content: center !important; gap: 10px !important; margin-top: 8px !important; }
 
-  /* Hide JSON by default everywhere (both desktop & mobile) */
+  /* ให้ side อยู่ด้านล่างจริงๆ และ panel ใช้เต็มความกว้าง */
+  .side { order: 2 !important; width: 100% !important; margin-top: 14px !important; }
+  main > .panel { order: 1 !important; width: 100% !important; }
+
+  /* ซ่อน JSON เป็นค่าเริ่มต้น (fallback CSS) */
   #jsonView { display: none !important; }
-
-  /* Keep toggle visible */
-  #toggleJsonBtn { display: inline-block !important; }
 }
-</style>
 
+</style>
 </head>
 <body>
 
@@ -699,97 +708,43 @@ toggleJsonBtn.addEventListener('click', () => {
 });
 </script>
 
-<script id="mobile-ui-override-script">
-(function () {
-  // insert style element if not present
-  function ensureStyle() {
-    if (!document.getElementById('mobile-ui-override')) {
-      var s = document.createElement('style');
-      s.id = 'mobile-ui-override';
-      s.textContent = `@media screen and (max-width: 900px) {
-        html,body { overflow-x: hidden !important; padding: 8px !important; }
-        main { display: block !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; box-sizing: border-box !important; }
-        .side { position: static !important; order: 2 !important; width: 100% !important; margin-top: 12px !important; }
-        main > .panel { order: 1 !important; width: 100% !important; box-sizing: border-box !important; }
-        .grid, main .grid, .panel .grid { display: flex !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: space-between !important; align-items: stretch !important; width: 100% !important; margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
-        .grid > .card, .panel .grid > .card, .grid .card { flex: 0 0 calc(33.333% - 8px) !important; width: calc(33.333% - 8px) !important; min-width: 0 !important; max-width: none !important; box-sizing: border-box !important; margin: 0 !important; }
-        .card .thumb { height: 110px !important; width: 100% !important; object-fit: cover !important; display: block !important; }
-        .card .card-body { padding: 8px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
-        .title { font-size: 13px !important; line-height: 1.2 !important; text-align: center !important; }
-        .tags { justify-content: center !important; gap: 6px !important; }
-        .tag { font-size: 10px !important; padding: 3px 6px !important; }
-        #jsonView { display: none !important; }
-        #toggleJsonBtn { display: inline-block !important; }
-      }`;
-      document.head.appendChild(s);
-    }
-  }
-
-  function applyForcedStyles() {
-    // apply runtime fixes in case CSS still overridden
-    var grid = document.querySelector('.grid');
-    if (!grid) return;
-    grid.removeAttribute('style');
+<script>
+(function(){
+  function applyPolish(){
+    const grid = document.querySelector('.grid');
+    if(!grid) return;
+    grid.style.gridTemplateColumns = 'none'; // ให้แน่ใจว่า grid เก่าจะไม่บังคับ
     grid.style.display = 'flex';
     grid.style.flexWrap = 'wrap';
     grid.style.gap = '10px';
-    grid.style.justifyContent = 'space-between';
-    grid.style.alignItems = 'stretch';
-    grid.style.width = '100%';
-    grid.style.margin = '0';
-    grid.style.boxSizing = 'border-box';
-    grid.style.gridTemplateColumns = 'none';
-
-    Array.from(grid.children).forEach(function (child) {
-      if (!child.classList || !child.classList.contains('card')) return;
-      child.style.minWidth = '0';
-      child.style.flex = '0 0 calc(33.333% - 8px)';
-      child.style.width = 'calc(33.333% - 8px)';
-      child.style.maxWidth = 'none';
-      child.style.boxSizing = 'border-box';
-      child.style.margin = '0';
-      child.style.display = 'flex';
-      child.style.flexDirection = 'column';
-      var thumb = child.querySelector('.thumb');
-      if (thumb) {
-        thumb.style.width = '100%';
-        thumb.style.height = '110px';
-        thumb.style.objectFit = 'cover';
-        thumb.style.display = 'block';
-      }
-      var body = child.querySelector('.card-body');
-      if (body) {
-        body.style.padding = '8px';
-        body.style.display = 'flex';
-        body.style.flexDirection = 'column';
-        body.style.justifyContent = 'space-between';
-      }
+    // child cards
+    Array.from(grid.children).forEach(c=>{
+      if(!c.classList || !c.classList.contains('card')) return;
+      c.style.minWidth = '0';
+      c.style.flex = '0 0 calc(33.333% - 8px)';
+      c.style.width = 'calc(33.333% - 8px)';
+      c.style.margin = '0 0 12px 0';
     });
 
-    // hide JSON by default (both desktop and mobile)
-    var json = document.getElementById('jsonView');
-    var tbtn = document.getElementById('toggleJsonBtn');
-    if (json) json.style.display = 'none';
-    if (tbtn) tbtn.textContent = 'แสดง JSON';
+    // ซ่อน JSON เริ่มต้น (ทั้ง desktop & mobile)
+    const jsonView = document.getElementById('jsonView');
+    const toggleBtn = document.getElementById('toggleJsonBtn');
+    if(jsonView) jsonView.style.display = 'none';
+    if(toggleBtn) toggleBtn.textContent = 'แสดง JSON';
   }
 
-  function init() {
-    ensureStyle();
-    // run once on load
-    applyForcedStyles();
-    // observe grid for dynamic changes and reapply
-    var grid = document.querySelector('.grid');
-    if (grid) {
-      var mo = new MutationObserver(function () { applyForcedStyles(); });
-      mo.observe(grid, { childList: true });
-    }
-    // also reapply on resize/orientation change
-    var t;
-    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(applyForcedStyles, 120); });
-    window.addEventListener('orientationchange', function () { setTimeout(applyForcedStyles, 180); });
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyPolish);
+  else applyPolish();
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  // รี-แอพพลายเมื่อมีการเปลี่ยน (เช่น โหลดข้อมูลเพิ่มเติม)
+  let t;
+  window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(applyPolish, 120); });
+  window.addEventListener('orientationchange', ()=> setTimeout(applyPolish, 180));
+  const grid = document.querySelector('.grid');
+  if(grid){
+    const mo = new MutationObserver(()=> applyPolish());
+    mo.observe(grid, { childList: true });
+  }
 })();
 </script>
 
