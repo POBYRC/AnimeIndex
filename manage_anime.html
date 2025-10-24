@@ -165,6 +165,58 @@
     .side{position:static}
   }
   .input.full { width: 100%; box-sizing: border-box; }
+
+/* ===== Mobile-only UI rework (does NOT affect desktop) ===== */
+@media screen and (max-width: 900px) {
+  body { padding: 10px !important; overflow-x: hidden !important; }
+  main { display: flex !important; flex-direction: column !important; gap: 14px !important; }
+  /* Make the main panel and side full width and stacked */
+  .panel { width: 100% !important; box-sizing: border-box !important; }
+  .side { order: 2 !important; width: 100% !important; position: static !important; margin-top: 12px !important; }
+
+  /* Replace the grid behavior with a flex-wrap layout so minmax() can't force 1-per-row */
+  .grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: start !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Force each card to take ~1/3 width (3 per row) */
+  .grid > .card {
+    flex: 0 0 calc(33.333% - 6.66px) !important;
+    width: calc(33.333% - 6.66px) !important;
+    max-width: calc(33.333% - 6.66px) !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+  }
+
+  /* Slight visual adjustments for smaller cards */
+  .card { border-radius: 10px !important; overflow: hidden !important; }
+  .card .thumb { height: 110px !important; width: 100% !important; object-fit: cover !important; display: block !important; }
+  .card .card-body { padding: 8px !important; }
+  .title { font-size: 13px !important; text-align: center !important; line-height: 1.2 !important; }
+  .tags { justify-content: center !important; gap: 6px !important; }
+  .tag { font-size: 10px !important; padding: 3px 6px !important; }
+
+  .card-actions { justify-content: center !important; gap: 6px !important; margin-top: 6px !important; }
+
+  /* Make JSON hidden by default on mobile (desktop unaffected) */
+  #jsonView { display: none !important; }
+  /* Keep the toggle visible but ensure its text will be controlled by JS */
+  #toggleJsonBtn { display: inline-block !important; }
+
+  /* Improve spacing for controls panel when stacked */
+  .controls { justify-content: flex-start !important; gap: 8px !important; }
+  .input { min-width: 0 !important; width: 100% !important; }
+
+  /* Make the insert modal & other modals responsive */
+  .modal { width: 95% !important; max-width: 100% !important; padding: 12px !important; }
+}
+
 </style>
 </head>
 <body>
@@ -662,74 +714,84 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-// ✅ ตรวจจับมือถือ
-function isMobileDevice() {
-  const ua = navigator.userAgent.toLowerCase();
-  return /android|iphone|ipad|ipod|mobile/.test(ua);
-}
+(function(){
+  function isMobile() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera || "";
+    return /android|iphone|ipad|ipod|mobile/i.test(ua.toLowerCase());
+  }
 
-// ✅ ปรับ layout สำหรับมือถือ (บังคับจริง)
-function adjustGridForMobile() {
-  const grid = document.querySelector('.grid');
-  if (grid) {
-    // ล้าง style และ class เดิม เพื่อป้องกัน CSS เก่ามีผล
+  function applyMobileUI() {
+    const grid = document.querySelector('.grid');
+    if (!grid) return;
+
+    // Remove inline style produced by other scripts to avoid conflicts
     grid.removeAttribute('style');
-    grid.className = 'grid mobile-grid';
-
-    // ใช้ style ใหม่ผ่าน JS
-    grid.style.display = "grid";
-    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
-    grid.style.gap = "8px";
-    grid.style.justifyItems = "center";
+    // Use flex-wrap layout (same as CSS) to guarantee 3-per-row
+    grid.style.display = "flex";
+    grid.style.flexWrap = "wrap";
+    grid.style.gap = "10px";
+    grid.style.justifyContent = "flex-start";
     grid.style.alignItems = "start";
 
-    console.log("✅ ปรับ grid มือถือสำเร็จ (3 การ์ดต่อแถว)");
+    // Force card widths
+    Array.from(grid.children).forEach(card => {
+      if (!card.classList.contains('card')) return;
+      card.style.flex = "0 0 calc(33.333% - 6.66px)";
+      card.style.width = "calc(33.333% - 6.66px)";
+      card.style.maxWidth = "calc(33.333% - 6.66px)";
+      card.style.boxSizing = "border-box";
+      // thumb adjustments
+      const thumb = card.querySelector('.thumb');
+      if (thumb) {
+        thumb.style.height = '110px';
+        thumb.style.objectFit = 'cover';
+        thumb.style.width = '100%';
+        thumb.style.display = 'block';
+      }
+      const body = card.querySelector('.card-body');
+      if (body) body.style.padding = '8px';
+    });
+
+    // Stack main and side panels
+    const main = document.querySelector('main');
+    if (main) {
+      main.style.display = 'flex';
+      main.style.flexDirection = 'column';
+      main.style.gap = '14px';
+    }
+    const side = document.querySelector('.side');
+    if (side) {
+      side.style.order = '2';
+      side.style.width = '100%';
+      side.style.marginTop = '12px';
+    }
+    const firstPanel = document.querySelector('main .panel');
+    if (firstPanel) {
+      firstPanel.style.order = '1';
+      firstPanel.style.width = '100%';
+    }
   }
 
-  // ปรับภาพและชื่อการ์ด
-  document.querySelectorAll('.card .thumb').forEach(img => {
-    img.style.height = "120px";
-    img.style.objectFit = "cover";
-  });
-
-  document.querySelectorAll('.card .title').forEach(t => {
-    t.style.fontSize = "12px";
-    t.style.textAlign = "center";
-  });
-
-  // ปรับโครงหลักให้เรียงสวยบนมือถือ
-  const main = document.querySelector('main');
-  if (main) {
-    main.style.flexDirection = "column";
-    main.style.gap = "10px";
+  function hideJsonDefault() {
+    const jsonView = document.getElementById('jsonView');
+    const toggleBtn = document.getElementById('toggleJsonBtn');
+    if (jsonView) jsonView.style.display = 'none';
+    if (toggleBtn) toggleBtn.textContent = 'แสดง JSON';
   }
 
-  const side = document.querySelector('.side');
-  if (side) {
-    side.style.order = "2";
-    side.style.width = "100%";
-    side.style.marginTop = "20px";
+  function onReady() {
+    if (!isMobile()) return;
+    applyMobileUI();
+    hideJsonDefault();
+    // Re-apply on resize/orientation change (debounced)
+    let t;
+    window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(applyMobileUI, 120); });
+    window.addEventListener('orientationchange', ()=> setTimeout(applyMobileUI, 200));
   }
 
-  const panel = document.querySelector('.panel');
-  if (panel) {
-    panel.style.order = "1";
-    panel.style.width = "100%";
-  }
-}
-
-// ✅ ซ่อน JSON เป็นค่าเริ่มต้น
-window.addEventListener('DOMContentLoaded', () => {
-  if (isMobileDevice()) adjustGridForMobile();
-
-  const jsonView = document.getElementById('jsonView');
-  const toggleJsonBtn = document.getElementById('toggleJsonBtn');
-  if (jsonView && toggleJsonBtn) {
-    jsonView.style.display = 'none';
-    toggleJsonBtn.textContent = 'แสดง JSON';
-    console.log("🩵 JSON ถูกซ่อนเป็นค่าเริ่มต้น");
-  }
-});
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady);
+  else onReady();
+})();
 </script>
 
 </body>
