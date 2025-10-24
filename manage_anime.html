@@ -165,59 +165,45 @@
     .side{position:static}
   }
   .input.full { width: 100%; box-sizing: border-box; }
+</style>
 
-/* ===== Mobile-only UI rework (does NOT affect desktop) ===== */
+<style id="mobile-ui-override">
+/* Strong mobile-only overrides — placed late to beat other rules */
 @media screen and (max-width: 900px) {
-  body { padding: 10px !important; overflow-x: hidden !important; }
-  main { display: flex !important; flex-direction: column !important; gap: 14px !important; }
-  /* Make the main panel and side full width and stacked */
-  .panel { width: 100% !important; box-sizing: border-box !important; }
-  .side { order: 2 !important; width: 100% !important; position: static !important; margin-top: 12px !important; }
+  html,body { overflow-x: hidden !important; padding: 8px !important; }
 
-  /* Replace the grid behavior with a flex-wrap layout so minmax() can't force 1-per-row */
-  .grid {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    align-items: start !important;
-    justify-content: flex-start !important;
-  }
+  /* Make main full width and stack panels */
+  main { display: block !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; box-sizing: border-box !important; }
+  .side { position: static !important; order: 2 !important; width: 100% !important; margin-top: 12px !important; }
+  main > .panel { order: 1 !important; width: 100% !important; box-sizing: border-box !important; }
 
-  /* Force each card to take ~1/3 width (3 per row) */
-  .grid > .card {
-    flex: 0 0 calc(33.333% - 6.66px) !important;
-    width: calc(33.333% - 6.66px) !important;
-    max-width: calc(33.333% - 6.66px) !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-  }
+  /* Force grid -> flex-wrap layout so minmax cannot force 1-per-row */
+  .grid, main .grid, .panel .grid { display: flex !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: space-between !important; align-items: stretch !important; width: 100% !important; margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
 
-  /* Slight visual adjustments for smaller cards */
+  /* Force each card to be roughly 1/3 width */
+  .grid > .card, .panel .grid > .card, .grid .card { flex: 0 0 calc(33.333% - 8px) !important; width: calc(33.333% - 8px) !important; min-width: 0 !important; max-width: none !important; box-sizing: border-box !important; margin: 0 !important; }
+
+  /* Visual adjustments */
   .card { border-radius: 10px !important; overflow: hidden !important; }
   .card .thumb { height: 110px !important; width: 100% !important; object-fit: cover !important; display: block !important; }
-  .card .card-body { padding: 8px !important; }
-  .title { font-size: 13px !important; text-align: center !important; line-height: 1.2 !important; }
+  .card .card-body { padding: 8px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
+  .title { font-size: 13px !important; line-height: 1.2 !important; text-align: center !important; }
   .tags { justify-content: center !important; gap: 6px !important; }
   .tag { font-size: 10px !important; padding: 3px 6px !important; }
 
   .card-actions { justify-content: center !important; gap: 6px !important; margin-top: 6px !important; }
 
-  /* Make JSON hidden by default on mobile (desktop unaffected here, but we'll also hide via JS for both) */
+  /* Ensure side content doesn't push layout */
+  .side .panel { width: 100% !important; box-sizing: border-box !important; }
+
+  /* Hide JSON by default everywhere (both desktop & mobile) */
   #jsonView { display: none !important; }
-  /* Keep the toggle visible but ensure its text will be controlled by JS */
+
+  /* Keep toggle visible */
   #toggleJsonBtn { display: inline-block !important; }
-
-  /* Improve spacing for controls panel when stacked */
-  .controls { justify-content: flex-start !important; gap: 8px !important; }
-  .input { min-width: 0 !important; width: 100% !important; }
-
-  /* Make the insert modal & other modals responsive */
-  .modal { width: 95% !important; max-width: 100% !important; padding: 12px !important; }
 }
-
 </style>
+
 </head>
 <body>
 
@@ -713,132 +699,97 @@ toggleJsonBtn.addEventListener('click', () => {
 });
 </script>
 
-<script>
+<script id="mobile-ui-override-script">
 (function () {
-  function isMobile() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera || "";
-    return /android|iphone|ipad|ipod|mobile/i.test(ua.toLowerCase());
+  // insert style element if not present
+  function ensureStyle() {
+    if (!document.getElementById('mobile-ui-override')) {
+      var s = document.createElement('style');
+      s.id = 'mobile-ui-override';
+      s.textContent = `@media screen and (max-width: 900px) {
+        html,body { overflow-x: hidden !important; padding: 8px !important; }
+        main { display: block !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; box-sizing: border-box !important; }
+        .side { position: static !important; order: 2 !important; width: 100% !important; margin-top: 12px !important; }
+        main > .panel { order: 1 !important; width: 100% !important; box-sizing: border-box !important; }
+        .grid, main .grid, .panel .grid { display: flex !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: space-between !important; align-items: stretch !important; width: 100% !important; margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
+        .grid > .card, .panel .grid > .card, .grid .card { flex: 0 0 calc(33.333% - 8px) !important; width: calc(33.333% - 8px) !important; min-width: 0 !important; max-width: none !important; box-sizing: border-box !important; margin: 0 !important; }
+        .card .thumb { height: 110px !important; width: 100% !important; object-fit: cover !important; display: block !important; }
+        .card .card-body { padding: 8px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
+        .title { font-size: 13px !important; line-height: 1.2 !important; text-align: center !important; }
+        .tags { justify-content: center !important; gap: 6px !important; }
+        .tag { font-size: 10px !important; padding: 3px 6px !important; }
+        #jsonView { display: none !important; }
+        #toggleJsonBtn { display: inline-block !important; }
+      }`;
+      document.head.appendChild(s);
+    }
   }
 
-  function forceMobileLayout() {
-    // ensure no horizontal overflow
-    document.documentElement.style.overflowX = 'hidden';
+  function applyForcedStyles() {
+    // apply runtime fixes in case CSS still overridden
+    var grid = document.querySelector('.grid');
+    if (!grid) return;
+    grid.removeAttribute('style');
+    grid.style.display = 'flex';
+    grid.style.flexWrap = 'wrap';
+    grid.style.gap = '10px';
+    grid.style.justifyContent = 'space-between';
+    grid.style.alignItems = 'stretch';
+    grid.style.width = '100%';
+    grid.style.margin = '0';
+    grid.style.boxSizing = 'border-box';
+    grid.style.gridTemplateColumns = 'none';
 
-    // Set main container to full width
-    const main = document.querySelector('main');
-    if (main) {
-      main.style.display = 'block';
-      main.style.width = '100%';
-      main.style.maxWidth = '100%';
-      main.style.padding = '0';
-      main.style.boxSizing = 'border-box';
-    }
-
-    const grid = document.querySelector('.grid');
-    if (grid) {
-      grid.removeAttribute('style');
-      grid.classList.add('mobile-enforced-grid');
-      Object.assign(grid.style, {
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '10px',
-        justifyContent: 'flex-start',
-        alignItems: 'stretch',
-        width: '100%',
-        margin: '0',
-        boxSizing: 'border-box'
-      });
-
-      Array.from(grid.children).forEach((child) => {
-        if (!child.classList.contains('card')) return;
-        Object.assign(child.style, {
-          flex: '0 0 calc(33.333% - 6.66px)',
-          width: 'calc(33.333% - 6.66px)',
-          maxWidth: 'calc(33.333% - 6.66px)',
-          boxSizing: 'border-box',
-          margin: '0',
-          display: 'flex',
-          flexDirection: 'column'
-        });
-
-        const thumb = child.querySelector('.thumb');
-        if (thumb) {
-          thumb.style.width = '100%';
-          thumb.style.height = '110px';
-          thumb.style.objectFit = 'cover';
-          thumb.style.display = 'block';
-          thumb.style.borderRadius = '8px 8px 0 0';
-        }
-        const body = child.querySelector('.card-body');
-        if (body) {
-          body.style.padding = '8px';
-          body.style.display = 'flex';
-          body.style.flexDirection = 'column';
-          body.style.justifyContent = 'space-between';
-        }
-      });
-    }
-
-    const side = document.querySelector('.side');
-    if (side) {
-      Object.assign(side.style, {
-        order: '2',
-        width: '100%',
-        maxWidth: '100%',
-        position: 'static',
-        marginTop: '12px',
-        boxSizing: 'border-box'
-      });
-    }
-
-    const panels = document.querySelectorAll('main > .panel');
-    if (panels && panels.length) {
-      panels.forEach((p, idx) => {
-        p.style.width = '100%';
-        p.style.boxSizing = 'border-box';
-        p.style.order = idx === 0 ? '1' : p.style.order;
-      });
-    }
-
-    // small typography adjustments
-    document.querySelectorAll('.title').forEach(t => {
-      t.style.fontSize = '13px';
-      t.style.lineHeight = '1.2';
-      t.style.textAlign = 'left';
+    Array.from(grid.children).forEach(function (child) {
+      if (!child.classList || !child.classList.contains('card')) return;
+      child.style.minWidth = '0';
+      child.style.flex = '0 0 calc(33.333% - 8px)';
+      child.style.width = 'calc(33.333% - 8px)';
+      child.style.maxWidth = 'none';
+      child.style.boxSizing = 'border-box';
+      child.style.margin = '0';
+      child.style.display = 'flex';
+      child.style.flexDirection = 'column';
+      var thumb = child.querySelector('.thumb');
+      if (thumb) {
+        thumb.style.width = '100%';
+        thumb.style.height = '110px';
+        thumb.style.objectFit = 'cover';
+        thumb.style.display = 'block';
+      }
+      var body = child.querySelector('.card-body');
+      if (body) {
+        body.style.padding = '8px';
+        body.style.display = 'flex';
+        body.style.flexDirection = 'column';
+        body.style.justifyContent = 'space-between';
+      }
     });
-    document.querySelectorAll('.tag').forEach(tag => {
-      tag.style.fontSize = '10px';
-    });
-  }
 
-  function hideJsonDefault() {
-    const jsonView = document.getElementById('jsonView');
-    const toggleBtn = document.getElementById('toggleJsonBtn');
-    if (jsonView) jsonView.style.display = 'none';
-    if (toggleBtn) toggleBtn.textContent = 'แสดง JSON';
+    // hide JSON by default (both desktop and mobile)
+    var json = document.getElementById('jsonView');
+    var tbtn = document.getElementById('toggleJsonBtn');
+    if (json) json.style.display = 'none';
+    if (tbtn) tbtn.textContent = 'แสดง JSON';
   }
 
   function init() {
-    // hide JSON by default for both desktop and mobile
-    hideJsonDefault();
-
-    if (isMobile()) {
-      forceMobileLayout();
-      // reapply on resize/orientation with debounce
-      let t;
-      window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(forceMobileLayout, 120); });
-      window.addEventListener('orientationchange', ()=> setTimeout(forceMobileLayout, 200));
-      // observe grid additions (e.g., after JSON load) and reapply
-      const grid = document.querySelector('.grid');
-      if (grid) {
-        const observer = new MutationObserver(()=> forceMobileLayout());
-        observer.observe(grid, { childList: true });
-      }
+    ensureStyle();
+    // run once on load
+    applyForcedStyles();
+    // observe grid for dynamic changes and reapply
+    var grid = document.querySelector('.grid');
+    if (grid) {
+      var mo = new MutationObserver(function () { applyForcedStyles(); });
+      mo.observe(grid, { childList: true });
     }
+    // also reapply on resize/orientation change
+    var t;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(applyForcedStyles, 120); });
+    window.addEventListener('orientationchange', function () { setTimeout(applyForcedStyles, 180); });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
 
