@@ -204,7 +204,7 @@
 
   .card-actions { justify-content: center !important; gap: 6px !important; margin-top: 6px !important; }
 
-  /* Make JSON hidden by default on mobile (desktop unaffected) */
+  /* Make JSON hidden by default on mobile (desktop unaffected here, but we'll also hide via JS for both) */
   #jsonView { display: none !important; }
   /* Keep the toggle visible but ensure its text will be controlled by JS */
   #toggleJsonBtn { display: inline-block !important; }
@@ -714,62 +714,101 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-(function(){
+(function () {
   function isMobile() {
     const ua = navigator.userAgent || navigator.vendor || window.opera || "";
     return /android|iphone|ipad|ipod|mobile/i.test(ua.toLowerCase());
   }
 
-  function applyMobileUI() {
-    const grid = document.querySelector('.grid');
-    if (!grid) return;
+  function forceMobileLayout() {
+    // ensure no horizontal overflow
+    document.documentElement.style.overflowX = 'hidden';
 
-    // Remove inline style produced by other scripts to avoid conflicts
-    grid.removeAttribute('style');
-    // Use flex-wrap layout (same as CSS) to guarantee 3-per-row
-    grid.style.display = "flex";
-    grid.style.flexWrap = "wrap";
-    grid.style.gap = "10px";
-    grid.style.justifyContent = "flex-start";
-    grid.style.alignItems = "start";
-
-    // Force card widths
-    Array.from(grid.children).forEach(card => {
-      if (!card.classList.contains('card')) return;
-      card.style.flex = "0 0 calc(33.333% - 6.66px)";
-      card.style.width = "calc(33.333% - 6.66px)";
-      card.style.maxWidth = "calc(33.333% - 6.66px)";
-      card.style.boxSizing = "border-box";
-      // thumb adjustments
-      const thumb = card.querySelector('.thumb');
-      if (thumb) {
-        thumb.style.height = '110px';
-        thumb.style.objectFit = 'cover';
-        thumb.style.width = '100%';
-        thumb.style.display = 'block';
-      }
-      const body = card.querySelector('.card-body');
-      if (body) body.style.padding = '8px';
-    });
-
-    // Stack main and side panels
+    // Set main container to full width
     const main = document.querySelector('main');
     if (main) {
-      main.style.display = 'flex';
-      main.style.flexDirection = 'column';
-      main.style.gap = '14px';
+      main.style.display = 'block';
+      main.style.width = '100%';
+      main.style.maxWidth = '100%';
+      main.style.padding = '0';
+      main.style.boxSizing = 'border-box';
     }
+
+    const grid = document.querySelector('.grid');
+    if (grid) {
+      grid.removeAttribute('style');
+      grid.classList.add('mobile-enforced-grid');
+      Object.assign(grid.style, {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '10px',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        width: '100%',
+        margin: '0',
+        boxSizing: 'border-box'
+      });
+
+      Array.from(grid.children).forEach((child) => {
+        if (!child.classList.contains('card')) return;
+        Object.assign(child.style, {
+          flex: '0 0 calc(33.333% - 6.66px)',
+          width: 'calc(33.333% - 6.66px)',
+          maxWidth: 'calc(33.333% - 6.66px)',
+          boxSizing: 'border-box',
+          margin: '0',
+          display: 'flex',
+          flexDirection: 'column'
+        });
+
+        const thumb = child.querySelector('.thumb');
+        if (thumb) {
+          thumb.style.width = '100%';
+          thumb.style.height = '110px';
+          thumb.style.objectFit = 'cover';
+          thumb.style.display = 'block';
+          thumb.style.borderRadius = '8px 8px 0 0';
+        }
+        const body = child.querySelector('.card-body');
+        if (body) {
+          body.style.padding = '8px';
+          body.style.display = 'flex';
+          body.style.flexDirection = 'column';
+          body.style.justifyContent = 'space-between';
+        }
+      });
+    }
+
     const side = document.querySelector('.side');
     if (side) {
-      side.style.order = '2';
-      side.style.width = '100%';
-      side.style.marginTop = '12px';
+      Object.assign(side.style, {
+        order: '2',
+        width: '100%',
+        maxWidth: '100%',
+        position: 'static',
+        marginTop: '12px',
+        boxSizing: 'border-box'
+      });
     }
-    const firstPanel = document.querySelector('main .panel');
-    if (firstPanel) {
-      firstPanel.style.order = '1';
-      firstPanel.style.width = '100%';
+
+    const panels = document.querySelectorAll('main > .panel');
+    if (panels && panels.length) {
+      panels.forEach((p, idx) => {
+        p.style.width = '100%';
+        p.style.boxSizing = 'border-box';
+        p.style.order = idx === 0 ? '1' : p.style.order;
+      });
     }
+
+    // small typography adjustments
+    document.querySelectorAll('.title').forEach(t => {
+      t.style.fontSize = '13px';
+      t.style.lineHeight = '1.2';
+      t.style.textAlign = 'left';
+    });
+    document.querySelectorAll('.tag').forEach(tag => {
+      tag.style.fontSize = '10px';
+    });
   }
 
   function hideJsonDefault() {
@@ -779,18 +818,27 @@ toggleJsonBtn.addEventListener('click', () => {
     if (toggleBtn) toggleBtn.textContent = 'แสดง JSON';
   }
 
-  function onReady() {
-    if (!isMobile()) return;
-    applyMobileUI();
+  function init() {
+    // hide JSON by default for both desktop and mobile
     hideJsonDefault();
-    // Re-apply on resize/orientation change (debounced)
-    let t;
-    window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(applyMobileUI, 120); });
-    window.addEventListener('orientationchange', ()=> setTimeout(applyMobileUI, 200));
+
+    if (isMobile()) {
+      forceMobileLayout();
+      // reapply on resize/orientation with debounce
+      let t;
+      window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(forceMobileLayout, 120); });
+      window.addEventListener('orientationchange', ()=> setTimeout(forceMobileLayout, 200));
+      // observe grid additions (e.g., after JSON load) and reapply
+      const grid = document.querySelector('.grid');
+      if (grid) {
+        const observer = new MutationObserver(()=> forceMobileLayout());
+        observer.observe(grid, { childList: true });
+      }
+    }
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady);
-  else onReady();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 
