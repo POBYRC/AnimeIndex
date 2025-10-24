@@ -166,50 +166,87 @@
   }
   .input.full { width: 100%; box-sizing: border-box; }
 
-/* Mobile polish — วางท้าย <style> */
+/* ==== มือถือ: ปรับ layout ทั้งหมด ==== */
 @media screen and (max-width: 900px) {
-  .grid > .card {
-    min-width: 0 !important;            /* สำคัญ ป้องกัน minmax ถูกบังคับ */
-    flex: 0 0 calc(33.333% - 8px) !important;
-    width: calc(33.333% - 8px) !important;
-    margin-bottom: 12px !important;
-    background: linear-gradient(180deg,#fff,#fffaf6) !important;
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
   }
 
-  .card .thumb {
-    height: 100px !important;           /* ย่อรูปเล็กลงเพื่อให้การ์ดดูไม่สูงเกิน */
-    border-radius: 8px 8px 0 0 !important;
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
-  .card .card-body {
-    padding: 10px 10px 14px 10px !important;
+  .panel {
+    order: 1;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .side {
+    order: 2;
+    width: 95%;
+    margin: 20px auto 0 auto;
+  }
+
+  .grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #fff;
+  }
+
+  .thumb {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 10px;
   }
 
   .title {
-    font-size: 13px !important;
-    text-align: center !important;
-    margin-bottom: 6px !important;
-    min-height: 38px !important;        /* ให้บรรทัด title ไม่ยุบตัวต่างกัน */
+    font-size: 13px;
+    text-align: center;
   }
 
   .meta {
-    text-align: center !important;
-    font-size: 13px !important;
-    margin-bottom: 8px !important;
+    font-size: 11px;
+    text-align: center;
   }
 
-  .tags { justify-content: center !important; }
-  .tag { font-size: 11px !important; padding: 4px 6px !important; }
+  .tags {
+    justify-content: center;
+  }
 
-  /* ปรับการ์ด-actions ให้อยู่ตรงกลางและมีช่องว่างเท่ากัน */
-  .card-actions { justify-content: center !important; gap: 10px !important; margin-top: 8px !important; }
+  .tag {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
 
-  /* ให้ side อยู่ด้านล่างจริงๆ และ panel ใช้เต็มความกว้าง */
-  .side { order: 2 !important; width: 100% !important; margin-top: 14px !important; }
-  main > .panel { order: 1 !important; width: 100% !important; }
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
 
-  /* ซ่อน JSON เป็นค่าเริ่มต้น (fallback CSS) */
-  #jsonView { display: none !important; }
+  /* ซ่อน JSON เป็นค่าเริ่มต้น */
+  #jsonView {
+    display: none !important;
+  }
 }
 
 </style>
@@ -709,43 +746,25 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-(function(){
-  function applyPolish(){
-    const grid = document.querySelector('.grid');
-    if(!grid) return;
-    grid.style.gridTemplateColumns = 'none'; // ให้แน่ใจว่า grid เก่าจะไม่บังคับ
-    grid.style.display = 'flex';
-    grid.style.flexWrap = 'wrap';
-    grid.style.gap = '10px';
-    // child cards
-    Array.from(grid.children).forEach(c=>{
-      if(!c.classList || !c.classList.contains('card')) return;
-      c.style.minWidth = '0';
-      c.style.flex = '0 0 calc(33.333% - 8px)';
-      c.style.width = 'calc(33.333% - 8px)';
-      c.style.margin = '0 0 12px 0';
-    });
+document.addEventListener('DOMContentLoaded', function() {
+  const jsonView = document.getElementById('jsonView');
+  const toggleBtn = document.getElementById('toggleJsonBtn');
+  if (jsonView) jsonView.style.display = 'none';
+  if (toggleBtn) toggleBtn.textContent = 'แสดง JSON';
 
-    // ซ่อน JSON เริ่มต้น (ทั้ง desktop & mobile)
-    const jsonView = document.getElementById('jsonView');
-    const toggleBtn = document.getElementById('toggleJsonBtn');
-    if(jsonView) jsonView.style.display = 'none';
-    if(toggleBtn) toggleBtn.textContent = 'แสดง JSON';
+  function rearrangeMobile() {
+    if (window.innerWidth <= 900) {
+      const side = document.querySelector('.side');
+      const panel = document.querySelector('.panel');
+      if (side && panel && panel.nextSibling !== side) {
+        panel.parentNode.appendChild(side);
+      }
+    }
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyPolish);
-  else applyPolish();
-
-  // รี-แอพพลายเมื่อมีการเปลี่ยน (เช่น โหลดข้อมูลเพิ่มเติม)
-  let t;
-  window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(applyPolish, 120); });
-  window.addEventListener('orientationchange', ()=> setTimeout(applyPolish, 180));
-  const grid = document.querySelector('.grid');
-  if(grid){
-    const mo = new MutationObserver(()=> applyPolish());
-    mo.observe(grid, { childList: true });
-  }
-})();
+  rearrangeMobile();
+  window.addEventListener('resize', rearrangeMobile);
+});
 </script>
 
 </body>
