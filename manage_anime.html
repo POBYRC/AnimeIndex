@@ -662,25 +662,33 @@ toggleJsonBtn.addEventListener('click', () => {
 </script>
 
 <script>
-// ✅ ตรวจจับอุปกรณ์มือถือ
+// ✅ ตรวจจับมือถือ
 function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
   return /android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
-// ✅ ปรับ layout สำหรับมือถือโดยตรงให้แสดง 3 การ์ดต่อแถว
+// ✅ ปรับ layout สำหรับมือถือ (บังคับจริง)
 function adjustGridForMobile() {
   const grid = document.querySelector('.grid');
   if (grid) {
+    // ล้าง style และ class เดิม เพื่อป้องกัน CSS เก่ามีผล
+    grid.removeAttribute('style');
+    grid.className = 'grid mobile-grid';
+
+    // ใช้ style ใหม่ผ่าน JS
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(3, 1fr)";
     grid.style.gap = "8px";
     grid.style.justifyItems = "center";
-    console.log("📱 ปรับกริดมือถือให้เป็น 3 การ์ดต่อแถวแล้ว");
+    grid.style.alignItems = "start";
+
+    console.log("✅ ปรับ grid มือถือสำเร็จ (3 การ์ดต่อแถว)");
   }
 
+  // ปรับภาพและชื่อการ์ด
   document.querySelectorAll('.card .thumb').forEach(img => {
-    img.style.height = "130px";
+    img.style.height = "120px";
     img.style.objectFit = "cover";
   });
 
@@ -689,6 +697,7 @@ function adjustGridForMobile() {
     t.style.textAlign = "center";
   });
 
+  // ปรับโครงหลักให้เรียงสวยบนมือถือ
   const main = document.querySelector('main');
   if (main) {
     main.style.flexDirection = "column";
@@ -709,7 +718,7 @@ function adjustGridForMobile() {
   }
 }
 
-// ✅ ซ่อน JSON เป็นค่าเริ่มต้นด้วย
+// ✅ ซ่อน JSON เป็นค่าเริ่มต้น
 window.addEventListener('DOMContentLoaded', () => {
   if (isMobileDevice()) adjustGridForMobile();
 
