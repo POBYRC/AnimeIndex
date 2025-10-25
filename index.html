@@ -239,8 +239,8 @@ footer a:hover {
 </head>
 <body>
 
-<!-- 🌌 Video Background (Dual Mode) -->
-<div id="background-container"></div>
+<!-- 🌌 Video Background -->
+<video id="bgVideo" autoplay muted loop playsinline preload="auto"></video>
 
 <h1>AnimeIndex</h1>
 
@@ -265,34 +265,73 @@ footer a:hover {
 
 <script>
 // =======================
-// 🔹 พื้นหลังแบบสลับได้ (YouTube / URL)
-const backgroundMode = "youtube"; // 🔄 เปลี่ยนเป็น "url" ได้ตามต้องการ
-const youtubeID = "yMIm3yBX7Po";
-const videoURL = "https://cdn.discordapp.com/attachments/1425045687216898068/1427180250575536209/11_05_Homescreen_VCT.webm?ex=68edecaf&is=68ec9b2f&hm=87e19f24ff6398748220ad5a7753ae3b6a0a311a1e07718b9631b2759fb0ae61&";
-const container = document.getElementById('background-container');
+// 🔹 Video Background Source
+// 1 = URL, 2 = Repo
+const videoSource = 1; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
+const bgVideo = document.getElementById('bgVideo');
+const urlVideo = "https://cdn.discordapp.com/attachments/1425045687216898068/1427180250575536209/11_05_Homescreen_VCT.webm?ex=68edecaf&is=68ec9b2f&hm=87e19f24ff6398748220ad5a7753ae3b6a0a311a1e07718b9631b2759fb0ae61&";
+const repoVideo = "11_05_Homescreen_VCT.webm";
 
-if (backgroundMode === "youtube") {
-  container.innerHTML = `
-    <iframe
-      src="https://www.youtube.com/embed/${youtubeID}?autoplay=1&mute=1&loop=1&controls=0&playlist=${youtubeID}"
-      frameborder="0"
-      allow="autoplay; fullscreen"
-      allowfullscreen
-      style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;object-fit:cover;opacity:0.95;">
-    </iframe>
-  `;
-} else if (backgroundMode === "url") {
-  container.innerHTML = `
-    <video autoplay muted loop playsinline preload="auto" style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;opacity:0.95;">
-      <source src="${videoURL}" type="video/webm">
-    </video>
-  `;
+// =======================
+// 🔹 Load video with IndexedDB cache + fallback
+function loadVideo(url, fallback=null) {
+  if (!('indexedDB' in window)) {
+    bgVideo.src = url;
+    bgVideo.play();
+    return;
+  }
+
+  const openRequest = indexedDB.open('videoDB',1);
+  openRequest.onupgradeneeded = e => {
+    e.target.result.createObjectStore('videos');
+  };
+
+  openRequest.onsuccess = e => {
+    const db = e.target.result;
+    const tx = db.transaction('videos','readonly');
+    const store = tx.objectStore('videos');
+    const getReq = store.get(url);
+
+    getReq.onsuccess = async () => {
+      if(getReq.result){
+        bgVideo.src = URL.createObjectURL(getReq.result);
+        bgVideo.play();
+      } else {
+        try {
+          const resp = await fetch(url);
+          const blob = await resp.blob();
+          const txPut = db.transaction('videos','readwrite');
+          txPut.objectStore('videos').put(blob,url);
+          txPut.oncomplete = () => console.log("Video cached!");
+          bgVideo.src = URL.createObjectURL(blob);
+          bgVideo.play();
+        } catch(err){
+          console.warn("Video load failed, trying fallback...", err);
+          if(fallback) loadVideo(fallback,null);
+          else { bgVideo.src = url; bgVideo.play(); }
+        }
+      }
+    };
+
+    getReq.onerror = () => {
+      bgVideo.src = url;
+      bgVideo.play();
+    };
+  };
+
+  openRequest.onerror = e => {
+    console.error("IndexedDB open error", e);
+    bgVideo.src = url;
+    bgVideo.play();
+  };
 }
 
-// ป้องกัน error ที่เคยมี (bgVideo event)
-const bgVideo = document.createElement('video');
+// =======================
+// 🔹 Run video load
+if(videoSource===1) loadVideo(urlVideo, repoVideo);
+else loadVideo(repoVideo, urlVideo);
+
 bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
-('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
 
 // =======================
 // 🔹 Fetch Anime Data
