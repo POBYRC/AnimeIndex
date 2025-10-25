@@ -267,18 +267,10 @@ footer a:hover {
 // =======================
 // 🔹 Video Background Source
 // 1 = URL, 2 = Repo
-const videoSource = 1;
-
-// 🔹 เลือกแหล่งที่มาของวิดีโอ
-// videoSource = 1 -> Google Drive (ใช้ direct link)
-// videoSource = 2 -> External URL
-// videoSource = 3 -> Local Repo file
-
+const videoSource = 1; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
 const bgVideo = document.getElementById('bgVideo');
-const googleDriveVideo = "https://drive.google.com/uc?export=download&id=1DcsikUYvs2VQ_kYS1zCD_vI3VBG_HmX8"; // ✅ Direct link
-const urlVideo = "https://example.com/video.mp4"; // 🌐 External URL
-const repoVideo = "YouCut_20251024_232902294.mp4"; // 📦 Local Repo
-
+const urlVideo = "https://drive.google.com/file/d/1DcsikUYvs2VQ_kYS1zCD_vI3VBG_HmX8/view?usp=drivesdk";
+const repoVideo = "YouCut_20251024_232902294.mp4";
 
 // =======================
 // 🔹 Load video with IndexedDB cache + fallback
@@ -336,17 +328,8 @@ function loadVideo(url, fallback=null) {
 
 // =======================
 // 🔹 Run video load
-if (videoSource === 1) {
-  // ✅ โหลดจาก Google Drive
-  loadVideo(googleDriveVideo, repoVideo);
-} else if (videoSource === 2) {
-  // 🌐 โหลดจาก External URL
-  loadVideo(urlVideo, repoVideo);
-} else {
-  // 📦 โหลดจากไฟล์ใน Repo
-  loadVideo(repoVideo, googleDriveVideo);
-}
-
+if(videoSource===1) loadVideo(urlVideo, repoVideo);
+else loadVideo(repoVideo, urlVideo);
 
 bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
 
