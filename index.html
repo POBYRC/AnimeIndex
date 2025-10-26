@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>AnimeIndex</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🌸 FAVICON -->
+<link id="dynamicFavicon" rel="icon" type="image/png" href="">
+
+<script>
+  const faviconList = {
+    1: "https://cdni.pornpics.com/1280/3/16/29610962/29610962_016_3664.jpg",
+    2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF5VrSpJQhB9CwSZeDt0ROW8k_SSsj4_aBXA&s",
+    3: "https://cdni.pornpics.com/460/7/795/74310870/74310870_051_cbd3.jpg",
+    4: "https://imagex1.sx.cdn.live/images/pinporn/2022/03/03/26818392.jpg?width=620",
+  };
+
+  const currentFavicon = 4; // เปลี่ยนFAVICON Nour Haddad
+
+  const faviconElement = document.getElementById("dynamicFavicon");
+  if (faviconList[currentFavicon]) {
+    faviconElement.href = faviconList[currentFavicon];
+  } else {
+    console.warn("ไม่มีหมายเลข favicon นี้:", currentFavicon);
+  }
+</script>
+
+<style>
+body {
+  font-family: 'Prompt', sans-serif;
+  background:#f8fafc;
+  color:#2d3748;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+#bgVideo {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+  opacity:0.95; /* <-- ปรับความชัดพื้นหลัง */
+  will-change: transform;
+}
+#bgOverlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.25); /* ปรับความโปร่งใส */
+  z-index: -1;
+}
+h1 {
+  text-align:center;
+  color:#2b6cb0;
+  margin-bottom:20px;
+}
+.controls {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+.search-box {
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #cbd5e0;
+  font-size:16px;
+  min-width:200px;
+}
+.category-container {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+.category-button {
+  background:#edf2f7;
+  color:#2d3748;
+  border:none;
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-size:14px;
+}
+.category-button:hover {
+  background:#e2e8f0;
+}
+.category-button.active {
+  background:#2b6cb0;
+  color:white;
+  box-shadow:0 0 6px rgba(43,108,176,0.6);
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:20px;
+}
+.anime {
+  background:white;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  text-align:center;
+  transition:transform 0.2s;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.anime:hover { transform:scale(1.05); }
+.anime img {
+  width:100%;
+  height:350px;
+  object-fit:cover;
+}
+.anime-title {
+  padding:10px;
+  font-size:14px;
+  color:#2b6cb0;
+  font-weight:bold;
+  min-height:40px;
+}
+.tags {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  padding:0 8px 10px 8px;
+}
+.tag {
+  background:#e2e8f0;
+  color:#2d3748;
+  border-radius:12px;
+  padding:3px 8px;
+  font-size:12px;
+}
+.count {
+  text-align:center;
+  color:#4a5568;
+  margin-bottom:15px;
+}
+#loader {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex:1;
+}
+.spinner {
+  width:60px;
+  height:60px;
+  border:6px solid #cbd5e0;
+  border-top-color:#2b6cb0;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+footer {
+  background:#edf2f7;
+  text-align:center;
+  padding:10px;
+  margin-top:auto;
+  border-radius:8px;
+  font-size:14px;
+  color:#4a5568;
+}
+footer a {
+  color:#2b6cb0;
+  text-decoration:none;
+}
+footer a:hover {
+  text-decoration:underline;
+}
+
+#randomButton {
+  background:#2b6cb0;
+  color:white;
+  border:none;
+  border-radius:20px;
+  padding:8px 16px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.2s;
+}
+#randomButton:hover {
+  background:#2c5282;
+}
+
+/* ✅ ปรับมือถือให้แสดง 3 การ์ดต่อแถวพอดีหน้าจอ */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden !important;
+    padding: 8px !important;
+    margin: 0 auto !important;
+  }
+
+  .grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* ✅ 3 การ์ดต่อแถว */
+    gap: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .anime {
+    border-radius: 10px !important;
+  }
+
+  .anime img {
+    width: 100% !important;
+    height: 200px !important; /* สัดส่วนพอดี */
+    object-fit: cover !important;
+  }
+
+  .anime-title {
+    font-size: 13px !important;
+    min-height: 34px !important;
+  }
+
+  .tag {
+    font-size: 11px !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- 🌌 Video Background -->
+<video id="bgVideo" autoplay muted loop playsinline preload="auto"></video>
+
+<h1>AnimeIndex</h1>
+
+<div class="controls">
+  <input type="text" id="searchBox" class="search-box" placeholder="🔍 ค้นหาชื่ออนิเมะ...">
+  <button id="randomButton">สุ่มอนิเมะ</button>
+</div>
+
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+<div class="category-container" id="categoryContainer" style="display:none;"></div>
+<p class="count" id="animeCount" style="display:none;"></p>
+<div class="grid" id="animeGrid" style="display:none;"></div>
+
+<footer>
+  © 2025 Anime List | สร้างโดย <a href="#">Wesley</a>
+  <br>
+  <a href="#" id="scrollTop">↑ กลับขึ้นบนสุด</a>
+</footer>
+
+<script>
+// =======================
+// 🔹 Video Background Source
+// 1 = URL, 2 = Repo
+const videoSource = 2; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
+const bgVideo = document.getElementById('bgVideo');
+const urlVideo = "https://drive.google.com/file/d/1DcsikUYvs2VQ_kYS1zCD_vI3VBG_HmX8/view?usp=drivesdk";
+const repoVideo = "YouCut.mp4";
+
+// =======================
+// 🔹 Load video with IndexedDB cache + fallback
+function loadVideo(url, fallback=null) {
+  if (!('indexedDB' in window)) {
+    bgVideo.src = url;
+    bgVideo.play();
+    return;
+  }
+
+  const openRequest = indexedDB.open('videoDB',1);
+  openRequest.onupgradeneeded = e => {
+    e.target.result.createObjectStore('videos');
+  };
+
+  openRequest.onsuccess = e => {
+    const db = e.target.result;
+    const tx = db.transaction('videos','readonly');
+    const store = tx.objectStore('videos');
+    const getReq = store.get(url);
+
+    getReq.onsuccess = async () => {
+      if(getReq.result){
+        bgVideo.src = URL.createObjectURL(getReq.result);
+        bgVideo.play();
+      } else {
+        try {
+          const resp = await fetch(url);
+          const blob = await resp.blob();
+          const txPut = db.transaction('videos','readwrite');
+          txPut.objectStore('videos').put(blob,url);
+          txPut.oncomplete = () => console.log("Video cached!");
+          bgVideo.src = URL.createObjectURL(blob);
+          bgVideo.play();
+        } catch(err){
+          console.warn("Video load failed, trying fallback...", err);
+          if(fallback) loadVideo(fallback,null);
+          else { bgVideo.src = url; bgVideo.play(); }
+        }
+      }
+    };
+
+    getReq.onerror = () => {
+      bgVideo.src = url;
+      bgVideo.play();
+    };
+  };
+
+  openRequest.onerror = e => {
+    console.error("IndexedDB open error", e);
+    bgVideo.src = url;
+    bgVideo.play();
+  };
+}
+
+// =======================
+// 🔹 Run video load
+if(videoSource===1) loadVideo(urlVideo, repoVideo);
+else loadVideo(repoVideo, urlVideo);
+
+bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
+
+// =======================
+// 🔹 Fetch Anime Data
+let allAnimes = [];
+let activeCategories = [];
+
+fetch('anime_data.json')
+  .then(response => response.json())
+  .then(animes => {
+    allAnimes = animes;
+    const grid = document.getElementById('animeGrid');
+    const categoryContainer = document.getElementById('categoryContainer');
+    const searchBox = document.getElementById('searchBox');
+    const countText = document.getElementById('animeCount');
+    const loader = document.getElementById('loader');
+
+    loader.style.display = 'none';
+    grid.style.display = 'grid';
+    categoryContainer.style.display = 'flex';
+    countText.style.display = 'block';
+
+    const categories = [...new Set(animes.flatMap(a => a.category))].sort();
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.classList.add('category-button');
+      btn.textContent = cat;
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        if(activeCategories.includes(cat)){
+          activeCategories = activeCategories.filter(c=>c!==cat);
+        } else {
+          activeCategories.push(cat);
+        }
+        applyFilters();
+      });
+      categoryContainer.appendChild(btn);
+    });
+
+    function renderAnimeList(list){
+      grid.innerHTML = '';
+      countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
+      if(list.length===0){
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
+        return;
+      }
+      list.forEach(a=>{
+        const animeDiv = document.createElement('div');
+        animeDiv.classList.add('anime');
+        const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+        const tagsHTML = a.category.map(cat=>`<span class="tag">${cat}</span>`).join('');
+        animeDiv.innerHTML = `
+          <a href="${a.link}" target="_blank">
+            <img src="${imgSrc}" alt="${a.title}">
+            <div class="anime-title">${a.title}</div>
+          </a>
+          <div class="tags">${tagsHTML}</div>
+        `;
+        grid.appendChild(animeDiv);
+      });
+    }
+
+    function applyFilters(){
+      const keyword = searchBox.value.toLowerCase();
+      let filtered = animes;
+      if(activeCategories.length>0){
+        filtered = filtered.filter(a=>activeCategories.every(cat=>a.category.includes(cat)));
+      }
+      if(keyword){
+        filtered = filtered.filter(a=>a.title.toLowerCase().includes(keyword));
+      }
+      renderAnimeList(filtered);
+    }
+
+    searchBox.addEventListener('input',applyFilters);
+
+    document.getElementById('randomButton').addEventListener('click',()=>{
+      const randomAnime = allAnimes[Math.floor(Math.random()*allAnimes.length)];
+      window.open(randomAnime.link,'_blank');
+    });
+
+    document.getElementById('scrollTop').addEventListener('click', e=>{
+      e.preventDefault();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    renderAnimeList(animes);
+  })
+  .catch(err=>{
+    document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
+    console.error('โหลด anime_data.json ไม่ได้:', err);
+  });
+
+</script>
+
+
+
+<script>
+// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
+function isMobileDevice() {
+  const ua = navigator.userAgent.toLowerCase();
+  return /android|iphone|ipad|ipod|mobile/.test(ua);
+}
+
+// ✅ ปรับ UI สำหรับมือถือ
+function adjustForMobile() {
+  document.body.style.zoom = "0.9";
+  document.body.style.padding = "10px";
+  document.body.style.overflowX = "hidden";
+
+  const grid = document.querySelector('.grid');
+  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+
+  document.querySelectorAll('.anime img').forEach(img => {
+    img.style.height = "220px";
+  });
+
+  document.querySelectorAll('.anime-title').forEach(title => {
+    title.style.fontSize = "13px";
+  });
+
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — UI adjusted for small screen");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileDevice()) {
+    adjustForMobile();
+  } else {
+    console.log("💻 Desktop detected — using default layout");
+  }
+});
+</script>
+
+
+</body>
+</html>
