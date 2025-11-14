@@ -767,32 +767,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
-<script>
-let currentJsonFile = "anime_data.json";
-const toggleBtn = document.getElementById("toggleJsonButton");
-toggleBtn.addEventListener("click", () => {
-    if (currentJsonFile === "anime_data.json") {
-        currentJsonFile = "H.json";
-        toggleBtn.textContent = "สลับเป็น anime_data.json";
-    } else {
-        currentJsonFile = "anime_data.json";
-        toggleBtn.textContent = "สลับเป็น H.json";
-    }
-    loadJSON();
-});
-
-// override loadJSON to use currentJsonFile
-const originalLoadJSON = loadJSON;
-loadJSON = function() {
-    fetch(currentJsonFile).then(r=>r.json()).then(data=>{
-        allAnimes = Array.isArray(data)? data:[];
-        renderList(allAnimes);
-        updateJsonView();
-        extractCategories();
-    });
-};
-</script>
-
 </body>
 </html>
