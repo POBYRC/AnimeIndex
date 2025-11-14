@@ -5,41 +5,247 @@
 <title>AnimeIndex</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- 🌸 FAVICON -->
 <link id="dynamicFavicon" rel="icon" type="image/png" href="">
+
 <script>
   const faviconList = {
-    1: "",
-    2: "",
-    3: "",
-    4: "",
+    1: "https://cdni.pornpics.com/1280/3/16/29610962/29610962_016_3664.jpg",
+    2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF5VrSpJQhB9CwSZeDt0ROW8k_SSsj4_aBXA&s",
+    3: "https://cdni.pornpics.com/460/7/795/74310870/74310870_051_cbd3.jpg",
+    4: "https://imagex1.sx.cdn.live/images/pinporn/2022/03/03/26818392.jpg?width=620",
   };
-  const currentFavicon = 3;
+
+  const currentFavicon = 3; // เปลี่ยนFAVICON ตามต้องการ
+
   const faviconElement = document.getElementById("dynamicFavicon");
-  if (faviconList[currentFavicon]) faviconElement.href = faviconList[currentFavicon];
+  if (faviconElement && faviconList[currentFavicon]) {
+    faviconElement.href = faviconList[currentFavicon];
+  } else {
+    // ถ้าสคริปต์รันก่อน element ถูกสร้าง ให้รันอีกครั้งเมื่อ DOM พร้อม
+    window.addEventListener('DOMContentLoaded', () => {
+      const fe = document.getElementById("dynamicFavicon");
+      if (fe && faviconList[currentFavicon]) fe.href = faviconList[currentFavicon];
+    });
+  }
 </script>
 
 <style>
-body {font-family:'Prompt',sans-serif;background:#f8fafc;color:#2d3748;padding:20px;display:flex;flex-direction:column;min-height:100vh;}
-#bgVideo{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;opacity:0.95;}
-h1{text-align:center;color:#2b6cb0;margin-bottom:20px;}
-.controls{display:flex;justify-content:center;gap:10px;margin-bottom:20px;}
-.search-box{padding:8px 12px;border-radius:8px;border:1px solid #cbd5e0;font-size:16px;min-width:200px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;}
-.anime{background:white;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.1);overflow:hidden;text-align:center;transition:transform 0.2s;}
-.anime:hover{transform:scale(1.05);}
-.anime img{width:100%;height:350px;object-fit:cover;}
-.anime-title{padding:10px;font-size:14px;color:#2b6cb0;font-weight:bold;}
-.count{text-align:center;color:#4a5568;margin-bottom:15px;}
-#loader{display:flex;justify-content:center;align-items:center;flex:1;}
-.spinner{width:60px;height:60px;border:6px solid #cbd5e0;border-top-color:#2b6cb0;border-radius:50%;animation:spin 1s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-footer{text-align:center;padding:10px;margin-top:auto;font-size:14px;color:#4a5568;}
-#randomButton{background:#2b6cb0;color:white;border:none;border-radius:20px;padding:8px 16px;cursor:pointer;font-size:14px;}
+body {
+  font-family: 'Prompt', sans-serif;
+  background:#f8fafc;
+  color:#2d3748;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+#bgVideo {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+  opacity:0.95;
+  will-change: transform;
+}
+#bgOverlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.25);
+  z-index: -1;
+}
+h1 {
+  text-align:center;
+  color:#2b6cb0;
+  margin-bottom:20px;
+}
+.controls {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+.search-box {
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #cbd5e0;
+  font-size:16px;
+  min-width:200px;
+}
+.category-container {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+.category-button {
+  background:#edf2f7;
+  color:#2d3748;
+  border:none;
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-size:14px;
+}
+.category-button:hover {
+  background:#e2e8f0;
+}
+.category-button.active {
+  background:#2b6cb0;
+  color:white;
+  box-shadow:0 0 6px rgba(43,108,176,0.6);
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:20px;
+}
+.anime {
+  background:white;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  overflow:hidden;
+  text-align:center;
+  transition:transform 0.2s;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.anime:hover { transform:scale(1.05); }
+.anime img {
+  width:100%;
+  height:350px;
+  object-fit:cover;
+}
+.anime-title {
+  padding:10px;
+  font-size:14px;
+  color:#2b6cb0;
+  font-weight:bold;
+  min-height:40px;
+}
+.tags {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  padding:0 8px 10px 8px;
+}
+.tag {
+  background:#e2e8f0;
+  color:#2d3748;
+  border-radius:12px;
+  padding:3px 8px;
+  font-size:12px;
+}
+.count {
+  text-align:center;
+  color:#4a5568;
+  margin-bottom:15px;
+}
+#loader {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex:1;
+}
+.spinner {
+  width:60px;
+  height:60px;
+  border:6px solid #cbd5e0;
+  border-top-color:#2b6cb0;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+footer {
+  background:#edf2f7;
+  text-align:center;
+  padding:10px;
+  margin-top:auto;
+  border-radius:8px;
+  font-size:14px;
+  color:#4a5568;
+}
+footer a {
+  color:#2b6cb0;
+  text-decoration:none;
+}
+footer a:hover {
+  text-decoration:underline;
+}
+
+#randomButton {
+  background:#2b6cb0;
+  color:white;
+  border:none;
+  border-radius:20px;
+  padding:8px 16px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.2s;
+}
+#randomButton:hover {
+  background:#2c5282;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden !important;
+    padding: 8px !important;
+    margin: 0 auto !important;
+  }
+
+  .grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .anime {
+    border-radius: 10px !important;
+  }
+
+  .anime img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+  }
+
+  .anime-title {
+    font-size: 13px !important;
+    min-height: 34px !important;
+  }
+
+  .tag {
+    font-size: 11px !important;
+  }
+}
+
 </style>
 </head>
 <body>
 
-<video id="bgVideo" autoplay muted loop></video>
+<!-- 🌌 Video Background -->
+<video id="bgVideo" autoplay muted loop playsinline preload="auto"></video>
+<div id="bgOverlay"></div>
 
 <h1>AnimeIndex</h1>
 
@@ -48,63 +254,207 @@ footer{text-align:center;padding:10px;margin-top:auto;font-size:14px;color:#4a55
   <button id="randomButton">สุ่มอนิเมะ</button>
 </div>
 
-<div id="loader"><div class="spinner"></div></div>
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+<!-- category-container ถูกซ่อนสำหรับหน้า H -->
+<div class="category-container" id="categoryContainer" style="display:none;"></div>
+
 <p class="count" id="animeCount" style="display:none;"></p>
 <div class="grid" id="animeGrid" style="display:none;"></div>
 
-<footer>© 2025 Anime List | Wesley</footer>
+<footer>
+  © 2025 Anime List | สร้างโดย <a href="#">Wesley</a>
+  <br>
+  <a href="#" id="scrollTop">↑ กลับขึ้นบนสุด</a>
+</footer>
 
 <script>
+// =======================
+// 🔹 Video Background Source
+// 1 = URL, 2 = Repo
+const videoSource = 2; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
+const bgVideo = document.getElementById('bgVideo');
+const urlVideo = "h";
+const repoVideo = "YouCut.mp4";
+
+// =======================
+// 🔹 Load video with IndexedDB cache + fallback
+function loadVideo(url, fallback=null) {
+  if (!('indexedDB' in window)) {
+    bgVideo.src = url;
+    bgVideo.play().catch(()=>{});
+    return;
+  }
+
+  const openRequest = indexedDB.open('videoDB',1);
+  openRequest.onupgradeneeded = e => {
+    e.target.result.createObjectStore('videos');
+  };
+
+  openRequest.onsuccess = e => {
+    const db = e.target.result;
+    const tx = db.transaction('videos','readonly');
+    const store = tx.objectStore('videos');
+    const getReq = store.get(url);
+
+    getReq.onsuccess = async () => {
+      if(getReq.result){
+        bgVideo.src = URL.createObjectURL(getReq.result);
+        bgVideo.play().catch(()=>{});
+      } else {
+        try {
+          const resp = await fetch(url);
+          const blob = await resp.blob();
+          const txPut = db.transaction('videos','readwrite');
+          txPut.objectStore('videos').put(blob,url);
+          txPut.oncomplete = () => console.log("Video cached!");
+          bgVideo.src = URL.createObjectURL(blob);
+          bgVideo.play().catch(()=>{});
+        } catch(err){
+          console.warn("Video load failed, trying fallback...", err);
+          if(fallback) loadVideo(fallback,null);
+          else { bgVideo.src = url; bgVideo.play().catch(()=>{}); }
+        }
+      }
+    };
+
+    getReq.onerror = () => {
+      bgVideo.src = url;
+      bgVideo.play().catch(()=>{});
+    };
+  };
+
+  openRequest.onerror = e => {
+    console.error("IndexedDB open error", e);
+    bgVideo.src = url;
+    bgVideo.play().catch(()=>{});
+  };
+}
+
+// =======================
+// 🔹 Run video load
+if(videoSource===1) loadVideo(urlVideo, repoVideo);
+else loadVideo(repoVideo, urlVideo);
+
+bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play().catch(()=>{}); });
+
+// =======================
+// 🔹 Fetch Anime Data
 let allAnimes = [];
 
 fetch('H.json')
-  .then(r => r.json())
+  .then(response => response.json())
   .then(animes => {
     allAnimes = animes;
     const grid = document.getElementById('animeGrid');
     const searchBox = document.getElementById('searchBox');
     const countText = document.getElementById('animeCount');
+    const loader = document.getElementById('loader');
 
-    document.getElementById('loader').style.display = 'none';
+    // ซ่อน loader และแสดง grid + count
+    loader.style.display = 'none';
     grid.style.display = 'grid';
     countText.style.display = 'block';
 
-    function render(list){
-      grid.innerHTML='';
+    function renderAnimeList(list){
+      grid.innerHTML = '';
       countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
+      if(list.length===0){
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
+        return;
+      }
       list.forEach(a=>{
-        const img = a.image || '';
-        const div = document.createElement('div');
-        div.className='anime';
-        div.innerHTML = `
-          <a href="${a.link}" target="_blank">
-            <img src="${img}">
+        const animeDiv = document.createElement('div');
+        animeDiv.classList.add('anime');
+        const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+        // ไม่แสดงแท็กหมวดหมู่ทั้งสิ้น — แม้ใน JSON จะมี category
+        animeDiv.innerHTML = `
+          <a href="${a.link}" target="_blank" rel="noopener noreferrer">
+            <img src="${imgSrc}" alt="${a.title}">
             <div class="anime-title">${a.title}</div>
           </a>
         `;
-        grid.appendChild(div);
+        grid.appendChild(animeDiv);
       });
     }
 
     function applyFilters(){
-      const key = searchBox.value.toLowerCase();
-      const filtered = animes.filter(a => a.title.toLowerCase().includes(key));
-      render(filtered);
+      const keyword = searchBox.value.toLowerCase();
+      let filtered = animes;
+      if(keyword){
+        filtered = filtered.filter(a=>a.title.toLowerCase().includes(keyword));
+      }
+      renderAnimeList(filtered);
     }
 
-    searchBox.addEventListener('input', applyFilters);
+    searchBox.addEventListener('input',applyFilters);
 
     document.getElementById('randomButton').addEventListener('click',()=>{
-      const r = allAnimes[Math.floor(Math.random()*allAnimes.length)];
-      window.open(r.link,'_blank');
+      if(allAnimes.length===0) return;
+      const randomAnime = allAnimes[Math.floor(Math.random()*allAnimes.length)];
+      if(randomAnime && randomAnime.link) window.open(randomAnime.link,'_blank');
     });
 
-    render(animes);
+    document.getElementById('scrollTop').addEventListener('click', e=>{
+      e.preventDefault();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    renderAnimeList(animes);
   })
   .catch(err=>{
-    document.getElementById('loader').innerHTML='<p>โหลดข้อมูลไม่ได้</p>';
+    document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
+    console.error('โหลด H.json ไม่ได้:', err);
   });
+
 </script>
+
+
+
+<script>
+// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
+function isMobileDevice() {
+  const ua = navigator.userAgent.toLowerCase();
+  return /android|iphone|ipad|ipod|mobile/.test(ua);
+}
+
+// ✅ ปรับ UI สำหรับมือถือ
+function adjustForMobile() {
+  document.body.style.zoom = "0.9";
+  document.body.style.padding = "10px";
+  document.body.style.overflowX = "hidden";
+
+  const grid = document.querySelector('.grid');
+  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+
+  document.querySelectorAll('.anime img').forEach(img => {
+    img.style.height = "220px";
+  });
+
+  document.querySelectorAll('.anime-title').forEach(title => {
+    title.style.fontSize = "13px";
+  });
+
+  // tag selectors safe — tags not rendered on this page but selectors harmless
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — UI adjusted for small screen");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileDevice()) {
+    adjustForMobile();
+  } else {
+    console.log("💻 Desktop detected — using default layout");
+  }
+});
+</script>
+
 
 </body>
 </html>
