@@ -264,6 +264,7 @@
     </div>
   </div>
   <div class="controls">
+    <button id="switchSourceBtn" class="btn">ใช้ H.json</button>
     <input id="quickSearch" class="input" placeholder="ค้นหาโดยชื่อ..." />
     <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
     <button id="copyBtn" class="btn ghost">คัดลอก JSON</button>
@@ -378,6 +379,7 @@
 </div>
 
 <script>
+let currentSource = "anime_data.json";
 let allAnimes = [];
 let allCategories = [];
 let editingId = null;
@@ -395,7 +397,7 @@ function showLoading(show=true){
 // ================== โหลดข้อมูล JSON (DOM Ready) ==================
 async function loadJSON(){
   try {
-    const res = await fetch('anime_data.json');
+    const res = await fetch(currentSource);
     if(!res.ok) throw new Error('ไม่พบไฟล์ anime_data.json');
     const data = await res.json();
     allAnimes = Array.isArray(data) ? data : [];
@@ -743,6 +745,22 @@ toggleJsonBtn.addEventListener('click', () => {
   jsonView.style.display = jsonVisible ? '' : 'none';
   toggleJsonBtn.textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
 });
+
+// ====== Switch JSON source button ======
+document.getElementById("switchSourceBtn").addEventListener("click", () => {
+  if (currentSource === "anime_data.json") {
+    currentSource = "H.json";
+    switchSourceBtn.textContent = "ใช้ anime_data.json";
+  } else {
+    currentSource = "anime_data.json";
+    switchSourceBtn.textContent = "ใช้ H.json";
+  }
+  allAnimes = [];
+  renderList(allAnimes);
+  jsonView.textContent = "กำลังโหลดข้อมูลใหม่...";
+  loadJSON();
+});
+
 </script>
 
 <script>
