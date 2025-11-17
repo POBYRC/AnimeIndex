@@ -750,10 +750,10 @@ toggleJsonBtn.addEventListener('click', () => {
 document.getElementById("switchSourceBtn").addEventListener("click", () => {
   if (currentSource === "anime_data.json") {
     currentSource = "H.json";
-    switchSourceBtn.textContent = "ใช้ anime_data.json";
+    switchSourceBtn.textContent = "anime_data";
   } else {
     currentSource = "anime_data.json";
-    switchSourceBtn.textContent = "ใช้ H.json";
+    switchSourceBtn.textContent = "H_data";
   }
   allAnimes = [];
   renderList(allAnimes);
