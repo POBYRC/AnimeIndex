@@ -1,13 +1,23 @@
 [
   {
     "id": 1,
-    "title": "จะยังไงภรรยาผมก็น่ารัก",
-    "link": "https://animeyuzu.com/anime/tonikaku-kawaii-th/",
-    "category": [
-      "ตลก",
-      "โรแมนติก",
-      "หนุ่มน้อย"
-    ],
-    "image": "https://www.anime-smm.com/wp-content/uploads/2022/05/72b3ff582ee809097427914337e42055.jpg?v=4"
+    "title": "Fella Pure: Mitarashi-san Chi no Jijou The Animation",
+    "link": "https://www.alpha-hen.com/fella-pure-mitarashi-san-chi-no-jijou-the-animation/",
+    "image": "https://www.alpha-hen.com/wp-content/uploads/2018/05/147685.jpg.webp",
+    "category": []
+  },
+  {
+    "id": 2,
+    "title": "H na Ane Series The Animation",
+    "link": "https://www.alpha-hen.com/h-na-ane-series-the-animation/",
+    "image": "https://www.alpha-hen.com/wp-content/uploads/2025/10/318971-min.jpg.webp",
+    "category": []
+  },
+  {
+    "id": 3,
+    "title": "1LDK + JK Ikinari Doukyo? Micchaku!? Hatsu Ecchi!!?",
+    "link": "https://www.alpha-hen.com/1ldk-jk-ikinari-doukyo-micchaku-hatsu-ecchi/",
+    "image": "https://www.alpha-hen.com/wp-content/uploads/2023/07/288875-min.jpg.webp",
+    "category": []
   }
 ]
