@@ -1792,7 +1792,7 @@
       "โรงเรียน",
       "โรแมนติก",
       "ลึกลับ",
-      "หนุ่มหน้อย",
+      "หนุ่มน้อย",
       "เหนือธรรมชาติ",
       "ฮาเร็ม"
     ],
@@ -1830,7 +1830,7 @@
       "ทะลึ่ง",
       "โรงเรียน",
       "โรแมนติก",
-      "หนุ่มหน้อย"
+      "หนุ่มน้อย"
     ],
     "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/d5e39ac49582413986a733a015451944.jpg?v=4"
   },
@@ -1843,7 +1843,7 @@
       "ทะลึ่ง",
       "โรงเรียน",
       "โรแมนติก",
-      "หนุ่มหน้อย"
+      "หนุ่มน้อย"
     ],
     "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/40042e6259968ff0a3f449d83f94435e.jpg?v=4"
   },
@@ -1854,7 +1854,7 @@
     "category": [
       "ตลก",
       "โรแมนติก",
-      "หนุ่มหน้อย",
+      "หนุ่มน้อย",
       "ฮาเร็ม"
     ],
     "image": "https://www.anime-smm.com/wp-content/uploads/2022/06/a91d53a3e06c32ec8d017d6671222cfb.jpg?v=4"
@@ -1878,7 +1878,7 @@
     "category": [
       "ตลก",
       "โรแมนติก",
-      "หนุ่มหน้อย",
+      "หนุ่มน้อย",
       "ฮาเร็ม"
     ],
     "image": "https://www.anime-smm.com/wp-content/uploads/2023/01/a2f96677be9288ceaa985de2a87ed353.jpg?v=4"
@@ -1892,7 +1892,7 @@
       "ผจญภัย",
       "แฟนตาซี",
       "โรงเรียน",
-      "หนุ่มหน้อย"
+      "หนุ่มน้อย"
     ],
     "image": "https://www.anime-smm.com/wp-content/uploads/2024/07/a01c25c791bd0310e001be9456c9b7cf.jpg?v=4"
   },
@@ -2056,6 +2056,19 @@
     "category": [
       "ตลก",
       "เพลง"
+    ]
+  },
+  {
+    "id": 175,
+    "title": "ซากุระโซว หอพักสร้างฝัน",
+    "link": "https://fairyanime.net/sakurasou-no-pet-na-kanojo/",
+    "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx13759-xNf0gJK4Axt2.jpg",
+    "category": [
+      "ชีวิตประจำวัน",
+      "ดราม่า",
+      "ตลก",
+      "โรงเรียน",
+      "โรแมนติก"
     ]
   }
 ]
