@@ -322,6 +322,7 @@ footer a:hover {
   <div>© 2025 Anime List | สร้างโดย <a href="#">Wesley</a></div>
   <div>
     <button id="openAllsite" class="allsite-link">Allsite</button>
+    <button id="openBackground" class="allsite-link">Background</button>
   </div>
   <div>
     <a href="#" id="scrollTop">↑ กลับขึ้นบนสุด</a>
@@ -588,6 +589,91 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+</script>
+
+
+<!-- Background Modal -->
+<div id="bgModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-title">🎨 เลือกพื้นหลัง</div>
+    <div id="bgOptions" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <button id="bgCancelBtn" class="btn-modal ghost">ยกเลิก</button>
+  </div>
+</div>
+
+<script>
+const backgroundSources = [
+  { type: 'repo', label: 'YouCut.webm', value: 'YouCut.webm' },
+  { type: 'repo', label: '11_10_Homescreen_GameChangers.webm', value: '11_10_Homescreen_GameChangers.webm' },
+  { type: 'repo', label: '11_05_Homescreen_VCT.webm', value: '11_05_Homescreen_VCT.webm' },
+  { type: 'url', label: '🔗 ใส่ URL เอง (เพิ่มทีหลัง)', value: '' }
+];
+
+const bgModal = document.getElementById('bgModal');
+const openBackground = document.getElementById('openBackground');
+const bgOptions = document.getElementById('bgOptions');
+const bgVideoEl = document.getElementById('bgVideo');
+const bgCancelBtn = document.getElementById('bgCancelBtn');
+
+function renderBgOptions(){
+  bgOptions.innerHTML = '';
+  backgroundSources.forEach(bg=>{
+    const btn = document.createElement('button');
+    btn.classList.add('btn-modal');
+    btn.textContent = bg.label;
+    btn.onclick = ()=> selectBackground(bg);
+    bgOptions.appendChild(btn);
+  });
+  const urlInput = document.createElement('input');
+  urlInput.type = 'text';
+  urlInput.placeholder = '✨ ใส่ URL พื้นหลังเอง';
+  urlInput.style.padding = "10px";
+  urlInput.style.border = "1px solid #ddd";
+  urlInput.style.borderRadius = "8px";
+  urlInput.onchange = ()=>{
+    if(urlInput.value.trim()){
+      selectBackground({type:'url', value:urlInput.value.trim(), label: urlInput.value});
+    }
+  };
+  bgOptions.appendChild(urlInput);
+}
+
+if(openBackground){
+  openBackground.addEventListener('click', ()=>{
+    renderBgOptions();
+    bgModal.classList.add('show');
+  });
+}
+bgCancelBtn.addEventListener('click', ()=> bgModal.classList.remove('show'));
+bgModal.addEventListener('click',(e)=>{ if(e.target===bgModal) bgModal.classList.remove('show'); });
+
+(function loadSavedBg(){
+  const saved = localStorage.getItem('bgSource');
+  if(saved) loadNewBackground(JSON.parse(saved));
+})();
+
+function selectBackground(bgData){
+  localStorage.setItem('bgSource', JSON.stringify(bgData));
+  loadNewBackground(bgData);
+  bgModal.classList.remove('show');
+}
+
+function loadNewBackground(bgData){
+  let source = (bgData.type === 'url')
+      ? bgData.value
+      : bgData.value;
+  fetch(source)
+    .then(res => res.blob())
+    .then(blob => {
+      const objUrl = URL.createObjectURL(blob);
+      bgVideoEl.src = objUrl;
+      bgVideoEl.play();
+    })
+    .catch(()=>{
+      bgVideoEl.src = source;
+      bgVideoEl.play();
+    });
+}
 </script>
 
 </body>
