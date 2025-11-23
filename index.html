@@ -646,17 +646,53 @@ function selectBackground(bgData){
   bgModal.classList.remove('show');
 }
 
-function loadNewBackground(bgData){
-  let source = (bgData.type === 'url')
-      ? bgData.value
-      : bgData.value;
+
+async function loadNewBackground(bgData){
+  let source = bgData.value;
+  const cachedBlob = await loadFromCache(source);
+  if (cachedBlob) {
+    bgVideoEl.src = URL.createObjectURL(cachedBlob);
+    bgVideoEl.play();
+    return;
+  }
   fetch(source)
     .then(res => res.blob())
-    .then(blob => {
-      const objUrl = URL.createObjectURL(blob);
-      bgVideoEl.src = objUrl;
+    .then(async blob => {
+      await saveToCache(source, blob);
+      bgVideoEl.src = URL.createObjectURL(blob);
       bgVideoEl.play();
     })
+    .catch(()=>{
+      bgVideoEl.src = source;
+      bgVideoEl.play();
+    });
+}
+
+function getDB() {
+  return new Promise((resolve, reject) => {
+    const open = indexedDB.open("bgDB", 1);
+    open.onupgradeneeded = () => open.result.createObjectStore("backgrounds");
+    open.onsuccess = () => resolve(open.result);
+    open.onerror = () => reject(open.error);
+  });
+}
+
+async function saveToCache(key, blob) {
+  const db = await getDB();
+  const tx = db.transaction("backgrounds", "readwrite");
+  tx.objectStore("backgrounds").put(blob, key);
+  return tx.complete;
+}
+
+async function loadFromCache(key) {
+  const db = await getDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction("backgrounds", "readonly");
+    const req = tx.objectStore("backgrounds").get(key);
+    req.onsuccess = () => resolve(req.result || null);
+  });
+}
+)
     .catch(()=>{
       bgVideoEl.src = source;
       bgVideoEl.play();
