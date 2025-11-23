@@ -602,19 +602,29 @@ window.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <script>
+/*
+  Cleaned up background modal & IndexedDB caching script.
+  - Ensures the Background button is wired after the DOM element exists.
+  - Removes previous stray/duplicate/invalid code that caused console errors.
+  - Provides load/save cache using indexedDB and fallback fetch behavior.
+*/
+
 const backgroundSources = [
   { type: 'repo', label: 'YouCut.webm', value: 'YouCut.webm' },
   { type: 'repo', label: '11_10_Homescreen_GameChangers.webm', value: '11_10_Homescreen_GameChangers.webm' },
   { type: 'repo', label: '11_05_Homescreen_VCT.webm', value: '11_05_Homescreen_VCT.webm' }
 ];
 
+// 🎯 ปุ่มและ element ต้องเชื่อมถูกก่อน
 const bgModal = document.getElementById('bgModal');
 const openBackground = document.getElementById('openBackground');
 const bgOptions = document.getElementById('bgOptions');
 const bgVideoEl = document.getElementById('bgVideo');
 const bgCancelBtn = document.getElementById('bgCancelBtn');
 
+// 🎯 ฟังก์ชันแสดงตัวเลือกพื้นหลังใน Popup
 function renderBgOptions(){
+  if (!bgOptions) return;
   bgOptions.innerHTML = '';
   backgroundSources.forEach(bg=>{
     const btn = document.createElement('button');
@@ -623,55 +633,35 @@ function renderBgOptions(){
     btn.onclick = ()=> selectBackground(bg);
     bgOptions.appendChild(btn);
   });
-  
 }
 
-if(openBackground){
-  openBackground.addEventListener('click', ()=>{
+// 🎯 เปิด Modal ได้อย่างถูกต้อง
+if (openBackground) {
+  openBackground.addEventListener('click', (e)=>{
+    e.preventDefault();
     renderBgOptions();
-    bgModal.classList.add('show');
+    if (bgModal) bgModal.classList.add('show');
   });
-}
-bgCancelBtn.addEventListener('click', ()=> bgModal.classList.remove('show'));
-bgModal.addEventListener('click',(e)=>{ if(e.target===bgModal) bgModal.classList.remove('show'); });
-
-(function loadSavedBg(){
-  const saved = localStorage.getItem('bgSource');
-  if(saved) loadNewBackground(JSON.parse(saved));
-})();
-
-function selectBackground(bgData){
-  localStorage.setItem('bgSource', JSON.stringify(bgData));
-  loadNewBackground(bgData);
-  bgModal.classList.remove('show');
+} else {
+  // Helpful debug message if element is missing
+  console.warn('openBackground element not found. Make sure the <button id="openBackground"> exists and this script runs after it.');
 }
 
-
-async function loadNewBackground(bgData){
-  let source = bgData.value;
-  const cachedBlob = await loadFromCache(source);
-  if (cachedBlob) {
-    bgVideoEl.src = URL.createObjectURL(cachedBlob);
-    bgVideoEl.play();
-    return;
-  }
-  fetch(source)
-    .then(res => res.blob())
-    .then(async blob => {
-      await saveToCache(source, blob);
-      bgVideoEl.src = URL.createObjectURL(blob);
-      bgVideoEl.play();
-    })
-    .catch(()=>{
-      bgVideoEl.src = source;
-      bgVideoEl.play();
-    });
+// 🎯 ปิด Modal (คลิกนอกกรอบหรือกดปุ่ม)
+if (bgCancelBtn) {
+  bgCancelBtn.addEventListener('click', ()=> bgModal && bgModal.classList.remove('show'));
+}
+if (bgModal) {
+  bgModal.addEventListener('click',(e)=>{ if(e.target===bgModal) bgModal.classList.remove('show'); });
 }
 
+// ================= IndexedDB helpers for background caching =================
 function getDB() {
   return new Promise((resolve, reject) => {
     const open = indexedDB.open("bgDB", 1);
-    open.onupgradeneeded = () => open.result.createObjectStore("backgrounds");
+    open.onupgradeneeded = () => {
+      try { open.result.createObjectStore("backgrounds"); } catch(e){ /* ignore if exists */ }
+    };
     open.onsuccess = () => resolve(open.result);
     open.onerror = () => reject(open.error);
   });
@@ -679,9 +669,15 @@ function getDB() {
 
 async function saveToCache(key, blob) {
   const db = await getDB();
-  const tx = db.transaction("backgrounds", "readwrite");
-  tx.objectStore("backgrounds").put(blob, key);
-  return tx.complete;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("backgrounds", "readwrite");
+    const store = tx.objectStore("backgrounds");
+    const req = store.put(blob, key);
+    req.onsuccess = () => {
+      tx.oncomplete = () => resolve(true);
+    };
+    req.onerror = () => reject(req.error);
+  });
 }
 
 async function loadFromCache(key) {
@@ -690,13 +686,53 @@ async function loadFromCache(key) {
     const tx = db.transaction("backgrounds", "readonly");
     const req = tx.objectStore("backgrounds").get(key);
     req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => resolve(null);
   });
 }
-)
-    .catch(()=>{
-      bgVideoEl.src = source;
-      bgVideoEl.play();
-    });
+
+// ================= Background selection / loading =================
+function selectBackground(bgData){
+  try {
+    localStorage.setItem('bgSource', JSON.stringify(bgData));
+  } catch(e){
+    console.warn('Could not save bgSource to localStorage', e);
+  }
+  loadNewBackground(bgData);
+  if (bgModal) bgModal.classList.remove('show');
+}
+
+(async function loadSavedBg(){
+  try {
+    const saved = localStorage.getItem('bgSource');
+    if(saved) await loadNewBackground(JSON.parse(saved));
+  } catch(e){
+    console.warn('Error loading saved background', e);
+  }
+})();
+
+async function loadNewBackground(bgData){
+  if(!bgData) return;
+  const source = bgData.value;
+  try {
+    const cachedBlob = await loadFromCache(source);
+    if (cachedBlob) {
+      bgVideoEl.src = URL.createObjectURL(cachedBlob);
+      await bgVideoEl.play().catch(()=>{}); // ignore play promise errors
+      return;
+    }
+    const res = await fetch(source);
+    if(!res.ok) throw new Error('Fetch failed: ' + res.status);
+    const blob = await res.blob();
+    // save to cache (don't block UI if save fails)
+    saveToCache(source, blob).catch(e=>console.warn('Background cache save failed', e));
+    bgVideoEl.src = URL.createObjectURL(blob);
+    await bgVideoEl.play().catch(()=>{});
+  } catch(err){
+    console.warn("Background load failed, using source directly", err);
+    // fallback: set src to source (may be CORS/404 but still a fallback)
+    bgVideoEl.src = source;
+    try { await bgVideoEl.play().catch(()=>{}); } catch(e){}
+  }
 }
 </script>
 
