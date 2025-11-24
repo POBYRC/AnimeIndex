@@ -189,18 +189,61 @@ footer a:hover {
   text-decoration:underline;
 }
 
-#randomButton {
-  background:#2b6cb0;
-  color:white;
-  border:none;
-  border-radius:20px;
-  padding:8px 16px;
+/* Background button style (from index) */
+.allsite-link {
+  color:#2b6cb0;
+  font-weight:600;
   cursor:pointer;
-  font-size:14px;
-  transition:0.2s;
+  text-decoration:underline;
+  background:transparent;
+  border:none;
+  padding:0;
+  font-size:15px;
 }
-#randomButton:hover {
-  background:#2c5282;
+
+/* Modal styles (copied/adapted from index) */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(14,14,16,0.45);display:flex;align-items:center;justify-content:center;
+  z-index:9999;opacity:0;pointer-events:none;transition:opacity .18s ease;
+}
+.modal-backdrop.show{opacity:1;pointer-events:auto;}
+.modal{
+  width:min(520px,94%);border-radius:14px;padding:18px;background:#fff;
+  box-shadow: 0 22px 60px rgba(0,0,0,0.25);
+  transform:translateY(12px);transition:transform .18s ease;
+}
+.modal-backdrop.show .modal{ transform:none; }
+.modal .modal-title{
+  text-align:center;
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:12px;
+  color:#2d3748;
+}
+.modal .modal-actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.btn-modal{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.06);
+  background:#fff;
+  font-weight:700;
+  cursor:pointer;
+  font-size:15px;
+}
+.btn-modal.primary{
+  background:linear-gradient(90deg,#ff9ac2,#ff7bb0);
+  color:#fff;
+  border:none;
+  box-shadow:0 8px 20px rgba(255,122,170,0.12);
+}
+.btn-modal.ghost{
+  background:transparent;
+  border:1px dashed rgba(0,0,0,0.06);
 }
 
 /* Mobile styles */
@@ -243,7 +286,7 @@ footer a:hover {
 </head>
 <body>
 
-<!-- 🌌 Video Background -->
+<!-- 🌌 Video Background (kept) -->
 <video id="bgVideo" autoplay muted loop playsinline preload="auto"></video>
 <div id="bgOverlay"></div>
 
@@ -267,81 +310,165 @@ footer a:hover {
 <footer>
   © 2025 Anime List | สร้างโดย <a href="#">Wesley</a>
   <br>
-  <a href="#" id="scrollTop">↑ กลับขึ้นบนสุด</a>
+  <!-- เพิ่มปุ่ม Background จาก index เพื่อเปิด modal เปลี่ยนพื้นหลัง -->
+  <div style="margin-top:6px;">
+    <button id="openBackground" class="allsite-link">Background</button>
+    <a href="#" id="scrollTop" style="margin-left:12px;">↑ กลับขึ้นบนสุด</a>
+  </div>
 </footer>
+
+<!-- Background Modal (copied from index) -->
+<div id="bgModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-title">🎨 เลือกพื้นหลัง</div>
+    <div id="bgOptions" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <button id="bgCancelBtn" class="btn-modal ghost">ยกเลิก</button>
+  </div>
+</div>
 
 <script>
 // =======================
-// 🔹 Video Background Source
-// 1 = URL, 2 = Repo
-const videoSource = 2; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
-const bgVideo = document.getElementById('bgVideo');
-const urlVideo = "h";
+// Background system copied from index.html and adapted for Hindex
+// - Replaces the previous simple background loader with the full modal + caching system
+// - If the user previously saved a background it will be loaded; otherwise default repoVideo is used
+// =======================
+
+const backgroundSources = [
+  { type: 'repo', label: 'YouCut.webm', value: 'YouCut.webm' },
+  { type: 'repo', label: '11_10_Homescreen_GameChangers.webm', value: '11_10_Homescreen_GameChangers.webm' },
+  { type: 'repo', label: '11_05_Homescreen_VCT.webm', value: '11_05_Homescreen_VCT.webm' }
+];
+
+// default video when no saved background exists
 const repoVideo = "YouCut.webm";
 
-// =======================
-// 🔹 Load video with IndexedDB cache + fallback
-function loadVideo(url, fallback=null) {
-  if (!('indexedDB' in window)) {
-    bgVideo.src = url;
-    bgVideo.play().catch(()=>{});
-    return;
-  }
+const bgModal = document.getElementById('bgModal');
+const openBackground = document.getElementById('openBackground');
+const bgOptions = document.getElementById('bgOptions');
+const bgVideoEl = document.getElementById('bgVideo');
+const bgCancelBtn = document.getElementById('bgCancelBtn');
 
-  const openRequest = indexedDB.open('videoDB',1);
-  openRequest.onupgradeneeded = e => {
-    e.target.result.createObjectStore('videos');
-  };
-
-  openRequest.onsuccess = e => {
-    const db = e.target.result;
-    const tx = db.transaction('videos','readonly');
-    const store = tx.objectStore('videos');
-    const getReq = store.get(url);
-
-    getReq.onsuccess = async () => {
-      if(getReq.result){
-        bgVideo.src = URL.createObjectURL(getReq.result);
-        bgVideo.play().catch(()=>{});
-      } else {
-        try {
-          const resp = await fetch(url);
-          const blob = await resp.blob();
-          const txPut = db.transaction('videos','readwrite');
-          txPut.objectStore('videos').put(blob,url);
-          txPut.oncomplete = () => console.log("Video cached!");
-          bgVideo.src = URL.createObjectURL(blob);
-          bgVideo.play().catch(()=>{});
-        } catch(err){
-          console.warn("Video load failed, trying fallback...", err);
-          if(fallback) loadVideo(fallback,null);
-          else { bgVideo.src = url; bgVideo.play().catch(()=>{}); }
-        }
-      }
-    };
-
-    getReq.onerror = () => {
-      bgVideo.src = url;
-      bgVideo.play().catch(()=>{});
-    };
-  };
-
-  openRequest.onerror = e => {
-    console.error("IndexedDB open error", e);
-    bgVideo.src = url;
-    bgVideo.play().catch(()=>{});
-  };
+function renderBgOptions(){
+  if (!bgOptions) return;
+  bgOptions.innerHTML = '';
+  backgroundSources.forEach(bg=>{
+    const btn = document.createElement('button');
+    btn.classList.add('btn-modal');
+    btn.textContent = bg.label;
+    btn.onclick = ()=> selectBackground(bg);
+    bgOptions.appendChild(btn);
+  });
 }
 
-// =======================
-// 🔹 Run video load
-if(videoSource===1) loadVideo(urlVideo, repoVideo);
-else loadVideo(repoVideo, urlVideo);
+if (openBackground) {
+  openBackground.addEventListener('click', (e)=>{
+    e.preventDefault();
+    renderBgOptions();
+    if (bgModal) bgModal.classList.add('show');
+  });
+} else {
+  console.warn('openBackground element not found; modal cannot be opened.');
+}
 
-bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play().catch(()=>{}); });
+if (bgCancelBtn) {
+  bgCancelBtn.addEventListener('click', ()=> bgModal && bgModal.classList.remove('show'));
+}
+if (bgModal) {
+  bgModal.addEventListener('click',(e)=>{ if(e.target===bgModal) bgModal.classList.remove('show'); });
+}
 
+// IndexedDB helpers for background caching
+function getDB() {
+  return new Promise((resolve, reject) => {
+    const open = indexedDB.open("bgDB", 1);
+    open.onupgradeneeded = () => {
+      try { open.result.createObjectStore("backgrounds"); } catch(e){ /* ignore if exists */ }
+    };
+    open.onsuccess = () => resolve(open.result);
+    open.onerror = () => reject(open.error);
+  });
+}
+
+async function saveToCache(key, blob) {
+  const db = await getDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("backgrounds", "readwrite");
+    const store = tx.objectStore("backgrounds");
+    const req = store.put(blob, key);
+    req.onsuccess = () => {
+      tx.oncomplete = () => resolve(true);
+    };
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function loadFromCache(key) {
+  const db = await getDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction("backgrounds", "readonly");
+    const req = tx.objectStore("backgrounds").get(key);
+    req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => resolve(null);
+  });
+}
+
+// Background selection / loading
+function selectBackground(bgData){
+  try {
+    localStorage.setItem('bgSource', JSON.stringify(bgData));
+  } catch(e){
+    console.warn('Could not save bgSource to localStorage', e);
+  }
+  loadNewBackground(bgData);
+  if (bgModal) bgModal.classList.remove('show');
+}
+
+(async function loadSavedBg(){
+  try {
+    const saved = localStorage.getItem('bgSource');
+    if(saved) {
+      await loadNewBackground(JSON.parse(saved));
+    } else {
+      // no saved background — load default repo video
+      await loadNewBackground({ value: repoVideo });
+    }
+  } catch(e){
+    console.warn('Error loading saved background', e);
+    // fallback to repoVideo
+    loadNewBackground({ value: repoVideo }).catch(()=>{});
+  }
+})();
+
+async function loadNewBackground(bgData){
+  if(!bgData) return;
+  const source = bgData.value;
+  try {
+    const cachedBlob = await loadFromCache(source);
+    if (cachedBlob) {
+      bgVideoEl.src = URL.createObjectURL(cachedBlob);
+      await bgVideoEl.play().catch(()=>{});
+      return;
+    }
+    const res = await fetch(source);
+    if(!res.ok) throw new Error('Fetch failed: ' + res.status);
+    const blob = await res.blob();
+    // save to cache (don't block UI if save fails)
+    saveToCache(source, blob).catch(e=>console.warn('Background cache save failed', e));
+    bgVideoEl.src = URL.createObjectURL(blob);
+    await bgVideoEl.play().catch(()=>{});
+  } catch(err){
+    console.warn("Background load failed, using source directly", err);
+    // fallback: set src to source (may be CORS/404 but still a fallback)
+    bgVideoEl.src = source;
+    try { await bgVideoEl.play().catch(()=>{}); } catch(e){}
+  }
+}
+</script>
+
+<script>
 // =======================
-// 🔹 Fetch Anime Data
+// 🔹 Fetch H.json and render list (kept from original file)
+// =======================
 let allAnimes = [];
 
 fetch('H.json')
@@ -408,19 +535,15 @@ fetch('H.json')
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
     console.error('โหลด H.json ไม่ได้:', err);
   });
-
 </script>
 
-
-
 <script>
-// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
+// ✅ Mobile adjustments (kept)
 function isMobileDevice() {
   const ua = navigator.userAgent.toLowerCase();
   return /android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
-// ✅ ปรับ UI สำหรับมือถือ
 function adjustForMobile() {
   document.body.style.zoom = "0.9";
   document.body.style.padding = "10px";
@@ -437,7 +560,6 @@ function adjustForMobile() {
     title.style.fontSize = "13px";
   });
 
-  // tag selectors safe — tags not rendered on this page but selectors harmless
   document.querySelectorAll('.tag').forEach(tag => {
     tag.style.fontSize = "11px";
   });
@@ -445,7 +567,6 @@ function adjustForMobile() {
   console.log("📱 Mobile detected — UI adjusted for small screen");
 }
 
-// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
 window.addEventListener('DOMContentLoaded', () => {
   if (isMobileDevice()) {
     adjustForMobile();
@@ -454,7 +575,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-
 
 </body>
 </html>
