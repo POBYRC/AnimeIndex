@@ -448,80 +448,7 @@ fetch('anime_data.json')
       categoryContainer.appendChild(btn);
     });
 
-    
-// --- Image cache (IndexedDB) ---
-function getImageDB() {
-    return new Promise((resolve, reject) => {
-        const req = indexedDB.open('imagesDB', 1);
-        req.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains('images')) {
-                db.createObjectStore('images');
-            }
-        };
-        req.onsuccess = (e) => resolve(e.target.result);
-        req.onerror = (e) => reject(e);
-    });
-}
-
-async function saveImageToCache(key, blob) {
-    try {
-        const db = await getImageDB();
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction('images', 'readwrite');
-            const store = tx.objectStore('images');
-            const req = store.put(blob, key);
-            req.onsuccess = () => resolve();
-            req.onerror = (e) => reject(e);
-        });
-    } catch (err) {
-        console.warn('saveImageToCache error', err);
-    }
-}
-
-async function loadImageFromCache(key) {
-    try {
-        const db = await getImageDB();
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction('images', 'readonly');
-            const store = tx.objectStore('images');
-            const req = store.get(key);
-            req.onsuccess = (e) => resolve(e.target.result);
-            req.onerror = (e) => reject(e);
-        });
-    } catch (err) {
-        console.warn('loadImageFromCache error', err);
-        return null;
-    }
-}
-
-async function loadImageWithCache(url, imgEl, placeholder) {
-    // set placeholder if provided
-    if (placeholder) imgEl.src = placeholder;
-    if (!url) return;
-    try {
-        const cached = await loadImageFromCache(url);
-        if (cached) {
-            try {
-                imgEl.src = URL.createObjectURL(cached);
-                return;
-            } catch(e) {
-                console.warn('createObjectURL failed', e);
-            }
-        }
-        const resp = await fetch(url, {mode: 'cors'});
-        if (!resp.ok) throw new Error('Network response not ok');
-        const blob = await resp.blob();
-        imgEl.src = URL.createObjectURL(blob);
-        // try to save but don't block rendering on failure
-        saveImageToCache(url, blob).catch(e=>console.warn('save fail', e));
-    } catch (err) {
-        console.warn('loadImageWithCache fallback to direct URL', err);
-        imgEl.src = url;
-    }
-}
-// --- end image cache ---
-function renderAnimeList(list){
+    function renderAnimeList(list){
       grid.innerHTML = '';
       countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
       if(list.length===0){
@@ -535,26 +462,11 @@ function renderAnimeList(list){
         const tagsHTML = a.category.map(cat=>`<span class="tag">${cat}</span>`).join('');
         animeDiv.innerHTML = `
           <a href="${a.link}" target="_blank">
-            <div class="image-wrap" data-img-src="${imgSrc}" data-title="${a.title}"></div>
+            <img src="${imgSrc}" alt="${a.title}">
             <div class="anime-title">${a.title}</div>
           </a>
           <div class="tags">${tagsHTML}</div>
         `;
-        // replace image-wrap with actual img and load via cache-aware loader
-        const wrap = animeDiv.querySelector('.image-wrap');
-        if(wrap){
-          const src = wrap.getAttribute('data-img-src');
-          const title = wrap.getAttribute('data-title') || '';
-          const imgEl = document.createElement('img');
-          imgEl.alt = title;
-          imgEl.loading = 'lazy';
-          imgEl.className = 'anime-thumb';
-          // small placeholder to avoid layout shift (data URI 1x1 gif)
-          const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-          wrap.appendChild(imgEl);
-          loadImageWithCache(src, imgEl, placeholder);
-        }
-
         grid.appendChild(animeDiv);
       });
     }
