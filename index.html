@@ -824,17 +824,5 @@ async function loadNewBackground(bgData){
 }
 </script>
 
-<!-- Service Worker registration: added to register after full load -->
-<script>
-if ('serviceWorker' in navigator) {
-  // รอให้หน้าทั้งหมดโหลดเสร็จแล้วค่อยลงทะเบียน (ช่วยหลีกเลี่ยง race กับ assets)
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(() => console.log('Service Worker registered'))
-      .catch(console.error);
-  });
-}
-</script>
-
 </body>
 </html>
