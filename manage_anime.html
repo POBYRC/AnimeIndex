@@ -137,7 +137,11 @@
     display:flex; flex-direction:column; gap:12px;
   }
   .form-row{display:flex;gap:8px;flex-direction:column}
-  label{font-size:13px;color:var(--muted);margin-bottom:16px;} /* ปรับให้เว้นระยะมากขึ้น */
+  label{font-size:13px;color:var(--muted);margin-bottom:6px}
+  /* ปรับ label ในฟอร์มเพิ่มอนิเมะใหม่ให้ลงมาห่างด้านบน */
+  .side .panel .form-row label {
+    margin-top: 24px;
+  }
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(14,14,16,0.45);display:flex;align-items:center;justify-content:center;
     z-index:9999;opacity:0;pointer-events:none;transition:opacity .18s ease;
@@ -243,7 +247,6 @@
     gap: 6px;
   }
 
-  /* ซ่อน JSON เป็นค่าเริ่มต้น */
   #jsonView {
     display: none !important;
   }
@@ -624,7 +627,7 @@ function finalizeAdd(msg){
   renderList(allAnimes);
   updateJsonView();
   clearAddForm();
-  alert('เพิ่มเรื่องใหม่สำเร็จ ('+msg+') 🎉');
+  alert('เพิ่มเรื่องใหม่สำเร��จ ('+msg+') 🎉');
   pendingNewAnime = null;
 }
 
@@ -702,7 +705,7 @@ function downloadJSONFile(filename='anime_data_updated.json'){
   const a = document.createElement('a');
   a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
+  URL.revokeObjectURL(url;
 }
 document.getElementById('downloadJson').addEventListener('click', ()=> downloadJSONFile('anime_data.json'));
 document.getElementById('downloadBtn').addEventListener('click', ()=> downloadJSONFile('anime_data.json'));
