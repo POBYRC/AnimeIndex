@@ -296,6 +296,24 @@ footer a:hover {
   }
 }
 
+
+/* ===== Row-by-row entrance animation (SAFE ADD) ===== */
+@keyframes animeRowIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anime {
+  opacity: 0;
+  animation: animeRowIn 0.35s ease-out forwards;
+}
+
 </style>
 </head>
 <body>
@@ -481,6 +499,7 @@ fetch('anime_data.json')
         filtered = filtered.filter(a=>a.title.toLowerCase().includes(keyword));
       }
       renderAnimeList(filtered);
+requestAnimationFrame(animateAnimeByRow);
     }
 
     searchBox.addEventListener('input',applyFilters);
@@ -495,7 +514,27 @@ fetch('anime_data.json')
       window.scrollTo({top:0,behavior:'smooth'});
     });
 
-    renderAnimeList(animes);
+    
+// ===== Row-by-row animation helper (SAFE ADD) =====
+function animateAnimeByRow() {
+  const cards = Array.from(document.querySelectorAll('.anime'));
+  if (!cards.length) return;
+
+  let currentRowTop = null;
+  let rowIndex = -1;
+  const rowDelay = 120; // ms ต่อแถว
+
+  cards.forEach(card => {
+    if (card.offsetTop !== currentRowTop) {
+      currentRowTop = card.offsetTop;
+      rowIndex++;
+    }
+    card.style.animationDelay = `${rowIndex * rowDelay}ms`;
+  });
+}
+
+renderAnimeList(animes);
+requestAnimationFrame(animateAnimeByRow);
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
