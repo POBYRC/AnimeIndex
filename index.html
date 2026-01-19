@@ -311,6 +311,9 @@ footer a:hover {
 
 .anime {
   opacity: 0;
+}
+
+.anime.animate {
   animation: animeRowIn 0.35s ease-out forwards;
 }
 
@@ -519,15 +522,35 @@ window.addEventListener('pageshow', () => {
 
     
 // ===== Row-by-row animation helper (SAFE ADD) =====
+
 function animateAnimeByRow() {
   const cards = Array.from(document.querySelectorAll('.anime'));
   if (!cards.length) return;
 
-  // reset animation
+  // reset
   cards.forEach(card => {
-    card.style.animation = 'none';
+    card.classList.remove('animate');
+    card.style.animationDelay = '0ms';
     card.style.opacity = '0';
   });
+
+  // force reflow
+  void document.body.offsetHeight;
+
+  let currentRowTop = null;
+  let rowIndex = -1;
+  const rowDelay = 120;
+
+  cards.forEach(card => {
+    if (card.offsetTop !== currentRowTop) {
+      currentRowTop = card.offsetTop;
+      rowIndex++;
+    }
+    card.style.animationDelay = `${rowIndex * rowDelay}ms`;
+    card.classList.add('animate');
+  });
+}
+);
 
   // force reflow
   void document.body.offsetHeight;
