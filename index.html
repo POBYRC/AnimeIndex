@@ -296,6 +296,22 @@ footer a:hover {
   }
 }
 
+
+/* === Row reveal animation === */
+.anime-row {
+  display: contents;
+}
+.anime {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.anime.reveal {
+  animation: revealUp 0.45s ease forwards;
+}
+@keyframes revealUp {
+  to { opacity:1; transform:none; }
+}
+
 </style>
 </head>
 <body>
@@ -496,6 +512,7 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
+animateRows();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -610,7 +627,7 @@ window.addEventListener('DOMContentLoaded', () => {
 */
 
 const backgroundSources = [
-  { type: 'repo', label: 'Iso', value: 'Iso.webm' },
+  { type: 'repo', label: 'Iso', value: 'YouCut.webm' },
   { type: 'repo', label: 'Homescreen GameChangers', value: '11_10_Homescreen_GameChangers.webm' },
   { type: 'repo', label: 'Homescreen VCT', value: '11_05_Homescreen_VCT.webm' }
 ];
@@ -826,5 +843,53 @@ async function loadNewBackground(bgData){
 </script>
 <!-- ===== end Service Worker registration ===== -->
 
+<script>
+/* === Row-by-row animation logic === */
+function animateRows() {
+  const grid = document.getElementById('animeGrid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.children);
+  if (!cards.length) return;
+
+  cards.forEach(c => c.classList.remove('reveal'));
+
+  const firstTop = cards[0].getBoundingClientRect().top;
+  let rows = [[cards[0]]];
+
+  for (let i = 1; i < cards.length; i++) {
+    const top = cards[i].getBoundingClientRect().top;
+    if (Math.abs(top - firstTop) < 5) {
+      rows[0].push(cards[i]);
+    } else break;
+  }
+
+  const perRow = rows[0].length;
+  rows = [];
+  for (let i = 0; i < cards.length; i += perRow) {
+    rows.push(cards.slice(i, i + perRow));
+  }
+
+  rows.forEach((row, idx) => {
+    setTimeout(() => {
+      row.forEach(card => card.classList.add('reveal'));
+    }, idx * 120);
+  });
+}
+
+const _origRender = window.renderAnimeList;
+window.renderAnimeList = function(list){
+  _origRender(list);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
+};
+
+window.addEventListener('pageshow', () => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
+});
+</script>
 </body>
 </html>
