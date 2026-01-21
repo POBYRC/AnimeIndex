@@ -870,11 +870,20 @@ function animateRows() {
     rows.push(cards.slice(i, i + perRow));
   }
 
-  rows.forEach((row, idx) => {
+const MAX_ANIMATED_ROWS = 6;
+
+rows.forEach((row, idx) => {
+  if (idx < MAX_ANIMATED_ROWS) {
+    // แถวแรก ๆ มี animation
     setTimeout(() => {
       row.forEach(card => card.classList.add('reveal'));
     }, idx * 120);
-  });
+  } else {
+    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
+    row.forEach(card => card.classList.add('reveal'));
+  }
+});
+  
 }
 
 const _origRender = window.renderAnimeList;
