@@ -296,6 +296,7 @@ footer a:hover {
   }
 }
 
+
 /* === Row reveal animation === */
 .anime-row {
   display: contents;
@@ -511,7 +512,7 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
-    animateRows();
+animateRows();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -585,11 +586,13 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   if(btnManage){
     btnManage.addEventListener('click', ()=> {
+      // ไปที่หน้า Manage Anime (ตามที่ผู้ใช้ขอ)
       window.location.href = 'https://pobyrc.github.io/AnimeIndex/manage_anime.html';
     });
   }
   if(btnHIndex){
     btnHIndex.addEventListener('click', ()=> {
+      // ไปที่หน้า H Index (ตามที่ผู้ใช้ขอ)
       window.location.href = 'https://pobyrc.github.io/AnimeIndex/Hindex.html';
     });
   }
@@ -618,19 +621,25 @@ window.addEventListener('DOMContentLoaded', () => {
 <script>
 /*
   Cleaned up background modal & IndexedDB caching script.
+  - Ensures the Background button is wired after the DOM element exists.
+  - Removes previous stray/duplicate/invalid code that caused console errors.
+  - Provides load/save cache using indexedDB and fallback fetch behavior.
 */
+
 const backgroundSources = [
   { type: 'repo', label: 'Iso', value: 'YouCut.webm' },
   { type: 'repo', label: 'Homescreen GameChangers', value: '11_10_Homescreen_GameChangers.webm' },
   { type: 'repo', label: 'Homescreen VCT', value: '11_05_Homescreen_VCT.webm' }
 ];
 
+// 🎯 ปุ่มและ element ต้องเชื่อมถูกก่อน
 const bgModal = document.getElementById('bgModal');
 const openBackground = document.getElementById('openBackground');
 const bgOptions = document.getElementById('bgOptions');
 const bgVideoEl = document.getElementById('bgVideo');
 const bgCancelBtn = document.getElementById('bgCancelBtn');
 
+// 🎯 ฟังก์ชันแสดงตัวเลือกพื้นหลังใน Popup
 function renderBgOptions(){
   if (!bgOptions) return;
   bgOptions.innerHTML = '';
@@ -643,6 +652,7 @@ function renderBgOptions(){
   });
 }
 
+// 🎯 เปิด Modal ได้อย่างถูกต้อง
 if (openBackground) {
   openBackground.addEventListener('click', (e)=>{
     e.preventDefault();
@@ -650,9 +660,11 @@ if (openBackground) {
     if (bgModal) bgModal.classList.add('show');
   });
 } else {
-  console.warn('openBackground element not found.');
+  // Helpful debug message if element is missing
+  console.warn('openBackground element not found. Make sure the <button id="openBackground"> exists and this script runs after it.');
 }
 
+// 🎯 ปิด Modal (คลิกนอกกรอบหรือกดปุ่ม)
 if (bgCancelBtn) {
   bgCancelBtn.addEventListener('click', ()=> bgModal && bgModal.classList.remove('show'));
 }
@@ -660,11 +672,12 @@ if (bgModal) {
   bgModal.addEventListener('click',(e)=>{ if(e.target===bgModal) bgModal.classList.remove('show'); });
 }
 
+// ================= IndexedDB helpers for background caching =================
 function getDB() {
   return new Promise((resolve, reject) => {
     const open = indexedDB.open("bgDB", 1);
     open.onupgradeneeded = () => {
-      try { open.result.createObjectStore("backgrounds"); } catch(e){}
+      try { open.result.createObjectStore("backgrounds"); } catch(e){ /* ignore if exists */ }
     };
     open.onsuccess = () => resolve(open.result);
     open.onerror = () => reject(open.error);
@@ -677,7 +690,9 @@ async function saveToCache(key, blob) {
     const tx = db.transaction("backgrounds", "readwrite");
     const store = tx.objectStore("backgrounds");
     const req = store.put(blob, key);
-    req.onsuccess = () => { tx.oncomplete = () => resolve(true); };
+    req.onsuccess = () => {
+      tx.oncomplete = () => resolve(true);
+    };
     req.onerror = () => reject(req.error);
   });
 }
@@ -692,11 +707,12 @@ async function loadFromCache(key) {
   });
 }
 
+// ================= Background selection / loading =================
 function selectBackground(bgData){
   try {
     localStorage.setItem('bgSource', JSON.stringify(bgData));
   } catch(e){
-    console.warn('Could not save bgSource', e);
+    console.warn('Could not save bgSource to localStorage', e);
   }
   loadNewBackground(bgData);
   if (bgModal) bgModal.classList.remove('show');
@@ -718,30 +734,34 @@ async function loadNewBackground(bgData){
     const cachedBlob = await loadFromCache(source);
     if (cachedBlob) {
       bgVideoEl.src = URL.createObjectURL(cachedBlob);
-      await bgVideoEl.play().catch(()=>{}); 
+      await bgVideoEl.play().catch(()=>{}); // ignore play promise errors
       return;
     }
     const res = await fetch(source);
     if(!res.ok) throw new Error('Fetch failed: ' + res.status);
     const blob = await res.blob();
-    saveToCache(source, blob).catch(e=>console.warn('Cache save failed', e));
+    // save to cache (don't block UI if save fails)
+    saveToCache(source, blob).catch(e=>console.warn('Background cache save failed', e));
     bgVideoEl.src = URL.createObjectURL(blob);
     await bgVideoEl.play().catch(()=>{});
   } catch(err){
-    console.warn("Background load failed", err);
+    console.warn("Background load failed, using source directly", err);
+    // fallback: set src to source (may be CORS/404 but still a fallback)
     bgVideoEl.src = source;
     try { await bgVideoEl.play().catch(()=>{}); } catch(e){}
   }
 }
 </script>
 
-<!-- ===== Service Worker registration ===== -->
+<!-- ===== Service Worker registration (inserted) ===== -->
 <script>
 (function(){
+  // สำหรับ GitHub Pages project site ของคุณ ให้ใช้ '/AnimeIndex/service-worker.js'
+  // ถ้าเป็น user site เปลี่ยนเป็น '/service-worker.js'
   const SW_PATH = '/AnimeIndex/service-worker.js';
 
   if (!('serviceWorker' in navigator)) {
-    console.warn('Service Worker not supported.');
+    console.warn('Service Worker not supported in this browser.');
     return;
   }
 
@@ -749,12 +769,15 @@ async function loadNewBackground(bgData){
     .then(reg => {
       console.log('Service Worker registered:', reg);
 
+      // ส่งรายการ URL รูปภาพทั้งหมดให้ SW เพื่อ warm cache
       function collectImageUrls() {
         try {
           const urls = Array.from(document.images)
                             .map(img => img.src)
                             .filter(Boolean);
-          return [...new Set(urls.filter(u => u && !u.startsWith('data:')))];
+          // Remove empty and data: urls and dedupe
+          const filtered = [...new Set(urls.filter(u => u && !u.startsWith('data:')))];
+          return filtered;
         } catch (e) {
           return [];
         }
@@ -764,17 +787,22 @@ async function loadNewBackground(bgData){
         if (!urls || !urls.length) return;
         if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+          console.log('Sent images to SW for caching:', urls);
         } else {
+          // if no controller yet, wait for ready then send
           navigator.serviceWorker.ready.then(() => {
             if (navigator.serviceWorker.controller) {
               navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+              console.log('Sent images to SW (on ready):', urls);
             }
           });
         }
       }
 
+      // Initial send after short delay to allow async-rendered images to appear
       setTimeout(() => sendToSW(collectImageUrls()), 1200);
 
+      // Observe the anime grid for added nodes (images are added dynamically)
       const grid = document.getElementById('animeGrid');
       if (grid) {
         const observer = new MutationObserver((mutations) => {
@@ -782,15 +810,18 @@ async function loadNewBackground(bgData){
           for (const m of mutations) {
             if (m.addedNodes && m.addedNodes.length) {
               for (const n of m.addedNodes) {
-                if (n.nodeType === 1 && (n.tagName === 'IMG' || n.querySelector('img'))) {
-                  shouldSend = true;
-                  break;
+                if (n.nodeType === 1) {
+                  if (n.tagName === 'IMG' || n.querySelector && n.querySelector('img')) {
+                    shouldSend = true;
+                    break;
+                  }
                 }
               }
             }
             if (shouldSend) break;
           }
           if (shouldSend) {
+            // small debounce
             clearTimeout(window.__swWarmTimeout);
             window.__swWarmTimeout = setTimeout(() => {
               sendToSW(collectImageUrls());
@@ -800,6 +831,7 @@ async function loadNewBackground(bgData){
         observer.observe(grid, { childList: true, subtree: true });
       }
 
+      // Also send again when service worker gains control (covers first-time install)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         setTimeout(() => sendToSW(collectImageUrls()), 500);
       });
@@ -809,79 +841,64 @@ async function loadNewBackground(bgData){
     });
 })();
 </script>
-<!-- ===== end Service Worker ===== -->
+<!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Row-by-row animation: Animate first 6 rows with stagger, then reveal the rest instantly === */
+/* === Row-by-row animation logic === */
 function animateRows() {
   const grid = document.getElementById('animeGrid');
   if (!grid) return;
 
-  // Reset all cards
   const cards = Array.from(grid.children);
-  cards.forEach(card => card.classList.remove('reveal'));
+  if (!cards.length) return;
 
-  if (cards.length === 0) return;
+  cards.forEach(c => c.classList.remove('reveal'));
 
-  // Calculate actual cards per row based on current layout
   const firstTop = cards[0].getBoundingClientRect().top;
-  let cardsPerRow = 1;
+  let rows = [[cards[0]]];
 
   for (let i = 1; i < cards.length; i++) {
     const top = cards[i].getBoundingClientRect().top;
-    if (Math.abs(top - firstTop) < 10) {
-      cardsPerRow++;
-    } else {
-      break;
-    }
+    if (Math.abs(top - firstTop) < 5) {
+      rows[0].push(cards[i]);
+    } else break;
   }
 
-  // Group into rows
-  const rows = [];
-  for (let i = 0; i < cards.length; i += cardsPerRow) {
-    rows.push(cards.slice(i, i + cardsPerRow));
+  const perRow = rows[0].length;
+  rows = [];
+  for (let i = 0; i < cards.length; i += perRow) {
+    rows.push(cards.slice(i, i + perRow));
   }
 
-  const MAX_ANIMATED_ROWS = 6;
-  const delayPerRowMs = 120; // เดิมเท่าเดิม
+const MAX_ANIMATED_ROWS = 6;
 
-  rows.forEach((row, rowIndex) => {
-    if (rowIndex < MAX_ANIMATED_ROWS) {
-      // แถว 1-6: stagger animation
-      setTimeout(() => {
-        row.forEach(card => card.classList.add('reveal'));
-      }, rowIndex * delayPerRowMs);
-    } else {
-      // แถว 7+: reveal ทันที หลังจากแถว 6 เริ่มแล้วเล็กน้อย
-      setTimeout(() => {
-        row.forEach(card => card.classList.add('reveal'));
-      }, MAX_ANIMATED_ROWS * delayPerRowMs + 100);
-    }
-  });
+rows.forEach((row, idx) => {
+  if (idx < MAX_ANIMATED_ROWS) {
+    // แถวแรก ๆ มี animation
+    setTimeout(() => {
+      row.forEach(card => card.classList.add('reveal'));
+    }, idx * 120);
+  } else {
+    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
+    row.forEach(card => card.classList.add('reveal'));
+  }
+});
+  
 }
 
-// Override render function to trigger animation after render
-const originalRenderAnimeList = window.renderAnimeList || function(){};
-
-window.renderAnimeList = function(list) {
-  originalRenderAnimeList(list);
+const _origRender = window.renderAnimeList;
+window.renderAnimeList = function(list){
+  _origRender(list);
   requestAnimationFrame(() => {
     requestAnimationFrame(animateRows);
   });
 };
 
-// Trigger on page show (for bfcache)
 window.addEventListener('pageshow', () => {
   requestAnimationFrame(() => {
     requestAnimationFrame(animateRows);
   });
 });
-
-// Extra trigger in case data loads very fast
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(animateRows, 300);
-});
 </script>
-
 </body>
 </html>
