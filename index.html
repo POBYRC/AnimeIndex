@@ -847,11 +847,17 @@ async function loadNewBackground(bgData){
 <!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Two-phase row animation system === */
+/* === Two-phase row animation system (FIXED) === */
+let introPlayed = false;
+
 function playIntroRowAnimation() {
+  if (introPlayed) return;
+  introPlayed = true;
+
   const cards = Array.from(document.querySelectorAll('.anime'));
   if (!cards.length) return;
 
+  // group by rows
   let rows = [];
   let currentTop = null;
 
@@ -868,17 +874,20 @@ function playIntroRowAnimation() {
 
   const MAX_ROWS = 6;
 
+  // hide all first
   cards.forEach(c => {
     c.classList.remove('intro-show', 'show-all');
     c.style.visibility = 'hidden';
   });
 
+  // animate first rows
   rows.slice(0, MAX_ROWS).forEach((row, idx) => {
     setTimeout(() => {
       row.forEach(card => card.classList.add('intro-show'));
     }, idx * 120);
   });
 
+  // after intro -> show rest
   const totalIntroTime = MAX_ROWS * 120 + 500;
   setTimeout(() => {
     rows.slice(MAX_ROWS).flat().forEach(card => {
@@ -887,12 +896,12 @@ function playIntroRowAnimation() {
   }, totalIntroTime);
 }
 
-const __origRenderAnimeList = window.renderAnimeList;
+// hook AFTER renderAnimeList is actually done
+const __origRender = window.renderAnimeList;
 window.renderAnimeList = function(list){
-  __origRenderAnimeList(list);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(playIntroRowAnimation);
-  });
+  introPlayed = false;
+  __origRender(list);
+  setTimeout(playIntroRowAnimation, 0);
 };
 </script>
 </body>
