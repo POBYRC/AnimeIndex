@@ -852,37 +852,36 @@ function animateRows() {
   const cards = Array.from(grid.children);
   if (!cards.length) return;
 
+  // รีเซ็ตสถานะ animation
   cards.forEach(c => c.classList.remove('reveal'));
 
-  const firstTop = cards[0].getBoundingClientRect().top;
-  let rows = [[cards[0]]];
+  // จัดกลุ่มการ์ดตามแถวจริง (อิง offsetTop)
+  const rows = [];
+  let currentTop = null;
 
-  for (let i = 1; i < cards.length; i++) {
-    const top = cards[i].getBoundingClientRect().top;
-    if (Math.abs(top - firstTop) < 5) {
-      rows[0].push(cards[i]);
-    } else break;
-  }
+  cards.forEach(card => {
+    const top = card.offsetTop;
+    if (currentTop === null || Math.abs(top - currentTop) < 5) {
+      if (!rows.length) rows.push([]);
+      rows[rows.length - 1].push(card);
+      currentTop = top;
+    } else {
+      rows.push([card]);
+      currentTop = top;
+    }
+  });
 
-  const perRow = rows[0].length;
-  rows = [];
-  for (let i = 0; i < cards.length; i += perRow) {
-    rows.push(cards.slice(i, i + perRow));
-  }
+  // 🎯 ความเร็วแบบที่คุณขอ
+  const START_DELAY = 120; // เริ่มช้า
+  const STEP = 20;        // เร็วขึ้นทีละแถว
 
-const MAX_ANIMATED_ROWS = 6;
-
-rows.forEach((row, idx) => {
-  if (idx < MAX_ANIMATED_ROWS) {
-    // แถวแรก ๆ มี animation
+  rows.forEach((row, idx) => {
+    const delay = Math.max(START_DELAY - idx * STEP, 0);
     setTimeout(() => {
       row.forEach(card => card.classList.add('reveal'));
-    }, idx * 120);
-  } else {
-    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
-    row.forEach(card => card.classList.add('reveal'));
-  }
-});
+    }, delay);
+  });
+}
   
 }
 
