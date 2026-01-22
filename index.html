@@ -297,23 +297,19 @@ footer a:hover {
 }
 
 
-/* === Intro row animation (first 6 rows only) === */
+/* === Row reveal animation === */
+.anime-row {
+  display: contents;
+}
 .anime {
-  visibility: hidden;
+  opacity: 0;
+  transform: translateY(24px);
 }
-
-.anime.intro-show {
-  visibility: visible;
-  animation: introUp 0.45s ease forwards;
+.anime.reveal {
+  animation: revealUp 0.45s ease forwards;
 }
-
-.anime.show-all {
-  visibility: visible;
-}
-
-@keyframes introUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: none; }
+@keyframes revealUp {
+  to { opacity:1; transform:none; }
 }
 
 </style>
@@ -516,6 +512,7 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
+animateRows();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -847,62 +844,60 @@ async function loadNewBackground(bgData){
 <!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Two-phase row animation system (FIXED) === */
-let introPlayed = false;
+/* === Row-by-row animation logic === */
+function animateRows() {
+  const grid = document.getElementById('animeGrid');
+  if (!grid) return;
 
-function playIntroRowAnimation() {
-  if (introPlayed) return;
-  introPlayed = true;
-
-  const cards = Array.from(document.querySelectorAll('.anime'));
+  const cards = Array.from(grid.children);
   if (!cards.length) return;
 
-  // group by rows
-  let rows = [];
+  // รีเซ็ตสถานะ animation
+  cards.forEach(c => c.classList.remove('reveal'));
+
+  // จัดกลุ่มการ์ดตามแถวจริง (อิง offsetTop)
+  const rows = [];
   let currentTop = null;
 
   cards.forEach(card => {
-    if (currentTop === null || Math.abs(card.offsetTop - currentTop) < 5) {
+    const top = card.offsetTop;
+    if (currentTop === null || Math.abs(top - currentTop) < 5) {
       if (!rows.length) rows.push([]);
       rows[rows.length - 1].push(card);
-      currentTop = card.offsetTop;
+      currentTop = top;
     } else {
       rows.push([card]);
-      currentTop = card.offsetTop;
+      currentTop = top;
     }
   });
 
-  const MAX_ROWS = 6;
+  // 🎯 ความเร็วแบบที่คุณขอ
+  const START_DELAY = 120; // เริ่มช้า
+  const STEP = 20;        // เร็วขึ้นทีละแถว
 
-  // hide all first
-  cards.forEach(c => {
-    c.classList.remove('intro-show', 'show-all');
-    c.style.visibility = 'hidden';
-  });
-
-  // animate first rows
-  rows.slice(0, MAX_ROWS).forEach((row, idx) => {
+  rows.forEach((row, idx) => {
+    const delay = Math.max(START_DELAY - idx * STEP, 0);
     setTimeout(() => {
-      row.forEach(card => card.classList.add('intro-show'));
-    }, idx * 120);
+      row.forEach(card => card.classList.add('reveal'));
+    }, delay);
   });
-
-  // after intro -> show rest
-  const totalIntroTime = MAX_ROWS * 120 + 500;
-  setTimeout(() => {
-    rows.slice(MAX_ROWS).flat().forEach(card => {
-      card.classList.add('show-all');
-    });
-  }, totalIntroTime);
+}
+  
 }
 
-// hook AFTER renderAnimeList is actually done
-const __origRender = window.renderAnimeList;
+const _origRender = window.renderAnimeList;
 window.renderAnimeList = function(list){
-  introPlayed = false;
-  __origRender(list);
-  setTimeout(playIntroRowAnimation, 0);
+  _origRender(list);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
 };
+
+window.addEventListener('pageshow', () => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
+});
 </script>
 </body>
 </html>
