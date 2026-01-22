@@ -297,19 +297,23 @@ footer a:hover {
 }
 
 
-/* === Row reveal animation === */
-.anime-row {
-  display: contents;
-}
+/* === Intro row animation (first 6 rows only) === */
 .anime {
-  opacity: 0;
-  transform: translateY(24px);
+  visibility: hidden;
 }
-.anime.reveal {
-  animation: revealUp 0.45s ease forwards;
+
+.anime.intro-show {
+  visibility: visible;
+  animation: introUp 0.45s ease forwards;
 }
-@keyframes revealUp {
-  to { opacity:1; transform:none; }
+
+.anime.show-all {
+  visibility: visible;
+}
+
+@keyframes introUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
 }
 
 </style>
@@ -512,7 +516,6 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
-animateRows();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -844,61 +847,53 @@ async function loadNewBackground(bgData){
 <!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Row-by-row animation logic === */
-function animateRows() {
-  const grid = document.getElementById('animeGrid');
-  if (!grid) return;
-
-  const cards = Array.from(grid.children);
+/* === Two-phase row animation system === */
+function playIntroRowAnimation() {
+  const cards = Array.from(document.querySelectorAll('.anime'));
   if (!cards.length) return;
 
-  cards.forEach(c => c.classList.remove('reveal'));
+  let rows = [];
+  let currentTop = null;
 
-  const firstTop = cards[0].getBoundingClientRect().top;
-  let rows = [[cards[0]]];
+  cards.forEach(card => {
+    if (currentTop === null || Math.abs(card.offsetTop - currentTop) < 5) {
+      if (!rows.length) rows.push([]);
+      rows[rows.length - 1].push(card);
+      currentTop = card.offsetTop;
+    } else {
+      rows.push([card]);
+      currentTop = card.offsetTop;
+    }
+  });
 
-  for (let i = 1; i < cards.length; i++) {
-    const top = cards[i].getBoundingClientRect().top;
-    if (Math.abs(top - firstTop) < 5) {
-      rows[0].push(cards[i]);
-    } else break;
-  }
+  const MAX_ROWS = 6;
 
-  const perRow = rows[0].length;
-  rows = [];
-  for (let i = 0; i < cards.length; i += perRow) {
-    rows.push(cards.slice(i, i + perRow));
-  }
+  cards.forEach(c => {
+    c.classList.remove('intro-show', 'show-all');
+    c.style.visibility = 'hidden';
+  });
 
-const MAX_ANIMATED_ROWS = 6;
-
-rows.forEach((row, idx) => {
-  if (idx < MAX_ANIMATED_ROWS) {
-    // แถวแรก ๆ มี animation
+  rows.slice(0, MAX_ROWS).forEach((row, idx) => {
     setTimeout(() => {
-      row.forEach(card => card.classList.add('reveal'));
+      row.forEach(card => card.classList.add('intro-show'));
     }, idx * 120);
-  } else {
-    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
-    row.forEach(card => card.classList.add('reveal'));
-  }
-});
-  
+  });
+
+  const totalIntroTime = MAX_ROWS * 120 + 500;
+  setTimeout(() => {
+    rows.slice(MAX_ROWS).flat().forEach(card => {
+      card.classList.add('show-all');
+    });
+  }, totalIntroTime);
 }
 
-const _origRender = window.renderAnimeList;
+const __origRenderAnimeList = window.renderAnimeList;
 window.renderAnimeList = function(list){
-  _origRender(list);
+  __origRenderAnimeList(list);
   requestAnimationFrame(() => {
-    requestAnimationFrame(animateRows);
+    requestAnimationFrame(playIntroRowAnimation);
   });
 };
-
-window.addEventListener('pageshow', () => {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(animateRows);
-  });
-});
 </script>
 </body>
 </html>
