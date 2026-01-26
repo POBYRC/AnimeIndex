@@ -296,6 +296,22 @@ footer a:hover {
   }
 }
 
+
+/* === Row reveal animation === */
+.anime-row {
+  display: contents;
+}
+.anime {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.anime.reveal {
+  animation: revealUp 0.45s ease forwards;
+}
+@keyframes revealUp {
+  to { opacity:1; transform:none; }
+}
+
 </style>
 </head>
 <body>
@@ -496,6 +512,7 @@ fetch('H.json')
     });
 
     renderAnimeList(animes);
+animateRows();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -610,9 +627,9 @@ window.addEventListener('DOMContentLoaded', () => {
 */
 
 const backgroundSources = [
-  { type: 'repo', label: 'Iso', value: 'YouCut.webm' },
-  { type: 'repo', label: 'Homescreen GameChangers', value: '11_10_Homescreen_GameChangers.webm' },
-  { type: 'repo', label: 'Homescreen VCT', value: '11_05_Homescreen_VCT.webm' }
+  { type: 'repo', label: 'Homescreen VCT GameChangers', value: '11_10_Homescreen_GameChangers.webm' },
+  { type: 'repo', label: 'Homescreen VCT Champions', value: '11_05_Homescreen_VCT.webm' },
+  { type: 'repo', label: 'Homescreen VCT Clove', value: '8_05_Homescreen_VCT.webm' }
 ];
 
 // 🎯 ปุ่มและ element ต้องเชื่อมถูกก่อน
@@ -736,5 +753,152 @@ async function loadNewBackground(bgData){
 }
 </script>
 
+<!-- ===== Service Worker registration (inserted) ===== -->
+<script>
+(function(){
+  // สำหรับ GitHub Pages project site ของคุณ ให้ใช้ '/AnimeIndex/service-worker.js'
+  // ถ้าเป็น user site เปลี่ยนเป็น '/service-worker.js'
+  const SW_PATH = '/AnimeIndex/service-worker.js';
+
+  if (!('serviceWorker' in navigator)) {
+    console.warn('Service Worker not supported in this browser.');
+    return;
+  }
+
+  navigator.serviceWorker.register(SW_PATH)
+    .then(reg => {
+      console.log('Service Worker registered:', reg);
+
+      // ส่งรายการ URL รูปภาพทั้งหมดให้ SW เพื่อ warm cache
+      function collectImageUrls() {
+        try {
+          const urls = Array.from(document.images)
+                            .map(img => img.src)
+                            .filter(Boolean);
+          // Remove empty and data: urls and dedupe
+          const filtered = [...new Set(urls.filter(u => u && !u.startsWith('data:')))];
+          return filtered;
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function sendToSW(urls) {
+        if (!urls || !urls.length) return;
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+          console.log('Sent images to SW for caching:', urls);
+        } else {
+          // if no controller yet, wait for ready then send
+          navigator.serviceWorker.ready.then(() => {
+            if (navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+              console.log('Sent images to SW (on ready):', urls);
+            }
+          });
+        }
+      }
+
+      // Initial send after short delay to allow async-rendered images to appear
+      setTimeout(() => sendToSW(collectImageUrls()), 1200);
+
+      // Observe the anime grid for added nodes (images are added dynamically)
+      const grid = document.getElementById('animeGrid');
+      if (grid) {
+        const observer = new MutationObserver((mutations) => {
+          let shouldSend = false;
+          for (const m of mutations) {
+            if (m.addedNodes && m.addedNodes.length) {
+              for (const n of m.addedNodes) {
+                if (n.nodeType === 1) {
+                  if (n.tagName === 'IMG' || n.querySelector && n.querySelector('img')) {
+                    shouldSend = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (shouldSend) break;
+          }
+          if (shouldSend) {
+            // small debounce
+            clearTimeout(window.__swWarmTimeout);
+            window.__swWarmTimeout = setTimeout(() => {
+              sendToSW(collectImageUrls());
+            }, 400);
+          }
+        });
+        observer.observe(grid, { childList: true, subtree: true });
+      }
+
+      // Also send again when service worker gains control (covers first-time install)
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        setTimeout(() => sendToSW(collectImageUrls()), 500);
+      });
+    })
+    .catch(err => {
+      console.error('Service Worker registration failed:', err);
+    });
+})();
+</script>
+<!-- ===== end Service Worker registration ===== -->
+
+<script>
+/* === Row-by-row animation logic === */
+function animateRows() {
+  const grid = document.getElementById('animeGrid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.children);
+  if (!cards.length) return;
+
+  cards.forEach(c => c.classList.remove('reveal'));
+
+  const firstTop = cards[0].getBoundingClientRect().top;
+  let rows = [[cards[0]]];
+
+  for (let i = 1; i < cards.length; i++) {
+    const top = cards[i].getBoundingClientRect().top;
+    if (Math.abs(top - firstTop) < 5) {
+      rows[0].push(cards[i]);
+    } else break;
+  }
+
+  const perRow = rows[0].length;
+  rows = [];
+  for (let i = 0; i < cards.length; i += perRow) {
+    rows.push(cards.slice(i, i + perRow));
+  }
+
+const MAX_ANIMATED_ROWS = 6;
+
+rows.forEach((row, idx) => {
+  if (idx < MAX_ANIMATED_ROWS) {
+    // แถวแรก ๆ มี animation
+    setTimeout(() => {
+      row.forEach(card => card.classList.add('reveal'));
+    }, idx * 120);
+  } else {
+    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
+    row.forEach(card => card.classList.add('reveal'));
+  }
+});
+  
+}
+
+const _origRender = window.renderAnimeList;
+window.renderAnimeList = function(list){
+  _origRender(list);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
+};
+
+window.addEventListener('pageshow', () => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
+});
+</script>
 </body>
 </html>
