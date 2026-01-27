@@ -512,8 +512,7 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
-// run card animation once AFTER first render
-requestAnimationFrame(() => requestAnimationFrame(animateRowsOnce));
+animateRows();
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -845,13 +844,8 @@ async function loadNewBackground(bgData){
 <!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Row-by-row animation logic (FIXED) === */
-let cardAnimationPlayed = false;
-
-function animateRowsOnce() {
-  if (cardAnimationPlayed) return;
-  cardAnimationPlayed = true;
-
+/* === Row-by-row animation logic === */
+function animateRows() {
   const grid = document.getElementById('animeGrid');
   if (!grid) return;
 
@@ -860,37 +854,50 @@ function animateRowsOnce() {
 
   cards.forEach(c => c.classList.remove('reveal'));
 
-  const rows = [];
-  let currentRow = [];
-  let lastTop = null;
+  const firstTop = cards[0].getBoundingClientRect().top;
+  let rows = [[cards[0]]];
 
-  cards.forEach(card => {
-    const top = Math.round(card.getBoundingClientRect().top);
-    if (lastTop === null || Math.abs(top - lastTop) < 5) {
-      currentRow.push(card);
-    } else {
-      rows.push(currentRow);
-      currentRow = [card];
-    }
-    lastTop = top;
-  });
-  if (currentRow.length) rows.push(currentRow);
+  for (let i = 1; i < cards.length; i++) {
+    const top = cards[i].getBoundingClientRect().top;
+    if (Math.abs(top - firstTop) < 5) {
+      rows[0].push(cards[i]);
+    } else break;
+  }
 
-  let delay = 120;
-  let totalDelay = 0;
+  const perRow = rows[0].length;
+  rows = [];
+  for (let i = 0; i < cards.length; i += perRow) {
+    rows.push(cards.slice(i, i + perRow));
+  }
 
-  rows.forEach(row => {
+const MAX_ANIMATED_ROWS = 6;
+
+rows.forEach((row, idx) => {
+  if (idx < MAX_ANIMATED_ROWS) {
+    // แถวแรก ๆ มี animation
     setTimeout(() => {
       row.forEach(card => card.classList.add('reveal'));
-    }, totalDelay);
-
-    totalDelay += delay;
-    delay = Math.max(30, delay - 10);
-  });
+    }, idx * 120);
+  } else {
+    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
+    row.forEach(card => card.classList.add('reveal'));
+  }
+});
+  
 }
 
-requestAnimationFrame(() => {
-  requestAnimationFrame(animateRowsOnce);
+const _origRender = window.renderAnimeList;
+window.renderAnimeList = function(list){
+  _origRender(list);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
+};
+
+window.addEventListener('pageshow', () => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(animateRows);
+  });
 });
 </script>
 </body>
