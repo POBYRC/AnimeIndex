@@ -844,8 +844,13 @@ async function loadNewBackground(bgData){
 <!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Row-by-row animation logic === */
-function animateRows() {
+/* === Row-by-row animation logic (FIXED) === */
+let cardAnimationPlayed = false;
+
+function animateRowsOnce() {
+  if (cardAnimationPlayed) return;
+  cardAnimationPlayed = true;
+
   const grid = document.getElementById('animeGrid');
   if (!grid) return;
 
@@ -854,50 +859,37 @@ function animateRows() {
 
   cards.forEach(c => c.classList.remove('reveal'));
 
-  const firstTop = cards[0].getBoundingClientRect().top;
-  let rows = [[cards[0]]];
+  const rows = [];
+  let currentRow = [];
+  let lastTop = null;
 
-  for (let i = 1; i < cards.length; i++) {
-    const top = cards[i].getBoundingClientRect().top;
-    if (Math.abs(top - firstTop) < 5) {
-      rows[0].push(cards[i]);
-    } else break;
-  }
+  cards.forEach(card => {
+    const top = Math.round(card.getBoundingClientRect().top);
+    if (lastTop === null || Math.abs(top - lastTop) < 5) {
+      currentRow.push(card);
+    } else {
+      rows.push(currentRow);
+      currentRow = [card];
+    }
+    lastTop = top;
+  });
+  if (currentRow.length) rows.push(currentRow);
 
-  const perRow = rows[0].length;
-  rows = [];
-  for (let i = 0; i < cards.length; i += perRow) {
-    rows.push(cards.slice(i, i + perRow));
-  }
+  let delay = 120;
+  let totalDelay = 0;
 
-const MAX_ANIMATED_ROWS = 6;
-
-rows.forEach((row, idx) => {
-  if (idx < MAX_ANIMATED_ROWS) {
-    // แถวแรก ๆ มี animation
+  rows.forEach(row => {
     setTimeout(() => {
       row.forEach(card => card.classList.add('reveal'));
-    }, idx * 120);
-  } else {
-    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
-    row.forEach(card => card.classList.add('reveal'));
-  }
-});
-  
+    }, totalDelay);
+
+    totalDelay += delay;
+    delay = Math.max(30, delay - 10);
+  });
 }
 
-const _origRender = window.renderAnimeList;
-window.renderAnimeList = function(list){
-  _origRender(list);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(animateRows);
-  });
-};
-
-window.addEventListener('pageshow', () => {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(animateRows);
-  });
+requestAnimationFrame(() => {
+  requestAnimationFrame(animateRowsOnce);
 });
 </script>
 </body>
