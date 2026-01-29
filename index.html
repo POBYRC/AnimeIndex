@@ -520,8 +520,8 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
-      // run card animation once AFTER first render/layout
-      requestAnimationFrame(() => requestAnimationFrame(animateRowsOnce));
+      // run card animation once AFTER images/layout settle
+      setTimeout(() => animateRowsOnce(), 50);
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
