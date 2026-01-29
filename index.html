@@ -302,6 +302,12 @@ footer a:hover {
   display: contents;
 }
 .anime {
+  /* default: visible so render works even if animation not triggered */
+  opacity: 1;
+  transform: none;
+}
+.anime.hidden {
+  /* hidden state used only for pre-animation */
   opacity: 0;
   transform: translateY(24px);
 }
@@ -310,6 +316,8 @@ footer a:hover {
 }
 @keyframes revealUp {
   to { opacity:1; transform:none; }
+}
+
 }
 
 </style>
@@ -512,7 +520,8 @@ fetch('anime_data.json')
     });
 
     renderAnimeList(animes);
-animateRows();
+      // run card animation once AFTER first render/layout
+      requestAnimationFrame(() => requestAnimationFrame(animateRowsOnce));
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้อมูลได้ 😢</p>';
@@ -844,61 +853,66 @@ async function loadNewBackground(bgData){
 <!-- ===== end Service Worker registration ===== -->
 
 <script>
-/* === Row-by-row animation logic === */
-function animateRows() {
+/* === Row-by-row animation logic (fixed) === */
+let cardAnimationPlayed = false;
+
+function animateRowsOnce() {
+  if (cardAnimationPlayed) return;
+  cardAnimationPlayed = true;
+
   const grid = document.getElementById('animeGrid');
   if (!grid) return;
 
-  const cards = Array.from(grid.children);
+  // consider only elements with class 'anime'
+  const cards = Array.from(grid.children).filter(c => c.classList && c.classList.contains('anime'));
   if (!cards.length) return;
 
-  cards.forEach(c => c.classList.remove('reveal'));
+  // reset state: remove previous reveal and set hidden
+  cards.forEach(c => {
+    c.classList.remove('reveal');
+    c.classList.add('hidden');
+  });
 
-  const firstTop = cards[0].getBoundingClientRect().top;
-  let rows = [[cards[0]]];
+  // group cards visually by rounded top position
+  const rows = [];
+  let currentRow = [];
+  let lastTop = null;
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const top = Math.round(rect.top);
+    if (lastTop === null || Math.abs(top - lastTop) < 6) {
+      currentRow.push(card);
+    } else {
+      rows.push(currentRow);
+      currentRow = [card];
+    }
+    lastTop = top;
+  });
+  if (currentRow.length) rows.push(currentRow);
 
-  for (let i = 1; i < cards.length; i++) {
-    const top = cards[i].getBoundingClientRect().top;
-    if (Math.abs(top - firstTop) < 5) {
-      rows[0].push(cards[i]);
-    } else break;
-  }
+  // schedule reveals: initial gap, then decrease gap to speed up
+  let gap = 120; // ms
+  const MIN_GAP = 30;
+  let totalDelay = 0;
 
-  const perRow = rows[0].length;
-  rows = [];
-  for (let i = 0; i < cards.length; i += perRow) {
-    rows.push(cards.slice(i, i + perRow));
-  }
-
-const MAX_ANIMATED_ROWS = 6;
-
-rows.forEach((row, idx) => {
-  if (idx < MAX_ANIMATED_ROWS) {
-    // แถวแรก ๆ มี animation
+  rows.forEach((row) => {
     setTimeout(() => {
-      row.forEach(card => card.classList.add('reveal'));
-    }, idx * 120);
-  } else {
-    // แถวที่เหลือ แสดงทันที ไม่ต้องรอ
-    row.forEach(card => card.classList.add('reveal'));
-  }
-});
-  
+      row.forEach(card => {
+        card.classList.remove('hidden');
+        // force reflow for animation to start reliably
+        // eslint-disable-next-line no-unused-expressions
+        card.offsetHeight;
+        card.classList.add('reveal');
+      });
+    }, totalDelay);
+
+    totalDelay += gap;
+    gap = Math.max(MIN_GAP, gap - 10);
+  });
 }
 
-const _origRender = window.renderAnimeList;
-window.renderAnimeList = function(list){
-  _origRender(list);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(animateRows);
-  });
-};
-
-window.addEventListener('pageshow', () => {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(animateRows);
-  });
-});
+// Note: animateRowsOnce is intentionally only run once after initial render.
+// Filters / search / tag will call renderAnimeList but will not trigger this animation automatically.
 </script>
 </body>
 </html>
