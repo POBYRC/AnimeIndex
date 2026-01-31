@@ -491,15 +491,34 @@ fetch('anime_data.json')
     }
 
     function applyFilters(){
-      const keyword = searchBox.value.toLowerCase();
-      let filtered = animes;
-      if(activeCategories.length>0){
-        filtered = filtered.filter(a=>activeCategories.every(cat=>a.category.includes(cat)));
+      const keyword = searchBox.value.toLowerCase().trim();
+      let filtered = [...animes];
+
+      if(activeCategories.length > 0){
+        filtered = filtered.filter(a =>
+          activeCategories.every(cat => a.category.includes(cat))
+        );
       }
-      if(keyword){
-        filtered = filtered.filter(a=>a.title.toLowerCase().includes(keyword));
+
+      if(keyword !== ""){
+        filtered = filtered.filter(a =>
+          a.title.toLowerCase().includes(keyword)
+        );
       }
+
+      // reset animation state before re-render
+      window._cardAnimationPlayed = false;
+
       renderAnimeList(filtered);
+
+      // replay animation after DOM update
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (typeof animateRowsOnce === 'function') {
+            animateRowsOnce();
+          }
+        });
+      });
     }
 
     searchBox.addEventListener('input',applyFilters);
