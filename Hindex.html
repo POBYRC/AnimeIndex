@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>AnimeIndex</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🌸 FAVICON -->
+<link id="dynamicFavicon" rel="icon" type="image/png" href="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  const faviconList = {
+    1: "https://cdni.pornpics.com/1280/3/16/29610962/29610962_016_3664.jpg",
+    2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF5VrSpJQhB9CwSZeDt0ROW8k_SSsj4_aBXA&s",
+    3: "https://pbs.twimg.com/media/G-C7Rbua8AAx2zT?format=jpg&name=900x900",
+    4: "https://imagex1.sx.cdn.live/images/pinporn/2022/03/03/26818392.jpg?width=620",
+  };
+
+  const currentFavicon = 3; // เปลี่ยนFAVICON Nour Haddad
+
+  const faviconElement = document.getElementById("dynamicFavicon");
+  if (faviconList[currentFavicon]) {
+    faviconElement.href = faviconList[currentFavicon];
+  } else {
+    console.warn("ไม่มีหมายเลข favicon นี้:", currentFavicon);
+  }
+</script>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #0b0f1f;
+  --bg-soft: rgba(15, 23, 42, 0.65);
+  --glass: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(148, 163, 184, 0.18);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #7c3aed;
+  --secondary: #06b6d4;
+  --accent: #f472b6;
+  --card: rgba(15, 23, 42, 0.75);
+  --shadow: 0 20px 45px rgba(15, 23, 42, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Prompt', sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background: radial-gradient(circle at top, rgba(124, 58, 237, 0.24), transparent 50%),
+    radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.22), transparent 40%),
+    var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+#bgVideo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  opacity: 0.6;
+  filter: saturate(110%) contrast(105%);
+}
+
+#bgOverlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(2, 6, 23, 0.7), rgba(30, 41, 59, 0.45));
+  z-index: -1;
+}
+
+.app {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  padding: 32px 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero {
+  display: grid;
+  gap: 18px;
+  padding: 28px clamp(18px, 4vw, 36px);
+  border-radius: 24px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: 0.5px;
+}
+
+.brand p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 220px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.65);
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-box::placeholder {
+  color: rgba(226, 232, 240, 0.6);
+}
+
+.search-box:focus {
+  border-color: rgba(124, 58, 237, 0.6);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+#randomButton {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+}
+
+#randomButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(124, 58, 237, 0.4);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-button {
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--text);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.category-button:hover {
+  border-color: rgba(124, 58, 237, 0.6);
+  color: white;
+}
+
+.category-button.active {
+  background: linear-gradient(120deg, rgba(124, 58, 237, 0.8), rgba(6, 182, 212, 0.7));
+  border-color: transparent;
+  box-shadow: 0 8px 16px rgba(124, 58, 237, 0.2);
+}
+
+.count {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+}
+
+.anime {
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.anime:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 30px rgba(2, 6, 23, 0.45);
+}
+
+.anime a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.anime img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.anime:hover img {
+  transform: scale(1.04);
+}
+
+.anime-title {
+  padding: 12px 14px 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 14px 14px;
+}
+
+.tag {
+  background: rgba(148, 163, 184, 0.2);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+#loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 6px solid rgba(148, 163, 184, 0.25);
+  border-top-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+footer {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  text-align: center;
+  padding: 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+footer a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.allsite-link {
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,0.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease;
+}
+
+.modal-backdrop.show{opacity:1;pointer-events:auto;}
+
+.modal{
+  width:min(520px,94%);
+  border-radius:18px;
+  padding:22px;
+  background:rgba(15, 23, 42, 0.95);
+  border:1px solid rgba(148,163,184,0.2);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.35);
+  transform:translateY(12px);
+  transition:transform .18s ease;
+}
+
+.modal-backdrop.show .modal{ transform:none; }
+
+.modal .modal-title{
+  text-align:center;
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:12px;
+  color:var(--text);
+}
+
+.modal .modal-actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.btn-modal{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(148,163,184,0.2);
+  background:rgba(15, 23, 42, 0.7);
+  font-weight:600;
+  cursor:pointer;
+  font-size:15px;
+  color:var(--text);
+}
+
+.btn-modal.primary{
+  background:linear-gradient(120deg,var(--primary),var(--accent));
+  color:#fff;
+  border:none;
+  box-shadow:0 8px 20px rgba(124, 58, 237, 0.2);
+}
+
+.btn-modal.ghost{
+  background:transparent;
+  border:1px dashed rgba(148,163,184,0.35);
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+/* === Row reveal animation === */
+.anime-row {
+  display: contents;
+}
+
+.anime {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.anime.reveal {
+  animation: revealUp 0.45s ease forwards;
+}
+
+@keyframes revealUp {
+  to { opacity:1; transform:none; }
+}
+
+.anime.hidden { opacity: 0; transform: translateY(24px); }
+
+@media (max-width: 900px) {
+  .hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .controls {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .anime img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    width: 92%;
+    padding-top: 24px;
+  }
+
+  .hero {
+    padding: 22px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- 🌌 Video Background -->
+<video id="bgVideo" autoplay muted loop playsinline preload="auto"></video>
+<div id="bgOverlay"></div>
+
+<div class="app">
+  <header class="hero">
+    <div class="hero-top">
+      <div class="brand">
+        <h1>AnimeIndex</h1>
+        <p>คลังอนิเมะที่คัดสรรไว้ให้ค้นหาและสุ่มดูได้ในคลิกเดียว</p>
+      </div>
+    </div>
+
+    <div class="hero-actions controls">
+      <input type="text" id="searchBox" class="search-box" placeholder="🔍 ค้นหาชื่ออนิเมะ...">
+      <button id="randomButton">สุ่มอนิเมะ</button>
+    </div>
+  </header>
+
+  <section class="filters">
+    <div class="category-container is-hidden" id="categoryContainer"></div>
+    <p class="count is-hidden" id="animeCount"></p>
+  </section>
+
+  <section class="results">
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+    <div class="grid is-hidden" id="animeGrid"></div>
+  </section>
+
+  <footer>
+    <div>© 2025 Anime List | สร้างโดย <a href="#">Wesley</a></div>
+    <div>
+      <button id="openAllsite" class="allsite-link">Allsite</button>
+      <button id="openBackground" class="allsite-link">Background</button>
+    </div>
+    <div>
+      <a href="#" id="scrollTop">↑ กลับขึ้นบนสุด</a>
+    </div>
+  </footer>
+</div>
+
+<!-- Allsite modal (UI copied/adapted from manage_anime.html) -->
+<div id="allsiteModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="allsiteTitle">
+    <div class="modal-title" id="allsiteTitle">Allsite</div>
+    <div class="modal-actions">
+      <button id="btnManageAnime" class="btn-modal primary">Manage Anime</button>
+      <button id="btnHIndex" class="btn-modal">H Index</button>
+      <button id="btnCancelAllsite" class="btn-modal ghost">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =======================
+// 🔹 Video Background Source
+// 1 = URL, 2 = Repo
+const videoSource = 2; // เปลี่ยนเป็น 2 ถ้าต้องการโหลดจาก repo
+const bgVideo = document.getElementById('bgVideo');
+const urlVideo = "h";
+const repoVideo = "11_10_Homescreen_GameChangers.webm";
+
+// =======================
+// 🔹 Load video with IndexedDB cache + fallback
+function loadVideo(url, fallback=null) {
+  if (!('indexedDB' in window)) {
+    bgVideo.src = url;
+    bgVideo.play();
+    return;
+  }
+
+  const openRequest = indexedDB.open('videoDB',1);
+  openRequest.onupgradeneeded = e => {
+    e.target.result.createObjectStore('videos');
+  };
+
+  openRequest.onsuccess = e => {
+    const db = e.target.result;
+    const tx = db.transaction('videos','readonly');
+    const store = tx.objectStore('videos');
+    const getReq = store.get(url);
+
+    getReq.onsuccess = async () => {
+      if(getReq.result){
+        bgVideo.src = URL.createObjectURL(getReq.result);
+        bgVideo.play();
+      } else {
+        try {
+          const resp = await fetch(url);
+          const blob = await resp.blob();
+          const txPut = db.transaction('videos','readwrite');
+          txPut.objectStore('videos').put(blob,url);
+          txPut.oncomplete = () => console.log("Video cached!");
+          bgVideo.src = URL.createObjectURL(blob);
+          bgVideo.play();
+        } catch(err){
+          console.warn("Video load failed, trying fallback...", err);
+          if(fallback) loadVideo(fallback,null);
+          else { bgVideo.src = url; bgVideo.play(); }
+        }
+      }
+    };
+
+    getReq.onerror = () => {
+      bgVideo.src = url;
+      bgVideo.play();
+    };
+  };
+
+  openRequest.onerror = e => {
+    console.error("IndexedDB open error", e);
+    bgVideo.src = url;
+    bgVideo.play();
+  };
+}
+
+// =======================
+// 🔹 Run video load
+if(videoSource===1) loadVideo(urlVideo, repoVideo);
+else loadVideo(repoVideo, urlVideo);
+
+bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
+
+// =======================
+// 🔹 Fetch Anime Data
+let allAnimes = [];
+let activeCategories = [];
+
+fetch(`H.json?ts=${Date.now()}`, { cache: 'no-store' })
+  .then(response => response.json())
+  .then(animes => {
+    allAnimes = animes;
+    const grid = document.getElementById('animeGrid');
+    const categoryContainer = document.getElementById('categoryContainer');
+    const searchBox = document.getElementById('searchBox');
+    const countText = document.getElementById('animeCount');
+    const loader = document.getElementById('loader');
+
+    loader.style.display = 'none';
+    grid.classList.remove('is-hidden');
+    categoryContainer.classList.remove('is-hidden');
+    countText.classList.remove('is-hidden');
+
+    const categories = [...new Set(animes.flatMap(a => a.category))].sort();
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.classList.add('category-button');
+      btn.textContent = cat;
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        if(activeCategories.includes(cat)){
+          activeCategories = activeCategories.filter(c=>c!==cat);
+        } else {
+          activeCategories.push(cat);
+        }
+        applyFilters();
+      });
+      categoryContainer.appendChild(btn);
+    });
+
+    function renderAnimeList(list){
+      grid.innerHTML = '';
+      countText.textContent = `พบทั้งหมด ${list.length} เรื่อง`;
+      if(list.length===0){
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
+        return;
+      }
+      list.forEach(a=>{
+        const animeDiv = document.createElement('div');
+        animeDiv.classList.add('anime','hidden');
+        const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+        const tagsHTML = a.category.map(cat=>`<span class="tag">${cat}</span>`).join('');
+        animeDiv.innerHTML = `
+          <a href="${a.link}" target="_blank">
+            <img src="${imgSrc}" alt="${a.title}">
+            <div class="anime-title">${a.title}</div>
+          </a>
+          <div class="tags">${tagsHTML}</div>
+        `;
+        grid.appendChild(animeDiv);
+      });
+    }
+
+    function applyFilters(){
+      const keyword = searchBox.value.toLowerCase().trim();
+      let filtered = [...animes];
+
+      if(activeCategories.length > 0){
+        filtered = filtered.filter(a =>
+          activeCategories.every(cat => a.category.includes(cat))
+        );
+      }
+
+      if(keyword !== ""){
+        filtered = filtered.filter(a =>
+          a.title.toLowerCase().includes(keyword)
+        );
+      }
+
+      // reset animation state before re-render
+      _cardAnimationPlayed = false;
+
+      renderAnimeList(filtered);
+
+      // replay animation after DOM update
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (typeof animateRowsOnce === 'function') {
+            animateRowsOnce();
+          }
+        });
+      });
+    }
+
+    searchBox.addEventListener('input',applyFilters);
+
+    document.getElementById('randomButton').addEventListener('click',()=>{
+      const randomAnime = allAnimes[Math.floor(Math.random()*allAnimes.length)];
+      window.open(randomAnime.link,'_blank');
+    });
+
+    document.getElementById('scrollTop').addEventListener('click', e=>{
+      e.preventDefault();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    renderAnimeList(animes);
+      // schedule animation once after layout/images settle
+      setTimeout(() => { requestAnimationFrame(animateRowsOnce); }, 140);
+  })
+  .catch(err=>{
+    document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้มูลได้ 😢</p>';
+    console.error('โหลด H.json ไม่ได้:', err);
+  });
+
+</script>
+
+<script>
+// ✅ ตรวจจับว่าเป็นมือถือหรือไม่
+function isMobileDevice() {
+  const ua = navigator.userAgent.toLowerCase();
+  return /android|iphone|ipad|ipod|mobile/.test(ua);
+}
+
+// ✅ ปรับ UI สำหรับมือถือ
+function adjustForMobile() {
+  document.body.style.zoom = "0.95";
+  document.body.style.padding = "0";
+  document.body.style.overflowX = "hidden";
+
+  const grid = document.querySelector('.grid');
+  if (grid) grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
+
+  document.querySelectorAll('.anime img').forEach(img => {
+    img.style.height = "220px";
+  });
+
+  document.querySelectorAll('.anime-title').forEach(title => {
+    title.style.fontSize = "13px";
+  });
+
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.style.fontSize = "11px";
+  });
+
+  console.log("📱 Mobile detected — UI adjusted for small screen");
+}
+
+// ✅ โหลดเมื่อ DOM พร้อมใช้งาน
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileDevice()) {
+    adjustForMobile();
+  } else {
+    console.log("💻 Desktop detected — using default layout");
+  }
+
+  // ---- Allsite modal wiring ----
+  const openAllsiteBtn = document.getElementById('openAllsite');
+  const allsiteModal = document.getElementById('allsiteModal');
+  const btnManage = document.getElementById('btnManageAnime');
+  const btnHIndex = document.getElementById('btnHIndex');
+  const btnCancel = document.getElementById('btnCancelAllsite');
+
+  function openAllsiteModal(){
+    allsiteModal.classList.add('show');
+    allsiteModal.setAttribute('aria-hidden','false');
+  }
+  function closeAllsiteModal(){
+    allsiteModal.classList.remove('show');
+    allsiteModal.setAttribute('aria-hidden','true');
+  }
+
+  if(openAllsiteBtn){
+    openAllsiteBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      openAllsiteModal();
+    });
+  }
+  if(btnManage){
+    btnManage.addEventListener('click', ()=> {
+      // ไปที่หน้า Manage Anime (ตามที่ผู้ใช้ขอ)
+      window.location.href = 'https://pobyrc.github.io/AnimeIndex/manage_anime.html';
+    });
+  }
+  if(btnHIndex){
+    btnHIndex.addEventListener('click', ()=> {
+      // ไปที่หน้า H Index (ตามที่ผู้ใช้ขอ)
+      window.location.href = 'https://pobyrc.github.io/AnimeIndex/Hindex.html';
+    });
+  }
+  if(btnCancel){
+    btnCancel.addEventListener('click', ()=> closeAllsiteModal());
+  }
+  // ปิดเมื่อคลิกนอก modal
+  if(allsiteModal){
+    allsiteModal.addEventListener('click', (ev)=>{
+      if(ev.target === allsiteModal) closeAllsiteModal();
+    });
+  }
+});
+</script>
+
+<!-- Background Modal -->
+<div id="bgModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-title">🎨 เลือกพื้นหลัง</div>
+    <div id="bgOptions" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <button id="bgCancelBtn" class="btn-modal ghost">ยกเลิก</button>
+  </div>
+</div>
+
+<script>
+/*
+  Cleaned up background modal & IndexedDB caching script.
+  - Ensures the Background button is wired after the DOM element exists.
+  - Removes previous stray/duplicate/invalid code that caused console errors.
+  - Provides load/save cache using indexedDB and fallback fetch behavior.
+*/
+
+const backgroundSources = [
+  { type: 'repo', label: 'Homescreen VCT GameChangers', value: '11_10_Homescreen_GameChangers.webm' },
+  { type: 'repo', label: 'Homescreen VCT Champions', value: '11_05_Homescreen_VCT.webm' },
+  { type: 'repo', label: 'Homescreen VCT Clove', value: '8_05_Homescreen_VCT.webm' },
+  { type: 'repo', label: 'Homescreen VCT', value: '12_00_Homescreen_VCT.webm' }
+];
+
+// 🎯 ปุ่มและ element ต้องเชื่อมถูกก่อน
+const bgModal = document.getElementById('bgModal');
+const openBackground = document.getElementById('openBackground');
+const bgOptions = document.getElementById('bgOptions');
+const bgVideoEl = document.getElementById('bgVideo');
+const bgCancelBtn = document.getElementById('bgCancelBtn');
+
+// 🎯 ฟังก์ชันแสดงตัวเลือกพื้นหลังใน Popup
+function renderBgOptions(){
+  if (!bgOptions) return;
+  bgOptions.innerHTML = '';
+  backgroundSources.forEach(bg=>{
+    const btn = document.createElement('button');
+    btn.classList.add('btn-modal');
+    btn.textContent = bg.label;
+    btn.onclick = ()=> selectBackground(bg);
+    bgOptions.appendChild(btn);
+  });
+}
+
+// 🎯 เปิด Modal ได้อย่างถูกต้อง
+if (openBackground) {
+  openBackground.addEventListener('click', (e)=>{
+    e.preventDefault();
+    renderBgOptions();
+    if (bgModal) bgModal.classList.add('show');
+  });
+} else {
+  // Helpful debug message if element is missing
+  console.warn('openBackground element not found. Make sure the <button id="openBackground"> exists and this script runs after it.');
+}
+
+// 🎯 ปิด Modal (คลิกนอกกรอบหรือกดปุ่ม)
+if (bgCancelBtn) {
+  bgCancelBtn.addEventListener('click', ()=> bgModal && bgModal.classList.remove('show'));
+}
+if (bgModal) {
+  bgModal.addEventListener('click',(e)=>{ if(e.target===bgModal) bgModal.classList.remove('show'); });
+}
+
+// ================= IndexedDB helpers for background caching =================
+function getDB() {
+  return new Promise((resolve, reject) => {
+    const open = indexedDB.open("bgDB", 1);
+    open.onupgradeneeded = () => {
+      try { open.result.createObjectStore("backgrounds"); } catch(e){ /* ignore if exists */ }
+    };
+    open.onsuccess = () => resolve(open.result);
+    open.onerror = () => reject(open.error);
+  });
+}
+
+async function saveToCache(key, blob) {
+  const db = await getDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("backgrounds", "readwrite");
+    const store = tx.objectStore("backgrounds");
+    const req = store.put(blob, key);
+    req.onsuccess = () => {
+      tx.oncomplete = () => resolve(true);
+    };
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function loadFromCache(key) {
+  const db = await getDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction("backgrounds", "readonly");
+    const req = tx.objectStore("backgrounds").get(key);
+    req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => resolve(null);
+  });
+}
+
+// ================= Background selection / loading =================
+function setVideoSource(sourceUrl) {
+  if (!bgVideoEl) return;
+  bgVideoEl.pause();
+  bgVideoEl.removeAttribute('src');
+  bgVideoEl.load();
+  bgVideoEl.src = sourceUrl;
+  bgVideoEl.load();
+  bgVideoEl.play().catch(()=>{});
+}
+
+function selectBackground(bgData){
+  try {
+    localStorage.setItem('bgSource', JSON.stringify(bgData));
+  } catch(e){
+    console.warn('Could not save bgSource to localStorage', e);
+  }
+  loadNewBackground(bgData);
+  if (bgModal) bgModal.classList.remove('show');
+}
+
+(async function loadSavedBg(){
+  try {
+    const saved = localStorage.getItem('bgSource');
+    if(saved) await loadNewBackground(JSON.parse(saved));
+  } catch(e){
+    console.warn('Error loading saved background', e);
+  }
+})();
+
+async function loadNewBackground(bgData){
+  if(!bgData) return;
+  const source = bgData.value;
+  try {
+    const cachedBlob = await loadFromCache(source);
+    if (cachedBlob) {
+      const objectUrl = URL.createObjectURL(cachedBlob);
+      setVideoSource(objectUrl);
+      return;
+    }
+    const res = await fetch(source);
+    if(!res.ok) throw new Error('Fetch failed: ' + res.status);
+    const blob = await res.blob();
+    // save to cache (don't block UI if save fails)
+    saveToCache(source, blob).catch(e=>console.warn('Background cache save failed', e));
+    const objectUrl = URL.createObjectURL(blob);
+    setVideoSource(objectUrl);
+  } catch(err){
+    console.warn("Background load failed, using source directly", err);
+    // fallback: set src to source (may be CORS/404 but still a fallback)
+    setVideoSource(source);
+  }
+}
+</script>
+
+<!-- ===== Service Worker registration (inserted) ===== -->
+<script>
+(function(){
+  // สำหรับ GitHub Pages project site ของคุณ ให้ใช้ '/AnimeIndex/service-worker.js'
+  // ถ้าเป็น user site เปลี่ยนเป็น '/service-worker.js'
+  const SW_PATH = '/AnimeIndex/service-worker.js';
+
+  if (!('serviceWorker' in navigator)) {
+    console.warn('Service Worker not supported in this browser.');
+    return;
+  }
+
+  navigator.serviceWorker.register(SW_PATH)
+    .then(reg => {
+      console.log('Service Worker registered:', reg);
+
+      // ส่งรายการ URL รูปภาพทั้งหมดให้ SW เพื่อ warm cache
+      function collectImageUrls() {
+        try {
+          const urls = Array.from(document.images)
+                            .map(img => img.src)
+                            .filter(Boolean);
+          // Remove empty and data: urls and dedupe
+          const filtered = [...new Set(urls.filter(u => u && !u.startsWith('data:')))];
+          return filtered;
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function sendToSW(urls) {
+        if (!urls || !urls.length) return;
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+          console.log('Sent images to SW for caching:', urls);
+        } else {
+          // if no controller yet, wait for ready then send
+          navigator.serviceWorker.ready.then(() => {
+            if (navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+              console.log('Sent images to SW (on ready):', urls);
+            }
+          });
+        }
+      }
+
+      // Initial send after short delay to allow async-rendered images to appear
+      setTimeout(() => sendToSW(collectImageUrls()), 1200);
+
+      // Observe the anime grid for added nodes (images are added dynamically)
+      const grid = document.getElementById('animeGrid');
+      if (grid) {
+        const observer = new MutationObserver((mutations) => {
+          let shouldSend = false;
+          for (const m of mutations) {
+            if (m.addedNodes && m.addedNodes.length) {
+              for (const n of m.addedNodes) {
+                if (n.nodeType === 1) {
+                  if (n.tagName === 'IMG' || n.querySelector && n.querySelector('img')) {
+                    shouldSend = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (shouldSend) break;
+          }
+          if (shouldSend) {
+            // small debounce
+            clearTimeout(window.__swWarmTimeout);
+            window.__swWarmTimeout = setTimeout(() => {
+              sendToSW(collectImageUrls());
+            }, 400);
+          }
+        });
+        observer.observe(grid, { childList: true, subtree: true });
+      }
+
+      // Also send again when service worker gains control (covers first-time install)
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        setTimeout(() => sendToSW(collectImageUrls()), 500);
+      });
+    })
+    .catch(err => {
+      console.error('Service Worker registration failed:', err);
+    });
+})();
+</script>
+<!-- ===== end Service Worker registration ===== -->
+
+<script>
+/* === Row-by-row animation logic === */
+let _cardAnimationPlayed = false;
+
+function animateRowsOnce() {
+  if (_cardAnimationPlayed) return;
+  _cardAnimationPlayed = true;
+
+  const grid = document.getElementById('animeGrid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.children).filter(c => c.classList && c.classList.contains('anime'));
+  if (!cards.length) return;
+
+  setTimeout(() => {
+    cards.forEach(c => {
+      c.classList.remove('reveal');
+      c.classList.add('hidden');
+    });
+
+    grid.offsetHeight;
+
+    const rows = [];
+    let currentRow = [];
+    let lastTop = null;
+    cards.forEach(card => {
+      const top = Math.round(card.getBoundingClientRect().top);
+      if (lastTop === null || Math.abs(top - lastTop) < 6) {
+        currentRow.push(card);
+      } else {
+        rows.push(currentRow);
+        currentRow = [card];
+      }
+      lastTop = top;
+    });
+    if (currentRow.length) rows.push(currentRow);
+
+    let gap = 120;
+    const MIN_GAP = 30;
+    let totalDelay = 0;
+
+    rows.forEach((row) => {
+      setTimeout(() => {
+        row.forEach(card => {
+          card.classList.remove('hidden');
+          card.offsetHeight;
+          card.classList.add('reveal');
+        });
+      }, totalDelay);
+
+      totalDelay += gap;
+      gap = Math.max(MIN_GAP, gap - 10);
+    });
+  }, 60);
+}
+</script>
+</body>
+</html>
