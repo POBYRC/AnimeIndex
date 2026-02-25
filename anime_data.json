@@ -3221,5 +3221,81 @@
       "โรแมนติก",
       "ฮาเร็ม"
     ]
+  },
+  {
+    "id": 277,
+    "title": "อสึมังกะ โรงเรียนป่วนนักเรียนเป๋อ",
+    "link": "https://fairyanime.net/azumanga-daioh/",
+    "image": "https://m.media-amazon.com/images/M/MV5BYmYyZWQzMTYtM2EyNS00YzllLThmZGYtZGY2ODA0NDc2M2FkXkEyXkFqcGc@._V1_.jpg",
+    "category": [
+      "ชีวิตประจำวัน",
+      "ตลก",
+      "โรงเรียน"
+    ]
+  },
+  {
+    "id": 278,
+    "title": "Maji de Watashi ni Koi Shinasai",
+    "link": "https://fairyanime.net/maji-de-watashi-ni-koi-shinasai-gen2/",
+    "image": "https://upload.wikimedia.org/wikipedia/vi/2/27/Maji_de_Watashi_ni_Koishinasai%21_S_DVD_boxset_cover.jpg",
+    "category": [
+      "ตลก",
+      "ต่อสู้",
+      "ทะลึ่ง",
+      "พลังพิเศษ",
+      "โรงเรียน",
+      "โรแมนติก",
+      "ฮาเร็ม"
+    ]
+  },
+  {
+    "id": 279,
+    "title": "อะเคบิจังโนะเซเลอร์ฟุคุ",
+    "link": "https://animeruka.com/anime/akebi-chan-no-sailor-fuku/",
+    "image": "https://animeruka.com/wp-content/uploads/2022/03/8DzVcjKHOss1KWhjU0VezxgthDv-200x300.jpg",
+    "category": [
+      "ต่อสู้",
+      "ต่างโลก",
+      "ผจญภัย",
+      "แฟนตาซี",
+      "เหนือธรรมชาติ"
+    ]
+  },
+  {
+    "id": 280,
+    "title": "Joukamachi no Dandelion",
+    "link": "https://anime-hdzero.com/catagory/1964",
+    "image": "https://img.shirokami.me/images/2021/10/05/imageff13f9baa07f2986.jpg",
+    "category": [
+      "ชีวิตประจำวัน",
+      "ตลก",
+      "พลังพิเศษ",
+      "โรงเรียน",
+      "เหนือธรรมชาติ"
+    ]
+  },
+  {
+    "id": 281,
+    "title": "Ben-To สงครามข้าวกล่องครึ่งราคา",
+    "link": "https://anime-hdzero.com/catagory/1979",
+    "image": "https://img.shirokami.me/images/2021/10/05/image9085ce6636f32f4e.jpg",
+    "category": [
+      "ตลก",
+      "ต่อสู้",
+      "อาหาร"
+    ]
+  },
+  {
+    "id": 282,
+    "title": "เจ้าหญิงกระบอกไม้ไผ่ ในโลกเมตาเวิร์ส มูฟวี่",
+    "link": "https://www.anime-yuzu.com/movies/chou-kaguya-hime/",
+    "image": "https://pbs.twimg.com/media/G7MJE66XUAAmXB6.jpg",
+    "category": [
+      "ไซ-ไฟ",
+      "ต่อสู้",
+      "ปรัมปรา",
+      "เพลง",
+      "เหนือธรรมชาติ"
+    ]
   }
 ]
