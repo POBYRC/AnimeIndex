@@ -443,7 +443,7 @@
       <h3 style="margin-top:0">เลือกตำแหน่งการเพิ่ม</h3>
       <div class="btnRow">
         <button id="chooseInsertLatest" class="btn primary">เพิ่มต่อท้าย</button>
-        <button id="chooseInsertSpecific" class="btn">ลือกแทรกเอง</button>
+        <button id="chooseInsertSpecific" class="btn">เลือกแทรกเอง</button>
         <button id="chooseInsertCancel" class="btn ghost">ยกเลิก</button>
       </div>
     </div>
@@ -500,6 +500,8 @@
     let pendingNewAnime = null;
     let currentSource = 'anime_data.json';
     let jsonVisible = true;
+    let addSelectedCategories = [];
+    let editSelectedCategories = [];
 
     const gridEl = document.getElementById('grid');
     const countText = document.getElementById('countText');
@@ -599,12 +601,18 @@
     }
 
     function renderCategoryCheckboxes() {
-      createCategoryPills('addCategoryBox');
-      createCategoryPills('editCategoryBox');
+      createCategoryPills('addCategoryBox', addSelectedCategories);
+      createCategoryPills('editCategoryBox', editSelectedCategories);
     }
 
-    function getCheckedValues(rootEl) {
-      return [...rootEl.querySelectorAll('input[type=checkbox]:checked')].map(i => i.value);
+    function syncSelectedCategoriesFromBox(boxId, selectedStore) {
+      const box = document.getElementById(boxId);
+      box.querySelectorAll('input[type=checkbox]').forEach(input => {
+        const val = input.value;
+        const idx = selectedStore.indexOf(val);
+        if (input.checked && idx === -1) selectedStore.push(val);
+        if (!input.checked && idx !== -1) selectedStore.splice(idx, 1);
+      });
     }
 
     function renderList(list) {
@@ -665,7 +673,8 @@
       document.getElementById('addLink').value = '';
       document.getElementById('addImage').value = '';
       document.getElementById('addCategorySearch').value = '';
-      createCategoryPills('addCategoryBox');
+      addSelectedCategories = [];
+      createCategoryPills('addCategoryBox', addSelectedCategories);
     }
 
     function deleteAnime(id) {
@@ -682,7 +691,8 @@
       document.getElementById('editLink').value = item.link || '';
       document.getElementById('editImage').value = item.image || '';
       document.getElementById('editCategorySearch').value = '';
-      createCategoryPills('editCategoryBox', item.category || []);
+      editSelectedCategories = [...(item.category || [])];
+      createCategoryPills('editCategoryBox', editSelectedCategories);
       showModal(modalBackdrop, true);
     }
 
@@ -750,7 +760,8 @@
       const title = document.getElementById('addTitle').value.trim();
       const link = document.getElementById('addLink').value.trim();
       const image = document.getElementById('addImage').value.trim();
-      const category = getCheckedValues(document.getElementById('addCategoryBox'));
+      syncSelectedCategoriesFromBox('addCategoryBox', addSelectedCategories);
+      const category = [...addSelectedCategories];
 
       if (!title) {
         alert('กรุณากรอกชื่อเรื่อง');
@@ -762,6 +773,14 @@
     });
 
     document.getElementById('clearNew').addEventListener('click', clearAddForm);
+
+    document.getElementById('addCategoryBox').addEventListener('change', () => {
+      syncSelectedCategoriesFromBox('addCategoryBox', addSelectedCategories);
+    });
+
+    document.getElementById('editCategoryBox').addEventListener('change', () => {
+      syncSelectedCategoriesFromBox('editCategoryBox', editSelectedCategories);
+    });
 
     document.getElementById('chooseInsertCancel').addEventListener('click', () => showModal(chooseInsertModal, false));
     document.getElementById('chooseInsertLatest').addEventListener('click', () => {
@@ -783,7 +802,8 @@
       const title = document.getElementById('editTitle').value.trim();
       const link = document.getElementById('editLink').value.trim();
       const image = document.getElementById('editImage').value.trim();
-      const category = getCheckedValues(document.getElementById('editCategoryBox'));
+      syncSelectedCategoriesFromBox('editCategoryBox', editSelectedCategories);
+      const category = [...editSelectedCategories];
 
       if (!title) {
         alert('กรุณากรอกชื่อเรื่อง');
@@ -817,13 +837,13 @@
 
     // category search in add/edit
     document.getElementById('addCategorySearch').addEventListener('input', e => {
-      const selected = getCheckedValues(document.getElementById('addCategoryBox'));
-      createCategoryPills('addCategoryBox', selected, e.target.value);
+      syncSelectedCategoriesFromBox('addCategoryBox', addSelectedCategories);
+      createCategoryPills('addCategoryBox', addSelectedCategories, e.target.value);
     });
 
     document.getElementById('editCategorySearch').addEventListener('input', e => {
-      const selected = getCheckedValues(document.getElementById('editCategoryBox'));
-      createCategoryPills('editCategoryBox', selected, e.target.value);
+      syncSelectedCategoriesFromBox('editCategoryBox', editSelectedCategories);
+      createCategoryPills('editCategoryBox', editSelectedCategories, e.target.value);
     });
 
     // source/json
