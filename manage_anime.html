@@ -36,15 +36,15 @@
       max-width: 1500px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px;
-      gap: 16px;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 12px;
       align-items: start;
     }
 
     .box {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: 14px;
       box-shadow: var(--shadow);
     }
 
@@ -54,16 +54,16 @@
     }
 
     .topbar {
-      padding: 14px;
+      padding: 11px;
       display: grid;
-      grid-template-columns: 1fr 270px auto;
+      grid-template-columns: 1fr 230px auto;
       gap: 10px;
       align-items: center;
     }
 
     .brand h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 19px;
       line-height: 1.1;
     }
 
@@ -72,8 +72,8 @@
     .input, .btn {
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 10px;
+      padding: 8px 10px;
       font: inherit;
       background: #fff;
       color: var(--text);
@@ -113,22 +113,22 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      padding: 0 14px 14px;
+      padding: 0 11px 11px;
     }
 
     .chip {
-      font-size: 12px;
+      font-size: 11px;
       border: 1px solid #d6dff4;
       border-radius: 999px;
-      padding: 5px 10px;
+      padding: 4px 8px;
       color: #55648b;
       background: #f8faff;
     }
 
     .grid {
-      padding: 14px;
+      padding: 11px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
       gap: 12px;
     }
 
@@ -138,7 +138,7 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      min-height: 310px;
+      min-height: 280px;
       background: #fff;
     }
 
@@ -150,15 +150,15 @@
     }
 
     .body {
-      padding: 10px;
+      padding: 8px;
       display: grid;
-      gap: 8px;
+      gap: 6px;
       height: 100%;
     }
 
     .anime-title {
       margin: 0;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.3;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -169,7 +169,7 @@
     .anime-link {
       color: #6b7a9f;
       text-decoration: none;
-      font-size: 12px;
+      font-size: 11px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -182,7 +182,7 @@
       background: #f4f7ff;
       color: #52628d;
       border-radius: 999px;
-      padding: 3px 8px;
+      padding: 2px 7px;
     }
 
     .actions {
@@ -195,7 +195,7 @@
       flex: 1;
       border-radius: 10px;
       border: 1px solid #d8e0f2;
-      padding: 7px;
+      padding: 6px;
       background: #fbfcff;
       cursor: pointer;
       font: inherit;
@@ -210,8 +210,8 @@
     .empty {
       grid-column: 1 / -1;
       border: 1px dashed #cad7f2;
-      border-radius: 12px;
-      padding: 25px;
+      border-radius: 10px;
+      padding: 18px;
       text-align: center;
       color: #7887ab;
     }
@@ -223,17 +223,17 @@
       gap: 12px;
     }
 
-    .panel { padding: 14px; }
+    .panel { padding: 11px; }
 
     .field { display: grid; gap: 6px; margin-bottom: 9px; }
     .field label { font-size: 13px; color: var(--sub); }
 
     .btnRow { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btnRow .btn { flex: 1; min-width: 115px; }
+    .btnRow .btn { flex: 1; min-width: 96px; }
 
     .category-wrap {
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 10px;
       padding: 8px;
       background: #fbfcff;
     }
@@ -246,7 +246,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      max-height: 170px;
+      max-height: 145px;
       overflow: auto;
     }
 
@@ -264,8 +264,8 @@
       display: inline-block;
       border: 1px solid #d3dcf4;
       border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 12px;
+      padding: 4px 8px;
+      font-size: 11px;
       color: #4d5e88;
       background: #fff;
       cursor: pointer;
@@ -282,14 +282,14 @@
     .json {
       margin: 0;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 10px;
       background: #fafbff;
-      padding: 10px;
+      padding: 8px;
       white-space: pre-wrap;
       word-break: break-word;
-      max-height: 290px;
+      max-height: 240px;
       overflow: auto;
-      font-size: 12px;
+      font-size: 11px;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     }
 
@@ -312,13 +312,13 @@
     }
 
     .modal {
-      width: min(760px, 100%);
+      width: min(680px, 100%);
       max-height: 90vh;
       overflow: auto;
-      border-radius: 16px;
+      border-radius: 13px;
       border: 1px solid #dde5f5;
       background: #fff;
-      padding: 14px;
+      padding: 11px;
       box-shadow: var(--shadow);
     }
 
@@ -342,7 +342,7 @@
             <h1>Anime Manager</h1>
             <div class="muted">จัดการรายการ เพิ่ม • แก้ไข • ลบ ได้ในหน้าเดียว</div>
           </div>
-          <input id="quickSearch" class="input" placeholder="ค้นหา: ชื่อเรื่อง / ลิงก์ / หมวดหมู่" />
+          <input id="quickSearch" class="input" placeholder="ค้นหาเรื่อง / หมวดหมู่" />
           <button id="switchSourceBtn" class="btn">สลับเป็น H_data</button>
         </div>
         <div class="status-row">
@@ -389,7 +389,7 @@
       <section class="box panel">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
           <h2 style="margin:0">JSON</h2>
-          <button id="toggleJsonBtn" class="btn ghost" style="width:auto;padding:8px 12px;">ซ่อน JSON</button>
+          <button id="toggleJsonBtn" class="btn ghost" style="width:auto;padding:6px 10px;">ซ่อน JSON</button>
         </div>
 
         <pre id="jsonView" class="json">กำลังโหลด...</pre>
