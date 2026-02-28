@@ -279,6 +279,38 @@
       font-weight: 600;
     }
 
+    /* Add form sizing tune */
+    .add-form .input {
+      padding: 6px 9px;
+      font-size: 13px;
+    }
+
+    .add-form .field {
+      margin-bottom: 7px;
+    }
+
+    .add-form .category-wrap {
+      padding: 9px;
+    }
+
+    .add-form .category-search {
+      padding: 7px 9px;
+      font-size: 13px;
+    }
+
+    .add-form .category-pills {
+      max-height: 170px;
+      gap: 8px;
+    }
+
+    .add-form .cat-pill span {
+      padding: 6px 11px;
+      font-size: 12px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+    }
+
     .json {
       margin: 0;
       border: 1px solid var(--line);
@@ -356,7 +388,7 @@
     </main>
 
     <aside class="side">
-      <section class="box panel">
+      <section class="box panel add-form">
         <h2 style="margin:0 0 10px">เพิ่มรายการใหม่</h2>
 
         <div class="field">
@@ -411,7 +443,7 @@
       <h3 style="margin-top:0">เลือกตำแหน่งการเพิ่ม</h3>
       <div class="btnRow">
         <button id="chooseInsertLatest" class="btn primary">เพิ่มต่อท้าย</button>
-        <button id="chooseInsertSpecific" class="btn">เลือกแทรกเอง</button>
+        <button id="chooseInsertSpecific" class="btn">ลือกแทรกเอง</button>
         <button id="chooseInsertCancel" class="btn ghost">ยกเลิก</button>
       </div>
     </div>
