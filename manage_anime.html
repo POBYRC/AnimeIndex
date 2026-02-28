@@ -2,698 +2,573 @@
 <html lang="th">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Anime Manager Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0b1020;
-      --bg-soft: #111a33;
-      --card: rgba(20, 30, 58, 0.82);
-      --card-solid: #14203f;
-      --text: #e8eeff;
-      --muted: #9aacd7;
-      --accent: #67e8f9;
-      --accent-2: #a78bfa;
-      --danger: #fb7185;
-      --border: rgba(173, 196, 255, 0.18);
-      --shadow: 0 12px 40px rgba(2, 8, 24, 0.5);
+      --bg-soft: #121a31;
+      --card: #131d3a;
+      --card-2: #101935;
+      --text: #eaf0ff;
+      --muted: #9aa7cb;
+      --primary: #7c9cff;
+      --primary-2: #56d3ff;
+      --danger: #ff6f91;
+      --ok: #36d399;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 18px 40px rgba(0,0,0,.35);
+      --radius: 16px;
     }
 
     * { box-sizing: border-box; }
-
+    html, body { margin: 0; height: 100%; }
     body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Kanit', system-ui, sans-serif;
+      font-family: 'Prompt', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1000px 500px at 10% -20%, rgba(103, 232, 249, 0.2), transparent 55%),
-        radial-gradient(1000px 500px at 90% -10%, rgba(167, 139, 250, 0.2), transparent 55%),
-        linear-gradient(180deg, #080d1a 0%, #0c1326 100%);
+        radial-gradient(1000px 500px at 15% -20%, rgba(124,156,255,.25), transparent 60%),
+        radial-gradient(800px 400px at 90% -10%, rgba(86,211,255,.18), transparent 60%),
+        linear-gradient(180deg, #0b1020, #080d1b);
       padding: 24px;
     }
 
-    .container {
-      max-width: 1450px;
+    .shell {
+      max-width: 1400px;
       margin: 0 auto;
       display: grid;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .glass {
-      background: linear-gradient(180deg, rgba(22, 34, 66, 0.9), rgba(14, 24, 50, 0.86));
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px;
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(124,156,255,.16), rgba(86,211,255,.08));
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px);
     }
 
-    .topbar {
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+    .title-wrap h1 { margin: 0; font-size: clamp(22px, 3vw, 30px); }
+    .title-wrap p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 260px;
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--muted);
     }
+    .chip strong { color: var(--text); margin-left: 6px; }
 
-    .logo {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    .layout {
       display: grid;
-      place-items: center;
-      color: #0f172a;
-      font-size: 22px;
-      font-weight: 700;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 18px;
+      min-height: 70vh;
     }
 
-    .title-wrap h1 { margin: 0; font-size: 22px; line-height: 1.1; }
-    .title-wrap p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .panel {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      gap: 10px;
+    }
 
     .toolbar {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
       gap: 10px;
       align-items: center;
-      flex-wrap: wrap;
-      flex: 1;
-      justify-content: flex-end;
     }
 
     .input, .select, .btn, textarea {
       font: inherit;
       color: var(--text);
-      border: 1px solid var(--border);
-      background: rgba(15, 24, 48, 0.88);
       border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
       padding: 10px 12px;
       outline: none;
+      transition: .18s ease;
+      width: 100%;
     }
 
     .input:focus, .select:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.2);
+      border-color: rgba(124,156,255,.75);
+      box-shadow: 0 0 0 3px rgba(124,156,255,.2);
     }
 
     .btn {
+      width: auto;
       cursor: pointer;
-      font-weight: 500;
-      transition: 0.16s ease;
+      white-space: nowrap;
+      font-weight: 600;
     }
 
     .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #08122e; border: none; }
+    .btn.danger { background: rgba(255,111,145,.12); border-color: rgba(255,111,145,.4); color: #ffc2d1; }
+    .btn.ghost { background: transparent; }
 
-    .btn.primary {
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      color: #051124;
-      border: none;
-      font-weight: 700;
-    }
-
-    .btn.danger {
-      border-color: rgba(251, 113, 133, 0.45);
-      color: #fecdd3;
-      background: rgba(71, 20, 32, 0.45);
-    }
-
-    .layout {
+    .list {
+      padding: 14px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px;
-      gap: 16px;
-      align-items: start;
-    }
-
-    .panel { padding: 16px; }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .muted { color: var(--muted); font-size: 13px; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .stat-card {
-      background: rgba(12, 20, 41, 0.8);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-    }
-
-    .stat-card strong { font-size: 18px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      align-content: start;
     }
 
-    .anime-card {
+    .card {
       border: 1px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
-      background: linear-gradient(180deg, rgba(18, 29, 57, 0.95), rgba(12, 20, 40, 0.95));
+      background: rgba(255,255,255,.03);
       display: flex;
       flex-direction: column;
-      min-height: 330px;
+      min-height: 100%;
     }
 
     .thumb {
       width: 100%;
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 2 / 3;
       object-fit: cover;
-      background: #0b1328;
+      background: #1c284f;
     }
 
-    .anime-body {
-      padding: 10px;
-      display: grid;
-      gap: 8px;
-      height: 100%;
-    }
+    .card-body { padding: 10px; display: grid; gap: 8px; }
+    .card-title { margin: 0; font-size: 14px; line-height: 1.35; }
+    .card-link { color: var(--muted); font-size: 12px; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .anime-title {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.3;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { font-size: 11px; border-radius: 999px; padding: 3px 8px; background: rgba(124,156,255,.16); color: #dfe8ff; }
 
-    .anime-link {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      text-decoration: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .card-actions { margin-top: 2px; display: flex; gap: 6px; }
+    .mini { flex: 1; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; padding: 7px; }
+    .mini.del { color: #ffc2d1; border-color: rgba(255,111,145,.45); }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .aside { display: grid; gap: 12px; align-content: start; }
+    .section { padding: 14px; border-bottom: 1px solid var(--border); }
+    .section:last-child { border-bottom: none; }
+    .section h3 { margin: 0 0 10px; font-size: 16px; }
+    .section p { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
 
-    .tag {
-      border-radius: 999px;
-      border: 1px solid rgba(173, 196, 255, 0.35);
-      padding: 3px 8px;
-      font-size: 11px;
-      color: #c8d5ff;
-    }
+    .field { display: grid; gap: 6px; margin-bottom: 10px; }
+    .field label { color: var(--muted); font-size: 13px; }
 
-    .card-actions {
-      margin-top: auto;
-      display: flex;
-      gap: 8px;
-    }
-
-    .small-btn {
-      flex: 1;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(10, 17, 36, 0.95);
-      color: var(--text);
-      padding: 8px;
-      cursor: pointer;
-      font: inherit;
-    }
-
-    .small-btn.del {
-      border-color: rgba(251, 113, 133, 0.4);
-      color: #fecdd3;
-    }
-
-    .side {
-      position: sticky;
-      top: 16px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .form-grid {
-      display: grid;
-      gap: 10px;
-    }
-
-    label { color: var(--muted); font-size: 13px; }
-
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 6px;
+    .category-box {
       max-height: 150px;
       overflow: auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      background: rgba(9, 16, 34, 0.7);
-    }
-
-    .checkbox-item {
-      display: flex;
-      align-items: center;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      display: grid;
       gap: 6px;
-      font-size: 13px;
+      grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
     }
 
-    .actions-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .category-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #dce6ff; }
 
     .json-view {
-      margin: 0;
-      max-height: 260px;
-      overflow: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      max-height: 260px;
+      overflow: auto;
       border: 1px solid var(--border);
+      background: rgba(0,0,0,.22);
       border-radius: 12px;
       padding: 10px;
-      background: rgba(7, 12, 27, 0.95);
       font-size: 12px;
+      color: #d9e4ff;
     }
 
-    .empty {
-      border: 1px dashed var(--border);
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      color: var(--muted);
-      grid-column: 1 / -1;
-    }
+    .muted { color: var(--muted); font-size: 13px; }
+    .empty { padding: 26px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 12px; grid-column: 1 / -1; }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(3, 6, 16, 0.72);
-      display: grid;
-      place-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.16s ease;
-      z-index: 999;
-      padding: 20px;
-    }
-
-    .modal-backdrop.show {
-      opacity: 1;
-      pointer-events: auto;
+      background: rgba(2,6,18,.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 30;
     }
 
     .modal {
       width: min(760px, 100%);
-      max-height: 90vh;
-      overflow: auto;
-      border-radius: 16px;
       border: 1px solid var(--border);
-      background: #0d1836;
-      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #132040, #101a33);
       box-shadow: var(--shadow);
+      max-height: 88vh;
+      overflow: auto;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
     }
 
-    .modal .fields { display: grid; gap: 10px; }
+    .modal-grid { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    .modal-grid .full { grid-column: 1/-1; }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1080px) {
       .layout { grid-template-columns: 1fr; }
-      .side { position: static; }
+      .toolbar { grid-template-columns: 1fr 1fr; }
     }
 
-    @media (max-width: 720px) {
-      body { padding: 14px; }
-      .stats { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .toolbar { justify-content: flex-start; }
+    @media (max-width: 680px) {
+      body { padding: 12px; }
+      .toolbar { grid-template-columns: 1fr; }
+      .modal-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="topbar glass">
-      <div class="brand">
-        <div class="logo">🎬</div>
-        <div class="title-wrap">
-          <h1>Anime Manager Studio</h1>
-          <p>เพิ่ม • แก้ไข • ลบ • ส่งออก JSON ได้ในหน้าเดียว</p>
-        </div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="title-wrap">
+        <h1>Anime Manager Studio</h1>
+        <p>จัดการรายการอนิเมะ: เพิ่ม / แก้ไข / ลบ / ดาวน์โหลด JSON ได้จากหน้านี้</p>
       </div>
-      <div class="toolbar">
-        <button id="switchSourceBtn" class="btn">สลับเป็น H_data</button>
-        <input id="quickSearch" class="input" placeholder="ค้นหาเรื่องหรือหมวดหมู่..." />
-        <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
-        <button id="copyBtn" class="btn">คัดลอก JSON</button>
+      <div class="stats">
+        <div class="chip">แหล่งข้อมูล <strong id="sourceLabel">anime_data.json</strong></div>
+        <div class="chip">ทั้งหมด <strong id="totalCount">0</strong></div>
+        <div class="chip">หมวดหมู่ <strong id="categoryCount">0</strong></div>
       </div>
     </header>
 
     <div class="layout">
-      <section class="panel glass">
-        <div class="panel-header">
-          <div>
-            <h2 style="margin:0;font-size:18px">รายการอนิเมะ</h2>
-            <div id="countText" class="muted">ทั้งหมด 0 เรื่อง</div>
+      <section class="panel">
+        <div class="panel-head">
+          <div class="toolbar">
+            <input id="quickSearch" class="input" placeholder="ค้นหาชื่อเรื่องหรือหมวดหมู่..." />
+            <button id="switchSourceBtn" class="btn">สลับไป H.json</button>
+            <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
+            <button id="copyBtn" class="btn ghost">คัดลอก JSON</button>
           </div>
-          <div id="loadingText" class="muted">กำลังโหลดข้อมูล...</div>
+          <div class="muted" id="statusText">กำลังโหลดข้อมูล...</div>
         </div>
-
-        <div class="stats">
-          <div class="stat-card">
-            <div class="muted">จำนวนทั้งหมด</div>
-            <strong id="statTotal">0</strong>
-          </div>
-          <div class="stat-card">
-            <div class="muted">หมวดหมู่</div>
-            <strong id="statCategories">0</strong>
-          </div>
-          <div class="stat-card">
-            <div class="muted">ไฟล์ข้อมูล</div>
-            <strong id="statSource">anime_data</strong>
-          </div>
-        </div>
-
-        <div id="grid" class="grid"></div>
+        <div id="grid" class="list"></div>
       </section>
 
-      <aside class="side">
-        <section class="panel glass">
-          <h3 style="margin-top:0">เพิ่มอนิเมะใหม่</h3>
-          <div class="form-grid">
-            <label>ชื่อเรื่อง
-              <input id="addTitle" class="input" placeholder="เช่น Frieren" />
-            </label>
-            <label>ลิงก์อนิเมะ
-              <input id="addLink" class="input" placeholder="https://..." />
-            </label>
-            <label>ลิงก์รูปภาพ
-              <input id="addImage" class="input" placeholder="https://..." />
-            </label>
-            <label>หมวดหมู่ (เลือกได้หลายอัน)</label>
-            <div id="addCategoryBox" class="checkbox-grid"></div>
-            <div class="actions-row">
-              <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
-              <button id="clearNew" class="btn">รีเซ็ตฟอร์ม</button>
-            </div>
-          </div>
-        </section>
+      <aside class="panel aside">
+        <div class="section">
+          <h3>เพิ่มอนิเมะใหม่</h3>
+          <p>เพิ่มรายการใหม่ได้ทันที แล้วกดดาวน์โหลดไฟล์ JSON เพื่ออัปเดตข้อมูล</p>
 
-        <section class="panel glass">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <h3 style="margin:0">JSON Preview</h3>
-            <button id="toggleJsonBtn" class="btn">ซ่อน JSON</button>
+          <div class="field">
+            <label for="addTitle">ชื่อเรื่อง</label>
+            <input id="addTitle" class="input" placeholder="เช่น Kimetsu no Yaiba" />
           </div>
-          <pre id="jsonView" class="json-view">กำลังโหลด...</pre>
-          <div class="actions-row" style="margin-top:10px;">
+
+          <div class="field">
+            <label for="addLink">ลิงก์ Anime</label>
+            <input id="addLink" class="input" placeholder="https://..." />
+          </div>
+
+          <div class="field">
+            <label for="addImage">ลิงก์รูปภาพ</label>
+            <input id="addImage" class="input" placeholder="https://...jpg" />
+          </div>
+
+          <div class="field">
+            <label for="insertMode">ตำแหน่งการเพิ่ม</label>
+            <select id="insertMode" class="select">
+              <option value="last">ต่อท้ายรายการ (ล่าสุด)</option>
+              <option value="after">แทรกต่อจากเรื่องที่เลือก</option>
+            </select>
+          </div>
+
+          <div class="field" id="insertAfterWrap" style="display:none;">
+            <label for="insertAfterId">เลือกเรื่องที่จะแทรกต่อจาก</label>
+            <select id="insertAfterId" class="select"></select>
+          </div>
+
+          <div class="field">
+            <label>หมวดหมู่ (เลือกได้หลายอัน)</label>
+            <div id="addCategoryBox" class="category-box"></div>
+          </div>
+
+          <div class="field">
+            <label for="addCategoryCustom">เพิ่มหมวดหมู่ใหม่ (คั่นด้วย ,)</label>
+            <input id="addCategoryCustom" class="input" placeholder="Action, Comedy" />
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
+            <button id="clearNew" class="btn ghost">รีเซ็ตฟอร์ม</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>JSON Preview</h3>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+            <button id="toggleJsonBtn" class="btn ghost">ซ่อน JSON</button>
             <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
-            <button id="copyJsonBtn" class="btn">คัดลอก</button>
+            <button id="copyJsonBtn" class="btn ghost">คัดลอก</button>
             <button id="clearAllBtn" class="btn danger">ลบทั้งหมด</button>
           </div>
-        </section>
+          <pre id="jsonView" class="json-view">กำลังโหลดข้อมูล...</pre>
+        </div>
       </aside>
     </div>
   </div>
 
-  <div id="chooseInsertModal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal">
-      <h3 style="margin-top:0">ต้องการเพิ่มเรื่องแบบไหน?</h3>
-      <div class="actions-row">
-        <button id="chooseInsertLatest" class="btn primary">เพิ่มต่อท้าย (ล่าสุด)</button>
-        <button id="chooseInsertSpecific" class="btn">เลือกตำแหน่งเอง</button>
-        <button id="chooseInsertCancel" class="btn">ยกเลิก</button>
+  <div id="editModalBackdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+        <strong id="editModalTitle">แก้ไขรายการอนิเมะ</strong>
+        <button id="editCloseBtn" class="btn">✕</button>
       </div>
-    </div>
-  </div>
 
-  <div id="insertModalBackdrop" class="modal-backdrop" aria-hidden="true">
-    <div class="modal">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-        <h3 style="margin:0">เลือกเรื่องที่จะวางต่อจาก</h3>
-        <button id="insertModalClose" class="btn">✕</button>
-      </div>
-      <div id="insertGrid" class="grid" style="margin-top:10px"></div>
-    </div>
-  </div>
-
-  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
-    <div class="modal">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-        <h3 id="modalTitle" style="margin:0">แก้ไขอนิเมะ</h3>
-        <button id="modalClose" class="btn">✕</button>
-      </div>
-      <div class="fields">
-        <label>ชื่อเรื่อง
+      <div class="modal-grid">
+        <div class="field full">
+          <label for="editTitle">ชื่อเรื่อง</label>
           <input id="editTitle" class="input" />
-        </label>
-        <label>ลิงก์อนิเมะ
+        </div>
+        <div class="field full">
+          <label for="editLink">ลิงก์ Anime</label>
           <input id="editLink" class="input" />
-        </label>
-        <label>ลิงก์รูปภาพ
+        </div>
+        <div class="field full">
+          <label for="editImage">ลิงก์รูปภาพ</label>
           <input id="editImage" class="input" />
-        </label>
-        <label>หมวดหมู่</label>
-        <div id="editCategoryBox" class="checkbox-grid"></div>
+        </div>
+        <div class="field full">
+          <label>หมวดหมู่</label>
+          <div id="editCategoryBox" class="category-box"></div>
+        </div>
+        <div class="field full">
+          <label for="editCategoryCustom">เพิ่มหมวดหมู่ใหม่ (คั่นด้วย ,)</label>
+          <input id="editCategoryCustom" class="input" placeholder="Adventure, Romance" />
+        </div>
       </div>
-      <div class="actions-row" style="margin-top:12px;justify-content:flex-end;">
-        <button id="cancelEdit" class="btn">ยกเลิก</button>
+
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
         <button id="saveEdit" class="btn primary">บันทึก</button>
+        <button id="cancelEdit" class="btn ghost">ยกเลิก</button>
       </div>
     </div>
   </div>
 
   <script>
+    let currentSource = 'anime_data.json';
     let allAnimes = [];
     let allCategories = [];
     let editingId = null;
-    let pendingNewAnime = null;
-    let currentSource = 'anime_data.json';
     let jsonVisible = true;
 
-    const gridEl = document.getElementById('grid');
-    const countText = document.getElementById('countText');
-    const jsonView = document.getElementById('jsonView');
-    const switchSourceBtn = document.getElementById('switchSourceBtn');
+    const el = {
+      grid: document.getElementById('grid'),
+      sourceLabel: document.getElementById('sourceLabel'),
+      totalCount: document.getElementById('totalCount'),
+      categoryCount: document.getElementById('categoryCount'),
+      statusText: document.getElementById('statusText'),
+      quickSearch: document.getElementById('quickSearch'),
+      switchSourceBtn: document.getElementById('switchSourceBtn'),
+      downloadBtn: document.getElementById('downloadBtn'),
+      copyBtn: document.getElementById('copyBtn'),
+      jsonView: document.getElementById('jsonView'),
+      toggleJsonBtn: document.getElementById('toggleJsonBtn'),
+      downloadJson: document.getElementById('downloadJson'),
+      copyJsonBtn: document.getElementById('copyJsonBtn'),
+      clearAllBtn: document.getElementById('clearAllBtn'),
+      addTitle: document.getElementById('addTitle'),
+      addLink: document.getElementById('addLink'),
+      addImage: document.getElementById('addImage'),
+      addCategoryBox: document.getElementById('addCategoryBox'),
+      addCategoryCustom: document.getElementById('addCategoryCustom'),
+      addBtn: document.getElementById('addBtn'),
+      clearNew: document.getElementById('clearNew'),
+      insertMode: document.getElementById('insertMode'),
+      insertAfterWrap: document.getElementById('insertAfterWrap'),
+      insertAfterId: document.getElementById('insertAfterId'),
+      editModalBackdrop: document.getElementById('editModalBackdrop'),
+      editCloseBtn: document.getElementById('editCloseBtn'),
+      cancelEdit: document.getElementById('cancelEdit'),
+      saveEdit: document.getElementById('saveEdit'),
+      editTitle: document.getElementById('editTitle'),
+      editLink: document.getElementById('editLink'),
+      editImage: document.getElementById('editImage'),
+      editCategoryBox: document.getElementById('editCategoryBox'),
+      editCategoryCustom: document.getElementById('editCategoryCustom')
+    };
 
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const chooseInsertModal = document.getElementById('chooseInsertModal');
-    const insertModalBackdrop = document.getElementById('insertModalBackdrop');
-
-    function escapeHtml(s) {
-      if (s == null) return '';
-      return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-    }
-
-    function escapeAttr(s) {
-      if (s == null) return '';
-      return String(s).replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
     }
 
     function placeholderImage(title = 'Anime') {
-      const txt = encodeURIComponent(String(title).slice(0, 18));
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
-        <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#1f3b8b'/><stop offset='1' stop-color='#7c3aed'/></linearGradient></defs>
+      const text = encodeURIComponent(String(title).slice(0, 24));
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='900'>
+        <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#1e2d5c'/><stop offset='1' stop-color='#233f7a'/></linearGradient></defs>
         <rect width='100%' height='100%' fill='url(#g)'/>
-        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='42' fill='white' font-family='Kanit, sans-serif'>${txt}</text>
+        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Prompt, sans-serif' font-size='40' fill='#dce7ff'>${text}</text>
       </svg>`;
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
-    async function loadJSON() {
-      const loadingText = document.getElementById('loadingText');
-      loadingText.textContent = 'กำลังโหลดข้อมูล...';
-      try {
-        const res = await fetch(currentSource, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`โหลดไม่สำเร็จ (${res.status})`);
-        const data = await res.json();
-        if (!Array.isArray(data)) throw new Error('รูปแบบ JSON ไม่ถูกต้อง (ต้องเป็น array)');
-
-        allAnimes = data.map((a, i) => ({
-          id: Number(a.id) || i + 1,
-          title: a.title || `Untitled ${i + 1}`,
-          link: a.link || '',
-          image: a.image || '',
-          category: Array.isArray(a.category) ? a.category : []
-        }));
-        allAnimes.forEach((a, i) => a.id = i + 1);
-
-        extractCategories();
-        renderList(allAnimes);
-        updateJsonView();
-        loadingText.textContent = 'พร้อมใช้งาน';
-      } catch (err) {
-        console.error(err);
-        allAnimes = [];
-        extractCategories();
-        renderList(allAnimes);
-        updateJsonView();
-        loadingText.textContent = 'โหลดข้อมูลไม่สำเร็จ';
-        alert('โหลดไฟล์ JSON ไม่สำเร็จ: ' + err.message);
-      }
+    function parseCustomCategories(raw) {
+      return String(raw || '')
+        .split(',')
+        .map(c => c.trim())
+        .filter(Boolean);
     }
 
-    function extractCategories() {
+    function mergeCategories(base, extra) {
+      const set = new Set([...(base || []), ...(extra || [])]);
+      return [...set].sort((a, b) => a.localeCompare(b, 'th'));
+    }
+
+    function collectCategoriesFromData() {
       const set = new Set();
-      allAnimes.forEach(a => (a.category || []).forEach(c => set.add(c)));
+      allAnimes.forEach(item => (item.category || []).forEach(c => set.add(c)));
       allCategories = [...set].sort((a, b) => a.localeCompare(b, 'th'));
-      renderCategoryCheckboxes();
-      document.getElementById('statCategories').textContent = allCategories.length;
-      document.getElementById('statTotal').textContent = allAnimes.length;
-      document.getElementById('statSource').textContent = currentSource.replace('.json', '');
     }
 
-    function createCategoryCheckboxes(containerId, selected = []) {
-      const box = document.getElementById(containerId);
-      box.innerHTML = '';
-      if (allCategories.length === 0) {
-        box.innerHTML = '<div class="muted">ยังไม่มีหมวดหมู่ (เพิ่มเรื่องแรกก่อน)</div>';
+    function buildCategoryCheckboxes(container, selected = []) {
+      container.innerHTML = '';
+      if (!allCategories.length) {
+        container.innerHTML = '<div class="muted">ยังไม่มีหมวดหมู่</div>';
         return;
       }
+
       allCategories.forEach(cat => {
-        const id = `${containerId}-${cat.replace(/\s+/g, '_')}`;
-        const wrap = document.createElement('label');
-        wrap.className = 'checkbox-item';
-        wrap.innerHTML = `<input type="checkbox" id="${id}" value="${escapeAttr(cat)}" ${selected.includes(cat) ? 'checked' : ''}/> ${escapeHtml(cat)}`;
-        box.appendChild(wrap);
+        const id = `${container.id}-${cat.replace(/\s+/g, '_')}`;
+        const row = document.createElement('label');
+        row.className = 'category-item';
+        row.innerHTML = `<input type="checkbox" id="${escapeHtml(id)}" value="${escapeHtml(cat)}"> <span>${escapeHtml(cat)}</span>`;
+        const input = row.querySelector('input');
+        input.checked = selected.includes(cat);
+        container.appendChild(row);
       });
     }
 
-    function renderCategoryCheckboxes() {
-      createCategoryCheckboxes('addCategoryBox');
-      createCategoryCheckboxes('editCategoryBox');
+    function getCheckedCategories(container) {
+      return Array.from(container.querySelectorAll('input[type="checkbox"]:checked')).map(i => i.value);
     }
 
-    function renderList(list) {
-      countText.textContent = `ทั้งหมด ${list.length} เรื่อง`;
-      document.getElementById('statTotal').textContent = list.length;
-      gridEl.innerHTML = '';
+    function refreshStats() {
+      el.sourceLabel.textContent = currentSource;
+      el.totalCount.textContent = String(allAnimes.length);
+      el.categoryCount.textContent = String(allCategories.length);
+    }
+
+    function renderInsertAfterOptions() {
+      el.insertAfterId.innerHTML = '';
+      allAnimes.forEach(item => {
+        const option = document.createElement('option');
+        option.value = String(item.id);
+        option.textContent = `${item.id}. ${item.title || '(ไม่มีชื่อ)'}`;
+        el.insertAfterId.appendChild(option);
+      });
+    }
+
+    function normalizeIds() {
+      allAnimes.forEach((item, idx) => {
+        item.id = idx + 1;
+      });
+    }
+
+    function getFilteredList() {
+      const q = el.quickSearch.value.trim().toLowerCase();
+      if (!q) return allAnimes;
+      return allAnimes.filter(item => {
+        const inTitle = (item.title || '').toLowerCase().includes(q);
+        const inCategory = (item.category || []).some(c => c.toLowerCase().includes(q));
+        return inTitle || inCategory;
+      });
+    }
+
+    function renderList() {
+      const list = getFilteredList();
+      el.grid.innerHTML = '';
 
       if (!list.length) {
-        gridEl.innerHTML = '<div class="empty">ยังไม่มีรายการอนิเมะ</div>';
+        el.grid.innerHTML = '<div class="empty">ไม่พบรายการที่ตรงกับเงื่อนไข</div>';
         return;
       }
 
       list.forEach(item => {
-        const div = document.createElement('article');
-        div.className = 'anime-card';
-        const tags = (item.category || []).slice(0, 6).map(c => `<span class="tag">${escapeHtml(c)}</span>`).join('');
-        const img = item.image || placeholderImage(item.title);
+        const card = document.createElement('article');
+        card.className = 'card';
+        const tags = (item.category || []).slice(0, 8).map(cat => `<span class="tag">${escapeHtml(cat)}</span>`).join('');
 
-        div.innerHTML = `
-          <img class="thumb" src="${escapeAttr(img)}" alt="${escapeAttr(item.title)}" onerror="this.src='${placeholderImage(item.title)}'">
-          <div class="anime-body">
-            <h4 class="anime-title">${escapeHtml(item.title)}</h4>
-            <a class="anime-link" href="${escapeAttr(item.link || '#')}" target="_blank" rel="noopener">${escapeHtml(item.link || 'ไม่มีลิงก์')}</a>
+        card.innerHTML = `
+          <img class="thumb" src="${escapeHtml(item.image || placeholderImage(item.title))}" alt="${escapeHtml(item.title || '')}" />
+          <div class="card-body">
+            <h4 class="card-title">${escapeHtml(item.title || '(ไม่มีชื่อ)')}</h4>
+            <a class="card-link" href="${escapeHtml(item.link || '#')}" target="_blank" rel="noopener">${escapeHtml(item.link || 'ไม่มีลิงก์')}</a>
             <div class="tags">${tags || '<span class="tag">ไม่มีหมวดหมู่</span>'}</div>
             <div class="card-actions">
-              <button class="small-btn" data-edit="${item.id}">แก้ไข</button>
-              <button class="small-btn del" data-del="${item.id}">ลบ</button>
+              <button class="mini" data-action="edit" data-id="${item.id}">แก้ไข</button>
+              <button class="mini del" data-action="delete" data-id="${item.id}">ลบ</button>
             </div>
-          </div>`;
-        gridEl.appendChild(div);
-      });
+          </div>
+        `;
 
-      gridEl.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', e => openEditModal(Number(e.currentTarget.dataset.edit))));
-      gridEl.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', e => {
-        const id = Number(e.currentTarget.dataset.del);
-        if (confirm('ยืนยันการลบรายการนี้?')) deleteAnime(id);
-      }));
+        const img = card.querySelector('img');
+        img.onerror = () => { img.src = placeholderImage(item.title); };
+
+        el.grid.appendChild(card);
+      });
     }
 
     function updateJsonView() {
-      jsonView.textContent = JSON.stringify(allAnimes, null, 2);
+      el.jsonView.textContent = JSON.stringify(allAnimes, null, 2);
     }
 
-    function clearAddForm() {
-      document.getElementById('addTitle').value = '';
-      document.getElementById('addLink').value = '';
-      document.getElementById('addImage').value = '';
-      document.querySelectorAll('#addCategoryBox input[type=checkbox]').forEach(cb => cb.checked = false);
-    }
-
-    function showModal(backdrop, show) {
-      backdrop.classList.toggle('show', show);
-      backdrop.setAttribute('aria-hidden', show ? 'false' : 'true');
-    }
-
-    function finalizeDataUpdate() {
-      allAnimes.forEach((a, i) => a.id = i + 1);
-      extractCategories();
-      renderList(allAnimes);
+    function syncUI() {
+      collectCategoriesFromData();
+      buildCategoryCheckboxes(el.addCategoryBox);
+      renderInsertAfterOptions();
+      refreshStats();
+      renderList();
       updateJsonView();
     }
 
-    function deleteAnime(id) {
-      allAnimes = allAnimes.filter(a => a.id !== id);
-      finalizeDataUpdate();
-    }
-
-    function openEditModal(id) {
-      const anime = allAnimes.find(a => a.id === id);
-      if (!anime) return;
-      editingId = id;
-
-      document.getElementById('editTitle').value = anime.title || '';
-      document.getElementById('editLink').value = anime.link || '';
-      document.getElementById('editImage').value = anime.image || '';
-      createCategoryCheckboxes('editCategoryBox', anime.category || []);
-      showModal(modalBackdrop, true);
-    }
-
-    function openInsertPicker() {
-      const insertGrid = document.getElementById('insertGrid');
-      insertGrid.innerHTML = '';
-
-      if (!allAnimes.length) {
-        insertGrid.innerHTML = '<div class="empty">ยังไม่มีรายการเก่า จะเพิ่มเป็นเรื่องแรกแทน</div>';
-      } else {
-        allAnimes.forEach(item => {
-          const div = document.createElement('article');
-          div.className = 'anime-card';
-          div.innerHTML = `
-            <img class="thumb" src="${escapeAttr(item.image || placeholderImage(item.title))}" alt="${escapeAttr(item.title)}">
-            <div class="anime-body">
-              <h4 class="anime-title">${escapeHtml(item.title)}</h4>
-              <button class="btn primary" data-after="${item.id}">เพิ่มต่อจากเรื่องนี้</button>
-            </div>`;
-          insertGrid.appendChild(div);
-        });
-        insertGrid.querySelectorAll('[data-after]').forEach(btn => btn.addEventListener('click', e => {
-          const id = Number(e.currentTarget.dataset.after);
-          const idx = allAnimes.findIndex(a => a.id === id);
-          if (idx !== -1 && pendingNewAnime) {
-            allAnimes.splice(idx + 1, 0, pendingNewAnime);
-            pendingNewAnime = null;
-            finalizeDataUpdate();
-            clearAddForm();
-          }
-          showModal(insertModalBackdrop, false);
-        }));
+    async function loadJSON() {
+      el.statusText.textContent = 'กำลังโหลดข้อมูล...';
+      try {
+        const res = await fetch(currentSource, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`โหลดไฟล์ไม่สำเร็จ (${res.status})`);
+        const data = await res.json();
+        allAnimes = Array.isArray(data) ? data : [];
+        normalizeIds();
+        syncUI();
+        el.statusText.textContent = `โหลดข้อมูลสำเร็จ ${allAnimes.length} รายการ`;
+      } catch (error) {
+        allAnimes = [];
+        syncUI();
+        el.statusText.textContent = 'โหลดข้อมูลไม่สำเร็จ โปรดตรวจสอบ path ของไฟล์ JSON';
+        console.error(error);
       }
-
-      showModal(insertModalBackdrop, true);
     }
 
-    function downloadJSONFile(filename = currentSource) {
+    function downloadJSON(filename = 'anime_data.json') {
       const blob = new Blob([JSON.stringify(allAnimes, null, 2)], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -705,117 +580,170 @@
       URL.revokeObjectURL(url);
     }
 
-    // events
-    document.getElementById('addBtn').addEventListener('click', () => {
-      const title = document.getElementById('addTitle').value.trim();
-      const link = document.getElementById('addLink').value.trim();
-      const image = document.getElementById('addImage').value.trim();
-      const selected = [...document.querySelectorAll('#addCategoryBox input[type=checkbox]:checked')].map(i => i.value);
-      if (!title) return alert('กรุณากรอกชื่อเรื่อง');
-
-      pendingNewAnime = {
-        id: null,
-        title,
-        link,
-        image,
-        category: selected
-      };
-      showModal(chooseInsertModal, true);
-    });
-
-    document.getElementById('clearNew').addEventListener('click', clearAddForm);
-
-    document.getElementById('chooseInsertCancel').addEventListener('click', () => showModal(chooseInsertModal, false));
-    document.getElementById('chooseInsertLatest').addEventListener('click', () => {
-      if (!pendingNewAnime) return;
-      allAnimes.push(pendingNewAnime);
-      pendingNewAnime = null;
-      finalizeDataUpdate();
-      clearAddForm();
-      showModal(chooseInsertModal, false);
-    });
-    document.getElementById('chooseInsertSpecific').addEventListener('click', () => {
-      showModal(chooseInsertModal, false);
-      openInsertPicker();
-    });
-
-    document.getElementById('insertModalClose').addEventListener('click', () => showModal(insertModalBackdrop, false));
-
-    document.getElementById('modalClose').addEventListener('click', () => showModal(modalBackdrop, false));
-    document.getElementById('cancelEdit').addEventListener('click', () => showModal(modalBackdrop, false));
-
-    document.getElementById('saveEdit').addEventListener('click', () => {
-      if (editingId == null) return;
-      const title = document.getElementById('editTitle').value.trim();
-      const link = document.getElementById('editLink').value.trim();
-      const image = document.getElementById('editImage').value.trim();
-      const selected = [...document.querySelectorAll('#editCategoryBox input[type=checkbox]:checked')].map(i => i.value);
-      if (!title) return alert('กรุณากรอกชื่อเรื่อง');
-
-      const idx = allAnimes.findIndex(a => a.id === editingId);
-      if (idx === -1) return;
-      allAnimes[idx] = { ...allAnimes[idx], title, link, image, category: selected };
-      editingId = null;
-      finalizeDataUpdate();
-      showModal(modalBackdrop, false);
-    });
-
-    document.getElementById('quickSearch').addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      if (!q) return renderList(allAnimes);
-      const filtered = allAnimes.filter(a =>
-        (a.title || '').toLowerCase().includes(q) ||
-        (a.link || '').toLowerCase().includes(q) ||
-        (a.category || []).some(c => c.toLowerCase().includes(q))
-      );
-      renderList(filtered);
-    });
-
-    document.getElementById('downloadBtn').addEventListener('click', () => downloadJSONFile(currentSource));
-    document.getElementById('downloadJson').addEventListener('click', () => downloadJSONFile(currentSource));
-
     async function copyJSON() {
       try {
         await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
-        alert('คัดลอก JSON แล้ว ✅');
-      } catch (e) {
-        alert('คัดลอกไม่สำเร็จ: ' + e.message);
+        alert('คัดลอก JSON เรียบร้อยแล้ว');
+      } catch (error) {
+        alert('คัดลอกไม่สำเร็จ: ' + error.message);
       }
     }
 
-    document.getElementById('copyBtn').addEventListener('click', copyJSON);
-    document.getElementById('copyJsonBtn').addEventListener('click', copyJSON);
+    function resetAddForm() {
+      el.addTitle.value = '';
+      el.addLink.value = '';
+      el.addImage.value = '';
+      el.addCategoryCustom.value = '';
+      buildCategoryCheckboxes(el.addCategoryBox);
+      el.insertMode.value = 'last';
+      el.insertAfterWrap.style.display = 'none';
+    }
 
-    document.getElementById('clearAllBtn').addEventListener('click', () => {
-      if (!confirm('ต้องการลบทั้งหมดจริงหรือไม่?')) return;
-      allAnimes = [];
-      finalizeDataUpdate();
-    });
+    function addAnime() {
+      const title = el.addTitle.value.trim();
+      const link = el.addLink.value.trim();
+      const image = el.addImage.value.trim();
 
-    document.getElementById('toggleJsonBtn').addEventListener('click', () => {
-      jsonVisible = !jsonVisible;
-      jsonView.style.display = jsonVisible ? '' : 'none';
-      document.getElementById('toggleJsonBtn').textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
-    });
-
-    switchSourceBtn.addEventListener('click', () => {
-      if (currentSource === 'anime_data.json') {
-        currentSource = 'H.json';
-        switchSourceBtn.textContent = 'สลับเป็น anime_data';
-      } else {
-        currentSource = 'anime_data.json';
-        switchSourceBtn.textContent = 'สลับเป็น H_data';
+      if (!title) {
+        alert('กรุณากรอกชื่อเรื่อง');
+        return;
       }
-      loadJSON();
+
+      const selectedCategories = getCheckedCategories(el.addCategoryBox);
+      const customCategories = parseCustomCategories(el.addCategoryCustom.value);
+      const category = mergeCategories(selectedCategories, customCategories);
+
+      const newItem = {
+        id: 0,
+        title,
+        link,
+        image: image || undefined,
+        category
+      };
+
+      if (el.insertMode.value === 'after' && allAnimes.length) {
+        const afterId = Number(el.insertAfterId.value);
+        const idx = allAnimes.findIndex(a => a.id === afterId);
+        if (idx >= 0) {
+          allAnimes.splice(idx + 1, 0, newItem);
+        } else {
+          allAnimes.push(newItem);
+        }
+      } else {
+        allAnimes.push(newItem);
+      }
+
+      normalizeIds();
+      syncUI();
+      resetAddForm();
+      el.statusText.textContent = 'เพิ่มรายการใหม่เรียบร้อย';
+    }
+
+    function openEditModal(id) {
+      const item = allAnimes.find(a => a.id === id);
+      if (!item) return;
+      editingId = id;
+
+      el.editTitle.value = item.title || '';
+      el.editLink.value = item.link || '';
+      el.editImage.value = item.image || '';
+      el.editCategoryCustom.value = '';
+      buildCategoryCheckboxes(el.editCategoryBox, item.category || []);
+
+      el.editModalBackdrop.style.display = 'flex';
+      el.editModalBackdrop.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeEditModal() {
+      editingId = null;
+      el.editModalBackdrop.style.display = 'none';
+      el.editModalBackdrop.setAttribute('aria-hidden', 'true');
+    }
+
+    function saveEdit() {
+      if (editingId == null) return;
+
+      const idx = allAnimes.findIndex(a => a.id === editingId);
+      if (idx < 0) return;
+
+      const title = el.editTitle.value.trim();
+      if (!title) {
+        alert('กรุณากรอกชื่อเรื่อง');
+        return;
+      }
+
+      const selectedCategories = getCheckedCategories(el.editCategoryBox);
+      const customCategories = parseCustomCategories(el.editCategoryCustom.value);
+
+      allAnimes[idx].title = title;
+      allAnimes[idx].link = el.editLink.value.trim();
+      allAnimes[idx].image = el.editImage.value.trim() || undefined;
+      allAnimes[idx].category = mergeCategories(selectedCategories, customCategories);
+
+      normalizeIds();
+      syncUI();
+      closeEditModal();
+      el.statusText.textContent = 'บันทึกการแก้ไขเรียบร้อย';
+    }
+
+    function deleteAnime(id) {
+      if (!confirm('ต้องการลบรายการนี้จริงหรือไม่?')) return;
+      allAnimes = allAnimes.filter(a => a.id !== id);
+      normalizeIds();
+      syncUI();
+      el.statusText.textContent = 'ลบรายการเรียบร้อย';
+    }
+
+    function clearAll() {
+      if (!confirm('ต้องการลบรายการทั้งหมดจริงหรือไม่?')) return;
+      allAnimes = [];
+      syncUI();
+      el.statusText.textContent = 'ลบข้อมูลทั้งหมดแล้ว';
+    }
+
+    // Events
+    el.quickSearch.addEventListener('input', renderList);
+    el.addBtn.addEventListener('click', addAnime);
+    el.clearNew.addEventListener('click', resetAddForm);
+    el.downloadBtn.addEventListener('click', () => downloadJSON(currentSource === 'H.json' ? 'H.json' : 'anime_data.json'));
+    el.downloadJson.addEventListener('click', () => downloadJSON(currentSource === 'H.json' ? 'H.json' : 'anime_data.json'));
+    el.copyBtn.addEventListener('click', copyJSON);
+    el.copyJsonBtn.addEventListener('click', copyJSON);
+    el.clearAllBtn.addEventListener('click', clearAll);
+
+    el.toggleJsonBtn.addEventListener('click', () => {
+      jsonVisible = !jsonVisible;
+      el.jsonView.style.display = jsonVisible ? 'block' : 'none';
+      el.toggleJsonBtn.textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
     });
 
-    [modalBackdrop, chooseInsertModal, insertModalBackdrop].forEach(backdrop => {
-      backdrop.addEventListener('click', (ev) => {
-        if (ev.target === backdrop) showModal(backdrop, false);
-      });
+    el.insertMode.addEventListener('change', () => {
+      el.insertAfterWrap.style.display = el.insertMode.value === 'after' ? 'block' : 'none';
     });
 
-    window.addEventListener('DOMContentLoaded', loadJSON);
+    el.switchSourceBtn.addEventListener('click', async () => {
+      currentSource = currentSource === 'anime_data.json' ? 'H.json' : 'anime_data.json';
+      el.switchSourceBtn.textContent = currentSource === 'anime_data.json' ? 'สลับไป H.json' : 'สลับไป anime_data.json';
+      await loadJSON();
+    });
+
+    el.grid.addEventListener('click', event => {
+      const target = event.target.closest('[data-action]');
+      if (!target) return;
+      const id = Number(target.dataset.id);
+      if (target.dataset.action === 'edit') openEditModal(id);
+      if (target.dataset.action === 'delete') deleteAnime(id);
+    });
+
+    el.editCloseBtn.addEventListener('click', closeEditModal);
+    el.cancelEdit.addEventListener('click', closeEditModal);
+    el.saveEdit.addEventListener('click', saveEdit);
+    el.editModalBackdrop.addEventListener('click', event => {
+      if (event.target === el.editModalBackdrop) closeEditModal();
+    });
+
+    // init
+    loadJSON();
   </script>
 </body>
 </html>
