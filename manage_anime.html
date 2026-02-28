@@ -3,192 +3,192 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Anime Manager Studio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Anime Ops Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0b1020;
-      --bg-soft: #111a33;
-      --card: rgba(20, 30, 58, 0.82);
-      --card-solid: #14203f;
-      --text: #e8eeff;
-      --muted: #9aacd7;
-      --accent: #67e8f9;
-      --accent-2: #a78bfa;
-      --danger: #fb7185;
-      --border: rgba(173, 196, 255, 0.18);
-      --shadow: 0 12px 40px rgba(2, 8, 24, 0.5);
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --line: #dde4f0;
+      --text: #1f2a44;
+      --sub: #6d7a96;
+      --accent: #4169e1;
+      --accent-2: #7a45ff;
+      --good: #1f9d61;
+      --danger: #de3c57;
+      --shadow: 0 10px 30px rgba(20, 43, 92, 0.08);
     }
 
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: 'Kanit', system-ui, sans-serif;
+      font-family: 'Prompt', system-ui, sans-serif;
+      background: linear-gradient(180deg, #f6f9ff 0%, #edf2ff 100%);
       color: var(--text);
-      background:
-        radial-gradient(1000px 500px at 10% -20%, rgba(103, 232, 249, 0.2), transparent 55%),
-        radial-gradient(1000px 500px at 90% -10%, rgba(167, 139, 250, 0.2), transparent 55%),
-        linear-gradient(180deg, #080d1a 0%, #0c1326 100%);
-      padding: 24px;
+      min-height: 100vh;
+      padding: 18px;
     }
 
-    .container {
-      max-width: 1450px;
+    .app {
+      max-width: 1500px;
       margin: 0 auto;
       display: grid;
+      grid-template-columns: 300px minmax(0, 1fr) 340px;
       gap: 16px;
+      align-items: start;
     }
 
-    .glass {
-      background: linear-gradient(180deg, rgba(22, 34, 66, 0.9), rgba(14, 24, 50, 0.86));
-      border: 1px solid var(--border);
-      border-radius: 18px;
+    .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
     }
 
-    .topbar {
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    .left, .right {
+      position: sticky;
+      top: 16px;
+      display: grid;
+      gap: 12px;
     }
+
+    .panel { padding: 14px; }
+    .title { margin: 0; font-size: 18px; }
+    .muted { color: var(--sub); font-size: 13px; }
 
     .brand {
       display: flex;
+      gap: 10px;
       align-items: center;
-      gap: 12px;
-      min-width: 260px;
     }
 
     .logo {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       display: grid;
       place-items: center;
-      color: #0f172a;
+      background: linear-gradient(130deg, var(--accent), var(--accent-2));
+      color: white;
       font-size: 22px;
-      font-weight: 700;
     }
 
-    .title-wrap h1 { margin: 0; font-size: 22px; line-height: 1.1; }
-    .title-wrap p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .field { display: grid; gap: 6px; margin-bottom: 8px; }
+    .field label { font-size: 13px; color: var(--sub); }
 
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      flex: 1;
-      justify-content: flex-end;
-    }
-
-    .input, .select, .btn, textarea {
+    .input, .btn, .select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 10px 11px;
       font: inherit;
+      background: #fff;
       color: var(--text);
-      border: 1px solid var(--border);
-      background: rgba(15, 24, 48, 0.88);
-      border-radius: 12px;
-      padding: 10px 12px;
       outline: none;
     }
 
-    .input:focus, .select:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.2);
+    .input:focus, .select:focus {
+      border-color: #9ab0ff;
+      box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.12);
     }
 
     .btn {
       cursor: pointer;
       font-weight: 500;
-      transition: 0.16s ease;
+      transition: transform .12s ease, box-shadow .12s ease;
     }
 
     .btn:hover { transform: translateY(-1px); }
 
     .btn.primary {
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      color: #051124;
       border: none;
-      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(100deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 18px rgba(65, 105, 225, 0.22);
     }
 
     .btn.danger {
-      border-color: rgba(251, 113, 133, 0.45);
-      color: #fecdd3;
-      background: rgba(71, 20, 32, 0.45);
+      color: var(--danger);
+      border-color: #f0b4bf;
+      background: #fff2f5;
     }
 
-    .layout {
+    .btnRow { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btnRow .btn { flex: 1; min-width: 120px; }
+
+    .cat-grid {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px;
-      gap: 16px;
-      align-items: start;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      max-height: 180px;
+      overflow: auto;
+      background: #fafcff;
     }
 
-    .panel { padding: 16px; }
-
-    .panel-header {
+    .cat-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 5px;
+      font-size: 13px;
+      color: #445172;
     }
 
-    .muted { color: var(--muted); font-size: 13px; }
-
-    .stats {
+    .main {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .headbar {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
       gap: 10px;
-      margin-bottom: 14px;
+      align-items: center;
     }
 
-    .stat-card {
-      background: rgba(12, 20, 41, 0.8);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      font-size: 12px;
+      border: 1px solid #cdd8f0;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: #46567d;
+      background: #f6f9ff;
     }
-
-    .stat-card strong { font-size: 18px; }
 
     .grid {
+      padding: 12px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 12px;
     }
 
-    .anime-card {
-      border: 1px solid var(--border);
+    .card {
+      border: 1px solid #d8e0f0;
       border-radius: 14px;
       overflow: hidden;
-      background: linear-gradient(180deg, rgba(18, 29, 57, 0.95), rgba(12, 20, 40, 0.95));
       display: flex;
       flex-direction: column;
-      min-height: 330px;
+      min-height: 300px;
+      background: #fff;
     }
 
     .thumb {
       width: 100%;
       aspect-ratio: 3 / 4;
       object-fit: cover;
-      background: #0b1328;
+      background: #eef3ff;
     }
 
-    .anime-body {
+    .body {
       padding: 10px;
       display: grid;
-      gap: 8px;
+      gap: 7px;
       height: 100%;
     }
 
@@ -203,280 +203,224 @@
     }
 
     .anime-link {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
+      color: #657495;
       text-decoration: none;
+      font-size: 12px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
+    .tags { display: flex; gap: 5px; flex-wrap: wrap; }
     .tag {
-      border-radius: 999px;
-      border: 1px solid rgba(173, 196, 255, 0.35);
-      padding: 3px 8px;
       font-size: 11px;
-      color: #c8d5ff;
+      background: #f0f4ff;
+      color: #40517f;
+      border: 1px solid #d8e0f4;
+      border-radius: 999px;
+      padding: 3px 7px;
     }
 
-    .card-actions {
+    .actions {
+      display: flex;
+      gap: 6px;
       margin-top: auto;
-      display: flex;
-      gap: 8px;
     }
 
-    .small-btn {
+    .small {
       flex: 1;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(10, 17, 36, 0.95);
-      color: var(--text);
-      padding: 8px;
-      cursor: pointer;
+      border: 1px solid #d7def0;
+      background: #fbfcff;
+      border-radius: 9px;
+      padding: 7px;
       font: inherit;
+      cursor: pointer;
     }
 
-    .small-btn.del {
-      border-color: rgba(251, 113, 133, 0.4);
-      color: #fecdd3;
-    }
-
-    .side {
-      position: sticky;
-      top: 16px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .form-grid {
-      display: grid;
-      gap: 10px;
-    }
-
-    label { color: var(--muted); font-size: 13px; }
-
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 6px;
-      max-height: 150px;
-      overflow: auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      background: rgba(9, 16, 34, 0.7);
-    }
-
-    .checkbox-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-    }
-
-    .actions-row { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .json-view {
-      margin: 0;
-      max-height: 260px;
-      overflow: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      background: rgba(7, 12, 27, 0.95);
-      font-size: 12px;
+    .small.del {
+      color: var(--danger);
+      border-color: #f2b8c2;
+      background: #fff5f7;
     }
 
     .empty {
-      border: 1px dashed var(--border);
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      color: var(--muted);
       grid-column: 1 / -1;
+      border: 1px dashed #c6d3ef;
+      border-radius: 12px;
+      text-align: center;
+      padding: 24px;
+      color: #7181a5;
     }
 
-    .modal-backdrop {
+    .json {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 330px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f8faff;
+      padding: 10px;
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .modal-bg {
       position: fixed;
       inset: 0;
-      background: rgba(3, 6, 16, 0.72);
+      background: rgba(11, 20, 43, 0.45);
       display: grid;
       place-items: center;
+      padding: 16px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.16s ease;
-      z-index: 999;
-      padding: 20px;
+      transition: opacity .15s ease;
+      z-index: 99;
     }
 
-    .modal-backdrop.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .modal-bg.show { opacity: 1; pointer-events: auto; }
 
     .modal {
-      width: min(760px, 100%);
+      width: min(780px, 100%);
       max-height: 90vh;
       overflow: auto;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: #0d1836;
+      background: #fff;
+      border-radius: 15px;
+      border: 1px solid #dce4f3;
       padding: 14px;
       box-shadow: var(--shadow);
     }
 
-    .modal .fields { display: grid; gap: 10px; }
-
-    @media (max-width: 1100px) {
-      .layout { grid-template-columns: 1fr; }
-      .side { position: static; }
+    @media (max-width: 1320px) {
+      .app { grid-template-columns: 280px minmax(0, 1fr); }
+      .right { grid-column: 1 / -1; position: static; }
     }
 
-    @media (max-width: 720px) {
-      body { padding: 14px; }
-      .stats { grid-template-columns: 1fr; }
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      .left, .right { position: static; }
+      .headbar { grid-template-columns: 1fr; }
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .toolbar { justify-content: flex-start; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="topbar glass">
-      <div class="brand">
-        <div class="logo">🎬</div>
-        <div class="title-wrap">
-          <h1>Anime Manager Studio</h1>
-          <p>เพิ่ม • แก้ไข • ลบ • ส่งออก JSON ได้ในหน้าเดียว</p>
-        </div>
-      </div>
-      <div class="toolbar">
-        <button id="switchSourceBtn" class="btn">สลับเป็น H_data</button>
-        <input id="quickSearch" class="input" placeholder="ค้นหาเรื่องหรือหมวดหมู่..." />
-        <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
-        <button id="copyBtn" class="btn">คัดลอก JSON</button>
-      </div>
-    </header>
-
-    <div class="layout">
-      <section class="panel glass">
-        <div class="panel-header">
+  <div class="app">
+    <aside class="left">
+      <section class="box panel">
+        <div class="brand">
+          <div class="logo">🧩</div>
           <div>
-            <h2 style="margin:0;font-size:18px">รายการอนิเมะ</h2>
-            <div id="countText" class="muted">ทั้งหมด 0 เรื่อง</div>
-          </div>
-          <div id="loadingText" class="muted">กำลังโหลดข้อมูล...</div>
-        </div>
-
-        <div class="stats">
-          <div class="stat-card">
-            <div class="muted">จำนวนทั้งหมด</div>
-            <strong id="statTotal">0</strong>
-          </div>
-          <div class="stat-card">
-            <div class="muted">หมวดหมู่</div>
-            <strong id="statCategories">0</strong>
-          </div>
-          <div class="stat-card">
-            <div class="muted">ไฟล์ข้อมูล</div>
-            <strong id="statSource">anime_data</strong>
+            <h1 class="title" style="font-size:20px">Anime Ops Console</h1>
+            <div class="muted">หน้าเดียวจบสำหรับ เพิ่ม/แก้ไข/ลบ</div>
           </div>
         </div>
-
-        <div id="grid" class="grid"></div>
       </section>
 
-      <aside class="side">
-        <section class="panel glass">
-          <h3 style="margin-top:0">เพิ่มอนิเมะใหม่</h3>
-          <div class="form-grid">
-            <label>ชื่อเรื่อง
-              <input id="addTitle" class="input" placeholder="เช่น Frieren" />
-            </label>
-            <label>ลิงก์อนิเมะ
-              <input id="addLink" class="input" placeholder="https://..." />
-            </label>
-            <label>ลิงก์รูปภาพ
-              <input id="addImage" class="input" placeholder="https://..." />
-            </label>
-            <label>หมวดหมู่ (เลือกได้หลายอัน)</label>
-            <div id="addCategoryBox" class="checkbox-grid"></div>
-            <div class="actions-row">
-              <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
-              <button id="clearNew" class="btn">รีเซ็ตฟอร์ม</button>
-            </div>
-          </div>
-        </section>
+      <section class="box panel">
+        <h2 class="title" style="font-size:17px;margin-bottom:8px">เพิ่มรายการใหม่</h2>
+        <div class="field">
+          <label>ชื่อเรื่อง</label>
+          <input id="addTitle" class="input" placeholder="ชื่ออนิเมะ" />
+        </div>
+        <div class="field">
+          <label>ลิงก์</label>
+          <input id="addLink" class="input" placeholder="https://..." />
+        </div>
+        <div class="field">
+          <label>รูปภาพ</label>
+          <input id="addImage" class="input" placeholder="https://..." />
+        </div>
+        <div class="field">
+          <label>หมวดหมู่</label>
+          <div id="addCategoryBox" class="cat-grid"></div>
+        </div>
+        <div class="btnRow">
+          <button id="addBtn" class="btn primary">เพิ่มเรื่อง</button>
+          <button id="clearNew" class="btn">รีเซ็ต</button>
+        </div>
+      </section>
+    </aside>
 
-        <section class="panel glass">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <h3 style="margin:0">JSON Preview</h3>
-            <button id="toggleJsonBtn" class="btn">ซ่อน JSON</button>
-          </div>
-          <pre id="jsonView" class="json-view">กำลังโหลด...</pre>
-          <div class="actions-row" style="margin-top:10px;">
-            <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
-            <button id="copyJsonBtn" class="btn">คัดลอก</button>
-            <button id="clearAllBtn" class="btn danger">ลบทั้งหมด</button>
-          </div>
-        </section>
-      </aside>
-    </div>
+    <main class="main">
+      <section class="box headbar">
+        <input id="quickSearch" class="input" placeholder="ค้นหา (ชื่อเรื่อง, ลิงก์, หมวดหมู่)" />
+        <button id="switchSourceBtn" class="btn">สลับเป็น H_data</button>
+        <div class="chips">
+          <span class="chip" id="countText">ทั้งหมด 0 เรื่อง</span>
+          <span class="chip" id="loadingText">กำลังโหลด...</span>
+          <span class="chip" id="sourceText">anime_data</span>
+        </div>
+      </section>
+
+      <section class="box grid" id="grid"></section>
+    </main>
+
+    <aside class="right">
+      <section class="box panel">
+        <h2 class="title" style="font-size:17px;margin-bottom:8px">JSON Workspace</h2>
+        <pre id="jsonView" class="json">กำลังโหลด...</pre>
+        <div class="btnRow" style="margin-top:10px">
+          <button id="toggleJsonBtn" class="btn">ซ่อน JSON</button>
+          <button id="downloadBtn" class="btn">ดาวน์โหลด JSON</button>
+          <button id="copyBtn" class="btn">คัดลอก JSON</button>
+        </div>
+        <div class="btnRow" style="margin-top:8px">
+          <button id="downloadJson" class="btn">ดาวน์โหลดไฟล์ .json</button>
+          <button id="copyJsonBtn" class="btn">คัดลอก (สำรอง)</button>
+          <button id="clearAllBtn" class="btn danger">ลบทั้งหมด</button>
+        </div>
+      </section>
+    </aside>
   </div>
 
-  <div id="chooseInsertModal" class="modal-backdrop" aria-hidden="true">
+  <div id="chooseInsertModal" class="modal-bg" aria-hidden="true">
     <div class="modal">
-      <h3 style="margin-top:0">ต้องการเพิ่มเรื่องแบบไหน?</h3>
-      <div class="actions-row">
-        <button id="chooseInsertLatest" class="btn primary">เพิ่มต่อท้าย (ล่าสุด)</button>
-        <button id="chooseInsertSpecific" class="btn">เลือกตำแหน่งเอง</button>
+      <h3 style="margin-top:0">เลือกตำแหน่งการเพิ่ม</h3>
+      <div class="btnRow">
+        <button id="chooseInsertLatest" class="btn primary">เพิ่มต่อท้าย</button>
+        <button id="chooseInsertSpecific" class="btn">เลือกแทรกเอง</button>
         <button id="chooseInsertCancel" class="btn">ยกเลิก</button>
       </div>
     </div>
   </div>
 
-  <div id="insertModalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div id="insertModalBackdrop" class="modal-bg" aria-hidden="true">
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-        <h3 style="margin:0">เลือกเรื่องที่จะวางต่อจาก</h3>
+        <h3 style="margin:0">แทรกหลังเรื่องใด</h3>
         <button id="insertModalClose" class="btn">✕</button>
       </div>
-      <div id="insertGrid" class="grid" style="margin-top:10px"></div>
+      <div id="insertGrid" class="grid" style="padding:0;margin-top:10px"></div>
     </div>
   </div>
 
-  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div id="modalBackdrop" class="modal-bg" aria-hidden="true">
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-        <h3 id="modalTitle" style="margin:0">แก้ไขอนิเมะ</h3>
+        <h3 id="modalTitle" style="margin:0">แก้ไขรายการ</h3>
         <button id="modalClose" class="btn">✕</button>
       </div>
-      <div class="fields">
-        <label>ชื่อเรื่อง
-          <input id="editTitle" class="input" />
-        </label>
-        <label>ลิงก์อนิเมะ
-          <input id="editLink" class="input" />
-        </label>
-        <label>ลิงก์รูปภาพ
-          <input id="editImage" class="input" />
-        </label>
-        <label>หมวดหมู่</label>
-        <div id="editCategoryBox" class="checkbox-grid"></div>
+      <div class="field">
+        <label>ชื่อเรื่อง</label>
+        <input id="editTitle" class="input" />
       </div>
-      <div class="actions-row" style="margin-top:12px;justify-content:flex-end;">
-        <button id="cancelEdit" class="btn">ยกเลิก</button>
+      <div class="field">
+        <label>ลิงก์</label>
+        <input id="editLink" class="input" />
+      </div>
+      <div class="field">
+        <label>รูปภาพ</label>
+        <input id="editImage" class="input" />
+      </div>
+      <div class="field">
+        <label>หมวดหมู่</label>
+        <div id="editCategoryBox" class="cat-grid"></div>
+      </div>
+      <div class="btnRow">
         <button id="saveEdit" class="btn primary">บันทึก</button>
+        <button id="cancelEdit" class="btn">ยกเลิก</button>
       </div>
     </div>
   </div>
@@ -491,8 +435,9 @@
 
     const gridEl = document.getElementById('grid');
     const countText = document.getElementById('countText');
+    const loadingText = document.getElementById('loadingText');
+    const sourceText = document.getElementById('sourceText');
     const jsonView = document.getElementById('jsonView');
-    const switchSourceBtn = document.getElementById('switchSourceBtn');
 
     const modalBackdrop = document.getElementById('modalBackdrop');
     const chooseInsertModal = document.getElementById('chooseInsertModal');
@@ -509,45 +454,45 @@
     }
 
     function placeholderImage(title = 'Anime') {
-      const txt = encodeURIComponent(String(title).slice(0, 18));
+      const txt = encodeURIComponent(String(title).slice(0, 20));
       const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
-        <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#1f3b8b'/><stop offset='1' stop-color='#7c3aed'/></linearGradient></defs>
+        <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#6d8fff'/><stop offset='1' stop-color='#8b5cf6'/></linearGradient></defs>
         <rect width='100%' height='100%' fill='url(#g)'/>
-        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='42' fill='white' font-family='Kanit, sans-serif'>${txt}</text>
+        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='40' fill='white' font-family='Prompt, sans-serif'>${txt}</text>
       </svg>`;
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
     async function loadJSON() {
-      const loadingText = document.getElementById('loadingText');
-      loadingText.textContent = 'กำลังโหลดข้อมูล...';
+      loadingText.textContent = 'กำลังโหลด...';
       try {
         const res = await fetch(currentSource, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`โหลดไม่สำเร็จ (${res.status})`);
+        if (!res.ok) throw new Error('โหลดไม่สำเร็จ: ' + res.status);
+
         const data = await res.json();
-        if (!Array.isArray(data)) throw new Error('รูปแบบ JSON ไม่ถูกต้อง (ต้องเป็น array)');
+        if (!Array.isArray(data)) throw new Error('ไฟล์ JSON ต้องเป็น array');
 
-        allAnimes = data.map((a, i) => ({
-          id: Number(a.id) || i + 1,
-          title: a.title || `Untitled ${i + 1}`,
-          link: a.link || '',
-          image: a.image || '',
-          category: Array.isArray(a.category) ? a.category : []
+        allAnimes = data.map((item, i) => ({
+          id: Number(item.id) || i + 1,
+          title: item.title || `Untitled ${i + 1}`,
+          link: item.link || '',
+          image: item.image || '',
+          category: Array.isArray(item.category) ? item.category : []
         }));
-        allAnimes.forEach((a, i) => a.id = i + 1);
 
+        allAnimes.forEach((a, i) => a.id = i + 1);
         extractCategories();
         renderList(allAnimes);
         updateJsonView();
         loadingText.textContent = 'พร้อมใช้งาน';
-      } catch (err) {
-        console.error(err);
+        sourceText.textContent = currentSource.replace('.json', '');
+      } catch (e) {
         allAnimes = [];
         extractCategories();
         renderList(allAnimes);
         updateJsonView();
         loadingText.textContent = 'โหลดข้อมูลไม่สำเร็จ';
-        alert('โหลดไฟล์ JSON ไม่สำเร็จ: ' + err.message);
+        alert(e.message);
       }
     }
 
@@ -556,24 +501,20 @@
       allAnimes.forEach(a => (a.category || []).forEach(c => set.add(c)));
       allCategories = [...set].sort((a, b) => a.localeCompare(b, 'th'));
       renderCategoryCheckboxes();
-      document.getElementById('statCategories').textContent = allCategories.length;
-      document.getElementById('statTotal').textContent = allAnimes.length;
-      document.getElementById('statSource').textContent = currentSource.replace('.json', '');
     }
 
-    function createCategoryCheckboxes(containerId, selected = []) {
-      const box = document.getElementById(containerId);
+    function createCategoryCheckboxes(targetId, selected = []) {
+      const box = document.getElementById(targetId);
       box.innerHTML = '';
-      if (allCategories.length === 0) {
-        box.innerHTML = '<div class="muted">ยังไม่มีหมวดหมู่ (เพิ่มเรื่องแรกก่อน)</div>';
+      if (!allCategories.length) {
+        box.innerHTML = '<div class="muted">ยังไม่มีหมวดหมู่</div>';
         return;
       }
       allCategories.forEach(cat => {
-        const id = `${containerId}-${cat.replace(/\s+/g, '_')}`;
-        const wrap = document.createElement('label');
-        wrap.className = 'checkbox-item';
-        wrap.innerHTML = `<input type="checkbox" id="${id}" value="${escapeAttr(cat)}" ${selected.includes(cat) ? 'checked' : ''}/> ${escapeHtml(cat)}`;
-        box.appendChild(wrap);
+        const label = document.createElement('label');
+        label.className = 'cat-item';
+        label.innerHTML = `<input type="checkbox" value="${escapeAttr(cat)}" ${selected.includes(cat) ? 'checked' : ''}> ${escapeHtml(cat)}`;
+        box.appendChild(label);
       });
     }
 
@@ -584,43 +525,53 @@
 
     function renderList(list) {
       countText.textContent = `ทั้งหมด ${list.length} เรื่อง`;
-      document.getElementById('statTotal').textContent = list.length;
       gridEl.innerHTML = '';
-
       if (!list.length) {
-        gridEl.innerHTML = '<div class="empty">ยังไม่มีรายการอนิเมะ</div>';
+        gridEl.innerHTML = '<div class="empty">ยังไม่มีรายการในระบบ</div>';
         return;
       }
 
       list.forEach(item => {
-        const div = document.createElement('article');
-        div.className = 'anime-card';
+        const el = document.createElement('article');
+        el.className = 'card';
         const tags = (item.category || []).slice(0, 6).map(c => `<span class="tag">${escapeHtml(c)}</span>`).join('');
-        const img = item.image || placeholderImage(item.title);
 
-        div.innerHTML = `
-          <img class="thumb" src="${escapeAttr(img)}" alt="${escapeAttr(item.title)}" onerror="this.src='${placeholderImage(item.title)}'">
-          <div class="anime-body">
-            <h4 class="anime-title">${escapeHtml(item.title)}</h4>
+        el.innerHTML = `
+          <img class="thumb" src="${escapeAttr(item.image || placeholderImage(item.title))}" alt="${escapeAttr(item.title)}" onerror="this.src='${placeholderImage(item.title)}'" />
+          <div class="body">
+            <h3 class="anime-title">${escapeHtml(item.title)}</h3>
             <a class="anime-link" href="${escapeAttr(item.link || '#')}" target="_blank" rel="noopener">${escapeHtml(item.link || 'ไม่มีลิงก์')}</a>
             <div class="tags">${tags || '<span class="tag">ไม่มีหมวดหมู่</span>'}</div>
-            <div class="card-actions">
-              <button class="small-btn" data-edit="${item.id}">แก้ไข</button>
-              <button class="small-btn del" data-del="${item.id}">ลบ</button>
+            <div class="actions">
+              <button class="small" data-edit="${item.id}">แก้ไข</button>
+              <button class="small del" data-del="${item.id}">ลบ</button>
             </div>
-          </div>`;
-        gridEl.appendChild(div);
+          </div>
+        `;
+        gridEl.appendChild(el);
       });
 
-      gridEl.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', e => openEditModal(Number(e.currentTarget.dataset.edit))));
-      gridEl.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', e => {
-        const id = Number(e.currentTarget.dataset.del);
-        if (confirm('ยืนยันการลบรายการนี้?')) deleteAnime(id);
-      }));
+      gridEl.querySelectorAll('[data-edit]').forEach(btn => {
+        btn.addEventListener('click', e => openEditModal(Number(e.currentTarget.dataset.edit)));
+      });
+
+      gridEl.querySelectorAll('[data-del]').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const id = Number(e.currentTarget.dataset.del);
+          if (confirm('ต้องการลบรายการนี้หรือไม่?')) deleteAnime(id);
+        });
+      });
     }
 
     function updateJsonView() {
       jsonView.textContent = JSON.stringify(allAnimes, null, 2);
+    }
+
+    function finalizeUpdate() {
+      allAnimes.forEach((a, i) => a.id = i + 1);
+      extractCategories();
+      renderList(allAnimes);
+      updateJsonView();
     }
 
     function clearAddForm() {
@@ -630,70 +581,70 @@
       document.querySelectorAll('#addCategoryBox input[type=checkbox]').forEach(cb => cb.checked = false);
     }
 
-    function showModal(backdrop, show) {
-      backdrop.classList.toggle('show', show);
-      backdrop.setAttribute('aria-hidden', show ? 'false' : 'true');
-    }
-
-    function finalizeDataUpdate() {
-      allAnimes.forEach((a, i) => a.id = i + 1);
-      extractCategories();
-      renderList(allAnimes);
-      updateJsonView();
+    function showModal(target, show) {
+      target.classList.toggle('show', show);
+      target.setAttribute('aria-hidden', show ? 'false' : 'true');
     }
 
     function deleteAnime(id) {
       allAnimes = allAnimes.filter(a => a.id !== id);
-      finalizeDataUpdate();
+      finalizeUpdate();
     }
 
     function openEditModal(id) {
-      const anime = allAnimes.find(a => a.id === id);
-      if (!anime) return;
+      const item = allAnimes.find(a => a.id === id);
+      if (!item) return;
       editingId = id;
-
-      document.getElementById('editTitle').value = anime.title || '';
-      document.getElementById('editLink').value = anime.link || '';
-      document.getElementById('editImage').value = anime.image || '';
-      createCategoryCheckboxes('editCategoryBox', anime.category || []);
+      document.getElementById('editTitle').value = item.title || '';
+      document.getElementById('editLink').value = item.link || '';
+      document.getElementById('editImage').value = item.image || '';
+      createCategoryCheckboxes('editCategoryBox', item.category || []);
       showModal(modalBackdrop, true);
     }
 
-    function openInsertPicker() {
+    function openInsertModal() {
       const insertGrid = document.getElementById('insertGrid');
       insertGrid.innerHTML = '';
 
       if (!allAnimes.length) {
-        insertGrid.innerHTML = '<div class="empty">ยังไม่มีรายการเก่า จะเพิ่มเป็นเรื่องแรกแทน</div>';
+        insertGrid.innerHTML = '<div class="empty">ยังไม่มีรายการเดิม จะเพิ่มเป็นเรื่องแรกแทน</div>';
       } else {
         allAnimes.forEach(item => {
-          const div = document.createElement('article');
-          div.className = 'anime-card';
-          div.innerHTML = `
-            <img class="thumb" src="${escapeAttr(item.image || placeholderImage(item.title))}" alt="${escapeAttr(item.title)}">
-            <div class="anime-body">
-              <h4 class="anime-title">${escapeHtml(item.title)}</h4>
-              <button class="btn primary" data-after="${item.id}">เพิ่มต่อจากเรื่องนี้</button>
-            </div>`;
-          insertGrid.appendChild(div);
+          const el = document.createElement('article');
+          el.className = 'card';
+          el.innerHTML = `
+            <img class="thumb" src="${escapeAttr(item.image || placeholderImage(item.title))}" alt="${escapeAttr(item.title)}" />
+            <div class="body">
+              <h3 class="anime-title">${escapeHtml(item.title)}</h3>
+              <button class="btn primary" data-after="${item.id}">เพิ่มต่อจากรายการนี้</button>
+            </div>
+          `;
+          insertGrid.appendChild(el);
         });
-        insertGrid.querySelectorAll('[data-after]').forEach(btn => btn.addEventListener('click', e => {
-          const id = Number(e.currentTarget.dataset.after);
-          const idx = allAnimes.findIndex(a => a.id === id);
-          if (idx !== -1 && pendingNewAnime) {
-            allAnimes.splice(idx + 1, 0, pendingNewAnime);
-            pendingNewAnime = null;
-            finalizeDataUpdate();
-            clearAddForm();
-          }
-          showModal(insertModalBackdrop, false);
-        }));
+
+        insertGrid.querySelectorAll('[data-after]').forEach(btn => {
+          btn.addEventListener('click', e => {
+            const id = Number(e.currentTarget.dataset.after);
+            const idx = allAnimes.findIndex(a => a.id === id);
+            if (idx !== -1 && pendingNewAnime) {
+              allAnimes.splice(idx + 1, 0, pendingNewAnime);
+              pendingNewAnime = null;
+              finalizeUpdate();
+              clearAddForm();
+            }
+            showModal(insertModalBackdrop, false);
+          });
+        });
       }
 
       showModal(insertModalBackdrop, true);
     }
 
-    function downloadJSONFile(filename = currentSource) {
+    function getCheckedValues(root) {
+      return [...root.querySelectorAll('input[type=checkbox]:checked')].map(i => i.value);
+    }
+
+    function downloadJSON(filename = currentSource) {
       const blob = new Blob([JSON.stringify(allAnimes, null, 2)], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -705,21 +656,27 @@
       URL.revokeObjectURL(url);
     }
 
-    // events
+    async function copyJSON() {
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
+        alert('คัดลอก JSON สำเร็จ ✅');
+      } catch (e) {
+        alert('คัดลอกไม่สำเร็จ: ' + e.message);
+      }
+    }
+
     document.getElementById('addBtn').addEventListener('click', () => {
       const title = document.getElementById('addTitle').value.trim();
       const link = document.getElementById('addLink').value.trim();
       const image = document.getElementById('addImage').value.trim();
-      const selected = [...document.querySelectorAll('#addCategoryBox input[type=checkbox]:checked')].map(i => i.value);
-      if (!title) return alert('กรุณากรอกชื่อเรื่อง');
+      const category = getCheckedValues(document.getElementById('addCategoryBox'));
 
-      pendingNewAnime = {
-        id: null,
-        title,
-        link,
-        image,
-        category: selected
-      };
+      if (!title) {
+        alert('กรุณากรอกชื่อเรื่อง');
+        return;
+      }
+
+      pendingNewAnime = { id: null, title, link, image, category };
       showModal(chooseInsertModal, true);
     });
 
@@ -730,39 +687,47 @@
       if (!pendingNewAnime) return;
       allAnimes.push(pendingNewAnime);
       pendingNewAnime = null;
-      finalizeDataUpdate();
+      finalizeUpdate();
       clearAddForm();
       showModal(chooseInsertModal, false);
     });
     document.getElementById('chooseInsertSpecific').addEventListener('click', () => {
       showModal(chooseInsertModal, false);
-      openInsertPicker();
+      openInsertModal();
     });
 
     document.getElementById('insertModalClose').addEventListener('click', () => showModal(insertModalBackdrop, false));
-
-    document.getElementById('modalClose').addEventListener('click', () => showModal(modalBackdrop, false));
-    document.getElementById('cancelEdit').addEventListener('click', () => showModal(modalBackdrop, false));
 
     document.getElementById('saveEdit').addEventListener('click', () => {
       if (editingId == null) return;
       const title = document.getElementById('editTitle').value.trim();
       const link = document.getElementById('editLink').value.trim();
       const image = document.getElementById('editImage').value.trim();
-      const selected = [...document.querySelectorAll('#editCategoryBox input[type=checkbox]:checked')].map(i => i.value);
-      if (!title) return alert('กรุณากรอกชื่อเรื่อง');
+      const category = getCheckedValues(document.getElementById('editCategoryBox'));
+      if (!title) {
+        alert('กรุณากรอกชื่อเรื่อง');
+        return;
+      }
 
       const idx = allAnimes.findIndex(a => a.id === editingId);
-      if (idx === -1) return;
-      allAnimes[idx] = { ...allAnimes[idx], title, link, image, category: selected };
+      if (idx !== -1) {
+        allAnimes[idx] = { ...allAnimes[idx], title, link, image, category };
+        finalizeUpdate();
+      }
+
       editingId = null;
-      finalizeDataUpdate();
       showModal(modalBackdrop, false);
     });
 
-    document.getElementById('quickSearch').addEventListener('input', (e) => {
+    document.getElementById('modalClose').addEventListener('click', () => showModal(modalBackdrop, false));
+    document.getElementById('cancelEdit').addEventListener('click', () => showModal(modalBackdrop, false));
+
+    document.getElementById('quickSearch').addEventListener('input', e => {
       const q = e.target.value.trim().toLowerCase();
-      if (!q) return renderList(allAnimes);
+      if (!q) {
+        renderList(allAnimes);
+        return;
+      }
       const filtered = allAnimes.filter(a =>
         (a.title || '').toLowerCase().includes(q) ||
         (a.link || '').toLowerCase().includes(q) ||
@@ -771,25 +736,26 @@
       renderList(filtered);
     });
 
-    document.getElementById('downloadBtn').addEventListener('click', () => downloadJSONFile(currentSource));
-    document.getElementById('downloadJson').addEventListener('click', () => downloadJSONFile(currentSource));
-
-    async function copyJSON() {
-      try {
-        await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
-        alert('คัดลอก JSON แล้ว ✅');
-      } catch (e) {
-        alert('คัดลอกไม่สำเร็จ: ' + e.message);
+    document.getElementById('switchSourceBtn').addEventListener('click', () => {
+      if (currentSource === 'anime_data.json') {
+        currentSource = 'H.json';
+        document.getElementById('switchSourceBtn').textContent = 'สลับเป็น anime_data';
+      } else {
+        currentSource = 'anime_data.json';
+        document.getElementById('switchSourceBtn').textContent = 'สลับเป็น H_data';
       }
-    }
+      loadJSON();
+    });
 
+    document.getElementById('downloadBtn').addEventListener('click', () => downloadJSON(currentSource));
+    document.getElementById('downloadJson').addEventListener('click', () => downloadJSON(currentSource));
     document.getElementById('copyBtn').addEventListener('click', copyJSON);
     document.getElementById('copyJsonBtn').addEventListener('click', copyJSON);
 
     document.getElementById('clearAllBtn').addEventListener('click', () => {
-      if (!confirm('ต้องการลบทั้งหมดจริงหรือไม่?')) return;
+      if (!confirm('ต้องการลบรายการทั้งหมดหรือไม่?')) return;
       allAnimes = [];
-      finalizeDataUpdate();
+      finalizeUpdate();
     });
 
     document.getElementById('toggleJsonBtn').addEventListener('click', () => {
@@ -798,20 +764,9 @@
       document.getElementById('toggleJsonBtn').textContent = jsonVisible ? 'ซ่อน JSON' : 'แสดง JSON';
     });
 
-    switchSourceBtn.addEventListener('click', () => {
-      if (currentSource === 'anime_data.json') {
-        currentSource = 'H.json';
-        switchSourceBtn.textContent = 'สลับเป็น anime_data';
-      } else {
-        currentSource = 'anime_data.json';
-        switchSourceBtn.textContent = 'สลับเป็น H_data';
-      }
-      loadJSON();
-    });
-
-    [modalBackdrop, chooseInsertModal, insertModalBackdrop].forEach(backdrop => {
-      backdrop.addEventListener('click', (ev) => {
-        if (ev.target === backdrop) showModal(backdrop, false);
+    [modalBackdrop, chooseInsertModal, insertModalBackdrop].forEach(m => {
+      m.addEventListener('click', e => {
+        if (e.target === m) showModal(m, false);
       });
     });
 
