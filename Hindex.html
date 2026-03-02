@@ -605,7 +605,7 @@ bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; safeVideoPlay(bgVi
 let allAnimes = [];
 let activeCategories = [];
 
-fetch(`anime_data.json?ts=${Date.now()}`, { cache: 'no-store' })
+fetch(`H.json?ts=${Date.now()}`, { cache: 'no-store' })
   .then(response => response.json())
   .then(animes => {
     allAnimes = animes;
@@ -709,7 +709,7 @@ fetch(`anime_data.json?ts=${Date.now()}`, { cache: 'no-store' })
   })
   .catch(err=>{
     document.getElementById('loader').innerHTML = '<p style="text-align:center;">ไม่สามารถโหลดข้มูลได้ 😢</p>';
-    console.error('โหลด anime_data.json ไม่ได้:', err);
+    console.error('โหลด H.json ไม่ได้:', err);
   });
 
 </script>
