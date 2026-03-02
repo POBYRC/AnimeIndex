@@ -528,12 +528,23 @@ const bgVideo = document.getElementById('bgVideo');
 const urlVideo = "h";
 const repoVideo = "8_05_Homescreen_VCT.webm";
 
+function safeVideoPlay(videoEl) {
+  if (!videoEl) return;
+  const playPromise = videoEl.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(err => {
+      if (err && err.name === "AbortError") return;
+      console.warn("Video play failed:", err);
+    });
+  }
+}
+
 // =======================
 // 🔹 Load video with IndexedDB cache + fallback
 function loadVideo(url, fallback=null) {
   if (!('indexedDB' in window)) {
     bgVideo.src = url;
-    bgVideo.play();
+    safeVideoPlay(bgVideo);
     return;
   }
 
@@ -551,7 +562,7 @@ function loadVideo(url, fallback=null) {
     getReq.onsuccess = async () => {
       if(getReq.result){
         bgVideo.src = URL.createObjectURL(getReq.result);
-        bgVideo.play();
+        safeVideoPlay(bgVideo);
       } else {
         try {
           const resp = await fetch(url);
@@ -560,25 +571,25 @@ function loadVideo(url, fallback=null) {
           txPut.objectStore('videos').put(blob,url);
           txPut.oncomplete = () => console.log("Video cached!");
           bgVideo.src = URL.createObjectURL(blob);
-          bgVideo.play();
+          safeVideoPlay(bgVideo);
         } catch(err){
           console.warn("Video load failed, trying fallback...", err);
           if(fallback) loadVideo(fallback,null);
-          else { bgVideo.src = url; bgVideo.play(); }
+          else { bgVideo.src = url; safeVideoPlay(bgVideo); }
         }
       }
     };
 
     getReq.onerror = () => {
       bgVideo.src = url;
-      bgVideo.play();
+      safeVideoPlay(bgVideo);
     };
   };
 
   openRequest.onerror = e => {
     console.error("IndexedDB open error", e);
     bgVideo.src = url;
-    bgVideo.play();
+    safeVideoPlay(bgVideo);
   };
 }
 
@@ -587,7 +598,7 @@ function loadVideo(url, fallback=null) {
 if(videoSource===1) loadVideo(urlVideo, repoVideo);
 else loadVideo(repoVideo, urlVideo);
 
-bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; bgVideo.play(); });
+bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; safeVideoPlay(bgVideo); });
 
 // =======================
 // 🔹 Fetch Anime Data
@@ -895,7 +906,7 @@ function setVideoSource(sourceUrl) {
   bgVideoEl.load();
   bgVideoEl.src = sourceUrl;
   bgVideoEl.load();
-  bgVideoEl.play().catch(()=>{});
+  safeVideoPlay(bgVideoEl);
 }
 
 function selectBackground(bgData){
@@ -959,6 +970,9 @@ async function loadNewBackground(bgData){
       console.log('Service Worker registered:', reg);
 
       // ส่งรายการ URL รูปภาพทั้งหมดให้ SW เพื่อ warm cache
+      let lastWarmPayloadKey = '';
+      let lastWarmSentAt = 0;
+
       function collectImageUrls() {
         try {
           const urls = Array.from(document.images)
@@ -974,14 +988,25 @@ async function loadNewBackground(bgData){
 
       function sendToSW(urls) {
         if (!urls || !urls.length) return;
+
+        const payloadKey = urls.join('|');
+        const now = Date.now();
+        if (payloadKey === lastWarmPayloadKey && now - lastWarmSentAt < 2500) return;
+
         if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+          lastWarmPayloadKey = payloadKey;
+          lastWarmSentAt = now;
           console.log('Sent images to SW for caching:', urls);
         } else {
           // if no controller yet, wait for ready then send
           navigator.serviceWorker.ready.then(() => {
             if (navigator.serviceWorker.controller) {
+              const readyNow = Date.now();
+              if (payloadKey === lastWarmPayloadKey && readyNow - lastWarmSentAt < 2500) return;
               navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+              lastWarmPayloadKey = payloadKey;
+              lastWarmSentAt = readyNow;
               console.log('Sent images to SW (on ready):', urls);
             }
           });
