@@ -657,8 +657,17 @@
       });
     }
 
+    function stringifyAnimeJson(data) {
+      const pretty = JSON.stringify(data, null, 2);
+      // keep category arrays on one line: ["A", "B", "C"]
+      return pretty.replace(/"category": \[(?:\n\s+"[^"]*",?)+\n\s+\]/g, block => {
+        const values = [...block.matchAll(/"([^"]*)"/g)].slice(1).map(m => `"${m[1]}"`);
+        return `"category": [${values.join(', ')}]`;
+      });
+    }
+
     function updateJsonView() {
-      jsonView.textContent = JSON.stringify(allAnimes, null, 2);
+      jsonView.textContent = stringifyAnimeJson(allAnimes);
     }
 
     function finalizeUpdate() {
@@ -735,7 +744,7 @@
     }
 
     function downloadJSON(filename = currentSource) {
-      const blob = new Blob([JSON.stringify(allAnimes, null, 2)], { type: 'application/json;charset=utf-8' });
+      const blob = new Blob([stringifyAnimeJson(allAnimes)], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -748,7 +757,7 @@
 
     async function copyJSON() {
       try {
-        await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
+        await navigator.clipboard.writeText(stringifyAnimeJson(allAnimes));
         alert('คัดลอก JSON สำเร็จ ✅');
       } catch (e) {
         alert('คัดลอกไม่สำเร็จ: ' + e.message);
