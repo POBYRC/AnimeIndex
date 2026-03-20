@@ -311,6 +311,26 @@
       align-items: center;
     }
 
+
+
+    .category-create {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .category-create .input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .category-create .btn {
+      width: auto;
+      white-space: nowrap;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
     .json {
       margin: 0;
       border: 1px solid var(--line);
@@ -407,6 +427,10 @@
         <div class="field">
           <label>เลือกหมวดหมู่</label>
           <div class="category-wrap">
+            <div class="category-create">
+              <input id="addCategoryNew" class="input" placeholder="เพิ่มหมวดหมู่ใหม่..." />
+              <button id="addCategoryNewBtn" class="btn ghost" type="button">+ เพิ่มหมวด</button>
+            </div>
             <input id="addCategorySearch" class="input category-search" placeholder="ค้นหาหมวดหมู่..." />
             <div id="addCategoryBox" class="category-pills"></div>
           </div>
@@ -443,7 +467,7 @@
       <h3 style="margin-top:0">เลือกตำแหน่งการเพิ่ม</h3>
       <div class="btnRow">
         <button id="chooseInsertLatest" class="btn primary">เพิ่มต่อท้าย</button>
-        <button id="chooseInsertSpecific" class="btn">เลือกแทรกเอง</button>
+        <button id="chooseInsertSpecific" class="btn">เือกแทรกเอง</button>
         <button id="chooseInsertCancel" class="btn ghost">ยกเลิก</button>
       </div>
     </div>
@@ -481,6 +505,10 @@
       <div class="field">
         <label>หมวดหมู่</label>
         <div class="category-wrap">
+          <div class="category-create">
+            <input id="editCategoryNew" class="input" placeholder="เพิ่มหมวดหมู่ใหม่..." />
+            <button id="editCategoryNewBtn" class="btn ghost" type="button">+ เพิ่มหมวด</button>
+          </div>
           <input id="editCategorySearch" class="input category-search" placeholder="ค้นหาหมวดหมู่..." />
           <div id="editCategoryBox" class="category-pills"></div>
         </div>
@@ -615,6 +643,29 @@
       });
     }
 
+    function addCategoryByName(rawName, target) {
+      const name = (rawName || '').trim();
+      if (!name) return false;
+
+      const exists = allCategories.some(cat => cat.toLowerCase() === name.toLowerCase());
+      if (!exists) {
+        allCategories.push(name);
+        allCategories.sort((a, b) => a.localeCompare(b, 'th'));
+      }
+
+      if (target === 'add') {
+        if (!addSelectedCategories.includes(name)) addSelectedCategories.push(name);
+        const keyword = document.getElementById('addCategorySearch').value || '';
+        createCategoryPills('addCategoryBox', addSelectedCategories, keyword);
+      } else {
+        if (!editSelectedCategories.includes(name)) editSelectedCategories.push(name);
+        const keyword = document.getElementById('editCategorySearch').value || '';
+        createCategoryPills('editCategoryBox', editSelectedCategories, keyword);
+      }
+
+      return true;
+    }
+
     function renderList(list) {
       countText.textContent = `ทั้งหมด ${list.length} เรื่อง`;
       gridEl.innerHTML = '';
@@ -657,17 +708,8 @@
       });
     }
 
-    function stringifyAnimeJson(data) {
-      const pretty = JSON.stringify(data, null, 2);
-      // keep category arrays on one line: ["A", "B", "C"]
-      return pretty.replace(/"category": \[(?:\n\s+"[^"]*",?)+\n\s+\]/g, block => {
-        const values = [...block.matchAll(/"([^"]*)"/g)].slice(1).map(m => `"${m[1]}"`);
-        return `"category": [${values.join(', ')}]`;
-      });
-    }
-
     function updateJsonView() {
-      jsonView.textContent = stringifyAnimeJson(allAnimes);
+      jsonView.textContent = JSON.stringify(allAnimes, null, 2);
     }
 
     function finalizeUpdate() {
@@ -682,6 +724,7 @@
       document.getElementById('addLink').value = '';
       document.getElementById('addImage').value = '';
       document.getElementById('addCategorySearch').value = '';
+      document.getElementById('addCategoryNew').value = '';
       addSelectedCategories = [];
       createCategoryPills('addCategoryBox', addSelectedCategories);
     }
@@ -700,6 +743,7 @@
       document.getElementById('editLink').value = item.link || '';
       document.getElementById('editImage').value = item.image || '';
       document.getElementById('editCategorySearch').value = '';
+      document.getElementById('editCategoryNew').value = '';
       editSelectedCategories = [...(item.category || [])];
       createCategoryPills('editCategoryBox', editSelectedCategories);
       showModal(modalBackdrop, true);
@@ -744,7 +788,7 @@
     }
 
     function downloadJSON(filename = currentSource) {
-      const blob = new Blob([stringifyAnimeJson(allAnimes)], { type: 'application/json;charset=utf-8' });
+      const blob = new Blob([JSON.stringify(allAnimes, null, 2)], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -757,7 +801,7 @@
 
     async function copyJSON() {
       try {
-        await navigator.clipboard.writeText(stringifyAnimeJson(allAnimes));
+        await navigator.clipboard.writeText(JSON.stringify(allAnimes, null, 2));
         alert('คัดลอก JSON สำเร็จ ✅');
       } catch (e) {
         alert('คัดลอกไม่สำเร็จ: ' + e.message);
@@ -853,6 +897,28 @@
     document.getElementById('editCategorySearch').addEventListener('input', e => {
       syncSelectedCategoriesFromBox('editCategoryBox', editSelectedCategories);
       createCategoryPills('editCategoryBox', editSelectedCategories, e.target.value);
+    });
+
+    document.getElementById('addCategoryNewBtn').addEventListener('click', () => {
+      const input = document.getElementById('addCategoryNew');
+      if (addCategoryByName(input.value, 'add')) input.value = '';
+    });
+
+    document.getElementById('addCategoryNew').addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      if (addCategoryByName(e.target.value, 'add')) e.target.value = '';
+    });
+
+    document.getElementById('editCategoryNewBtn').addEventListener('click', () => {
+      const input = document.getElementById('editCategoryNew');
+      if (addCategoryByName(input.value, 'edit')) input.value = '';
+    });
+
+    document.getElementById('editCategoryNew').addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      if (addCategoryByName(e.target.value, 'edit')) e.target.value = '';
     });
 
     // source/json
