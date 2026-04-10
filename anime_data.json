@@ -2315,5 +2315,40 @@
     "link": "https://www.animewaku.com/anime/kanan-sama-wa-akumade-choroi/",
     "image": "https://img-cdn.shirokami.me/2026/04/04/05da6abfe3000d5f6031be003c37df28.jpg",
     "category": ["ตลก", "โรแมนติก", "โรงเรียน", "หนุ่มน้อย", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 332,
+    "title": "Shimoneta",
+    "link": "https://www.animewaku.com/anime/shimoneta/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image28b68bac468fa160.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "โรงเรียน"]
+  },
+  {
+    "id": 333,
+    "title": "Prison School โรงเรียนคุก",
+    "link": "https://www.animewaku.com/anime/prisonschool/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image90297df61b2468a7.md.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "โรแมนติก", "โรงเรียน", "วัยรุ่น"]
+  },
+  {
+    "id": 334,
+    "title": "ดาร์กเอลฟ์คลั่งรักจากต่างโลก",
+    "link": "https://www.animewaku.com/anime/chotto-dake-ai-ga-omoi-dark-elf-ga-isekai-kara-oikaketekita/",
+    "image": "https://img.shirokami.me/images/2025/06/03/191f57109f5573fbb2a8f9ee1b4a1606.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 335,
+    "title": "Full Metal Panic! (ภาค 1-4)",
+    "link": "https://www.animewaku.com/anime/full-metalpanic/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image6320bfe397d7e4e4.md.jpg",
+    "category": ["ต่อสู้", "ตลก", "หุ่นยนต์", "ทหาร", "ไซ-ไฟ"]
+  },
+  {
+    "id": 336,
+    "title": "ชมรมชี้แนะแกะหลงทาง",
+    "link": "https://anime-hdzero.com/catagory/2487",
+    "image": "https://img.shirokami.me/images/2021/10/05/image6a6bf2b31b206865.jpg",
+    "category": ["ฮาเร็ม", "โรแมนติก", "โรงเรียน"]
   }
 ]
