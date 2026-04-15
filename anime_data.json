@@ -506,7 +506,7 @@
   {
     "id": 73,
     "title": "คาเฟ่นี้มีนางฟ้ามาเสิร์ฟ (ภาค2)",
-    "link": "https://animegojoz.com/list/1830/megami-no-cafe-terrace-2nd-season-2",
+    "link": "https://animeruka.com/anime/megami-no-cafe-terrace-2nd-season/",
     "image": "https://animegojoz.com/img/Megami-no-Cafe-Terrace-2nd-Season-%e0%b8%84%e0%b8%b2%e0%b9%80%e0%b8%9f%e0%b9%88%e0%b8%99%e0%b8%b5%e0%b9%89%e0%b8%a1%e0%b8%b5%e0%b8%99%e0%b8%b2%e0%b8%87%e0%b8%9f%e0%b9%89%e0%b8%b2%e0%b8%a1%e0%b8%b2%e0%b9%80%e0%b8%aa%e0%b8%b4%e0%b8%a3%e0%b9%8c%e0%b8%9f-%e0%b8%8b%e0%b8%b5%e0%b8%8b%e0%b8%b1%e0%b9%88%e0%b8%99-2.webp",
     "category": ["ตลก", "ทะลึ่ง", "โรแมนติก", "หนุ่มน้อย", "ฮาเร็ม"]
   },
@@ -2441,5 +2441,124 @@
     "link": "https://www.animewaku.com/anime/murenase/",
     "image": "https://img.shirokami.me/images/2022/01/03/6c3f705fb6f2ff2042af3b3dbf10f583.jpg",
     "category": ["ตลก", "โรงเรียน"]
+  },
+  {
+    "id": 350,
+    "title": "บันทึกอาหารของสาวเมด",
+    "link": "https://www.animewaku.com/anime/maid-san-wa-taberu-dake/",
+    "image": "https://img-cdn.shirokami.me/2026/04/01/35c477d172f8d64a6da643de00798103.jpg",
+    "category": ["อาหาร", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 351,
+    "title": "ชีวิตวุ่น ๆ ในคาเฟ่มังงะห้องจิ๋ว",
+    "link": "https://www.animewaku.com/anime/ichijouma-mankitsu-gurashi/",
+    "image": "https://preview.redd.it/ichijouma-mankitsu-gurashi-main-visual-v0-g5wb0nbi6ung1.jpeg?auto=webp&s=69edfbe5cdb85c293942b7130f90a68a2e107110",
+    "category": ["ตลก", "ทะลึ่ง"]
+  },
+  {
+    "id": 352,
+    "title": "Ninja to Koroshiya no Futari-gurashi",
+    "link": "https://anime-hdzero.com/catagory/5921",
+    "image": "https://img.shirokami.me/images/2025/06/03/ae533c3dbadcda25699281e4c90902de.webp",
+    "category": ["ชีวิตประจำวัน"]
+  },
+  {
+    "id": 353,
+    "title": "ชีวิตรสโซดาของจิโตเสะคุง",
+    "link": "https://www.animewaku.com/anime/chitose-kun-wa-ramune-bin-no-naka/",
+    "image": "https://animeruka.com/wp-content/uploads/2025/10/xCsz0dWkpoya5XK3y2UaEkXnin5.jpg",
+    "category": ["ตลก", "ฮาเร็ม", "โรแมนติก", "โรงเรียน"]
+  },
+  {
+    "id": 354,
+    "title": "UQ Holder! Mahou Sensei Negima!",
+    "link": "https://anime-hdzero.com/catagory/718",
+    "image": "https://img.shirokami.me/images/2021/10/05/image5509b797e3b18cb4.md.jpg",
+    "category": ["ต่อสู้", "ไซ-ไฟ", "เวทย์มนต์", "แฟนตาซี", "เด็กผู้ชาย"]
+  },
+  {
+    "id": 355,
+    "title": "เรียกเธอว่าพระเจ้า",
+    "link": "https://www.animewaku.com/anime/suzumiya-haruhi/",
+    "image": "https://www.animewaku.com/wp-content/uploads/2006/04/%E0%B8%AA%E0%B8%B6%E0%B8%8B%E0%B8%B6%E0%B8%A1%E0%B8%B4%E0%B8%A2%E0%B8%B0-%E0%B8%AE%E0%B8%B2%E0%B8%A3%E0%B8%B8%E0%B8%AE%E0%B8%B4-185x278.jpg",
+    "category": ["ตลก", "ลึกลับ", "ล้อเลียน", "โรงเรียน", "ไซ-ไฟ", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 356,
+    "title": "การหายตัวไปของ สึซึมิยะ ฮารุฮิ",
+    "link": "https://www.animewaku.com/movies/suzumiya-haruhi-no-shoushitsu/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image9dcaa60f5964066e.md.jpg",
+    "category": ["ตลก", "ลึกลับ", "โรแมนติก", "โรงเรียน", "ไซ-ไฟ", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 357,
+    "title": "Nagato Yuki-chan no Shoushitsu",
+    "link": "https://www.animewaku.com/anime/nagato-yuki-chan-noshoushitsu/",
+    "image": "https://m.media-amazon.com/images/M/MV5BNjA4NGZmNTAtNjM4YS00MzYyLTg5MzctNzAzMDgyNzEyNzcyXkEyXkFqcGc@._V1_.jpg",
+    "category": ["ตลก", "โรแมนติก", "โรงเรียน", "วัยรุ่น", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 358,
+    "title": "อลวนสุดป่วน นางฟ้าตัวยุ่ง",
+    "link": "https://www.animewaku.com/anime/sora-no-otoshimono/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagef9713ffda9fa87d3.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "ฮาเร็ม", "โรแมนติก", "ไซ-ไฟ", "หนุ่มน้อย", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 359,
+    "title": "Sora no Otoshimono Final Eternal My Master The Movie",
+    "link": "https://www.animewaku.com/movies/sora-no-otoshimono-movie/",
+    "image": "https://upload.wikimedia.org/wikipedia/en/a/a4/Sora_no_Otoshimono_Final_Eternal_My_Master_Official_Poster.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "ฮาเร็ม", "ไซ-ไฟ", "หนุ่มน้อย", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 360,
+    "title": "Marika-chan no Koukando wa Bukkowareteiru",
+    "link": "https://www.animewaku.com/anime/marika-chan-no-koukando-wa-bukkowareteiru/",
+    "image": "data:image/jpeg;base64,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",
+    "category": ["ตลก", "ทะลึ่ง", "โรแมนติก"]
+  },
+  {
+    "id": 361,
+    "title": "หัวหน้าห้องจอมทื่อกับสาวน้อยกระโปรงสั้น",
+    "link": "https://www.animewaku.com/anime/ponkotsu-fuuki-iin-to-skirt-take-ga-futekisetsu-na-jk-no-hanashi/",
+    "image": "https://img-cdn.shirokami.me/2026/04/06/c9f12b8c4bbeff89a0d18c37d2b25ea8.jpg",
+    "category": ["ตลก", "โรแมนติก", "โรงเรียน", "หนุ่มน้อย"]
+  },
+  {
+    "id": 362,
+    "title": "Higurashi no Naku Koro Ni (ภาค1-3)+OVA",
+    "link": "https://www.animewaku.com/anime/higurashi-no-naku-koro-ni/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image3e363fea173d6a9c.md.jpg",
+    "category": ["สยองขวัญ", "ลึกลับ", "จิตวิทยา", "เหนือธรรมชาติ", "ตื่นเต้น"]
+  },
+  {
+    "id": 363,
+    "title": "Higurashi no Naku Koro ni Gou",
+    "link": "https://www.animewaku.com/anime/higurashi-no-naku-koro-ni-gou/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imageededb06a4fa81d5d.md.webp",
+    "category": ["สยองขวัญ", "ลึกลับ", "จิตวิทยา", "เหนือธรรมชาติ", "ตื่นเต้น"]
+  },
+  {
+    "id": 364,
+    "title": "Higurashi no Naku Koro ni Sotsu",
+    "link": "https://www.animewaku.com/anime/higurashi-no-naku-koro-ni-sotsu/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagea365078fc7f78654.jpg",
+    "category": ["สยองขวัญ", "ลึกลับ", "จิตวิทยา", "เหนือธรรมชาติ", "ตื่นเต้น"]
+  },
+  {
+    "id": 365,
+    "title": "สุดท้ายก็คือเธอ",
+    "link": "https://www.animewaku.com/anime/yagate-kimi-ni-naruv1/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image3b7a3b5dda975697.jpg",
+    "category": ["โรแมนติก", "โรงเรียน", "ยูริ"]
+  },
+  {
+    "id": 366,
+    "title": "Konbini Kareshi",
+    "link": "https://anime-hdzero.com/catagory/606",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagefd8e04bd21c3fab8.jpg",
+    "category": ["ชีวิตประจำวัน", "โรแมนติก"]
   }
 ]
