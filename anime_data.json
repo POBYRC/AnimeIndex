@@ -3141,5 +3141,75 @@
     "link": "https://anime-hdzero.com/anime/2231",
     "image": "https://img.shirokami.me/images/2021/10/05/image05c3cd82f1de3204.jpg",
     "category": ["กีฬา"]
+  },
+  {
+    "id": 450,
+    "title": "Nyan Koi! รักน้องต้องมีเหมียว",
+    "link": "https://www.animewaku.com/anime/nyan-koi/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZjQ3MjBjMWItMzc4Yy00NjY0LTlmYjYtZWI2YTYzMzE2MWVjXkEyXkFqcGc@._V1_FMjpg_UY679_.jpg",
+    "category": ["ตลก", "ฮาเร็ม", "โรแมนติก"]
+  },
+  {
+    "id": 451,
+    "title": "Yuusha ga Shinda! เมื่อผู้กล้าลาโลกแล้ว! เพราะชาวบ้านอย่างผมเผลอทำผู้กล้าตาย",
+    "link": "https://www.animewaku.com/anime/yuusha-ga-shinda/",
+    "image": "https://img.shirokami.me/images/2023/04/21/f94a5b8d8b0891e822ec58b60db03d51.jpg",
+    "category": ["ต่อสู้", "ตลก", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "ล้อเลียน"]
+  },
+  {
+    "id": 452,
+    "title": "Mashiro Iro Symphony The color of lovers บทเพลงสีขาวบริสุทธิ์",
+    "link": "https://anime-hdzero.com/anime/2323",
+    "image": "https://img.shirokami.me/images/2021/10/05/image5cbc7a0d5106207b.md.jpg",
+    "category": ["ดราม่า", "โรแมนติก"]
+  },
+  {
+    "id": 453,
+    "title": "Nande Koko ni Sensei ga!? ไหงมาอยู่นี่ครับคุณครู!?",
+    "link": "https://www.animewaku.com/anime/%E0%B9%84%E0%B8%AB%E0%B8%87%E0%B8%A1%E0%B8%B2%E0%B8%AD%E0%B8%A2%E0%B8%B9%E0%B9%88%E0%B8%99%E0%B8%B5%E0%B9%88%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%A3%E0%B8%B9/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image807995d4b0ec178b.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "โรงเรียน", "วัยรุ่น"]
+  },
+  {
+    "id": 454,
+    "title": "Isekai no Seikishi Monogatari อัศวินศักสิทธิ์ในดินแดนต่างมิติ",
+    "link": "https://www.animewaku.com/anime/isekai-no-seikishi-monogatari/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image6ce408764ed94cf3.jpg",
+    "category": ["ต่อสู้", "ตลก", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "หุ่นยนต์", "โรงเรียน"]
+  },
+  {
+    "id": 455,
+    "title": "Nageki no Bourei wa Intai shitai วิญญาณคร่ำครวญอยากวางมือแล้ว",
+    "link": "https://www.animewaku.com/anime/nageki-no-bourei-wa-intai-shitai-th/",
+    "image": "https://img.shirokami.me/images/2025/10/04/a67b10be3fdefc988e965fcfa198b04e.webp",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 456,
+    "title": "Fuguushoku “Kanteishi” ga Jitsu wa Saikyou Datta นักประเมินไร้โชค ที่จริงเทพหลุดโลก",
+    "link": "https://www.animewaku.com/anime/fuguushoku-kanteishi-ga-jitsu-wa-saikyou-datta-th/",
+    "image": "https://img.shirokami.me/images/2025/01/09/5d1fe9e46c71e3373c3798e7421a990a.webp",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 457,
+    "title": "Seiken Tsukai no World Break เทพนักดาบข้ามภพ",
+    "link": "https://www.animewaku.com/anime/seiken-tsukai-no-world-break/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imaged89fd518c366c091.md.jpg",
+    "category": ["ต่อสู้", "แฟนตาซี", "ฮาเร็ม", "โรแมนติก", "โรงเรียน", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 458,
+    "title": "Hametsu no Oukoku มหาวิบัตินครดับสูญ",
+    "link": "https://www.animewaku.com/anime/hametsu-no-oukoku/",
+    "image": "https://img.shirokami.me/images/2024/01/29/bc2686cba23776669412bcc140bdc955.jpg",
+    "category": ["ต่อสู้", "ดราม่า", "แฟนตาซี", "หนุ่มน้อย"]
+  },
+  {
+    "id": 459,
+    "title": "Mahou no Shimai Lulutto Lilly สองสาวน้อยเวทมนตร์ ลูลุตโตะ ลิลลี่",
+    "link": "https://anime-hdzero.com/anime/6674",
+    "image": "https://img-cdn.shirokami.me/2026/04/13/1ed6b7187051a13681df603f0f1b7562.jpg",
+    "category": ["เวทย์มนต์"]
   }
 ]
