@@ -877,14 +877,14 @@
   {
     "id": 126,
     "title": "ยุทธศาสตร์กู้ชาติของราชามือใหม่ (ภาค1)",
-    "link": "https://fairyanime.net/genjitsu-shugi-yuushath/",
+    "link": "https://www.animewaku.com/anime/genjitsu-shugi-yuusha-no-oukoku-saikenki/",
     "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/99b1fe0231e1facb0fb0d1903eade7ba.jpg?v=4",
     "category": ["ต่อสู้", "แฟนตาซี", "โรแมนติก", "ฮาเร็ม"]
   },
   {
     "id": 127,
     "title": "ยุทธศาสตร์กู้ชาติของราชามือใหม่ (ภาค2)",
-    "link": "https://fairyanime.net/genjitsu-ss2-th/",
+    "link": "https://www.animewaku.com/anime/genjitsu-shugi-yuusha-no-oukoku-saikenki-part-2/",
     "image": "https://www.anime-smm.com/wp-content/uploads/2022/16/cb8548d21dc0659de8979884d41d1363.jpg?v=4",
     "category": ["ต่อสู้", "แฟนตาซี", "โรแมนติก"]
   },
@@ -3771,5 +3771,110 @@
     "link": "https://anime-hdzero.com/anime/854",
     "image": "https://img.shirokami.me/images/2021/10/05/imagebf95f5d65f0f1155.md.jpg",
     "category": ["ต่อสู้", "ไซ-ไฟ", "ทะลึ่ง"]
+  },
+  {
+    "id": 540,
+    "title": "Black Bullet กระสุนมรณะ นัยน์ตาอสูร",
+    "link": "https://www.animewaku.com/anime/black-bullet/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagee08c336c290d4334.jpg",
+    "category": ["ต่อสู้", "ลึกลับ", "ไซ-ไฟ", "วัยรุ่น"]
+  },
+  {
+    "id": 541,
+    "title": "Kamisama ni Natta Hi เมื่อวันฉันเป็นพระเจ้า",
+    "link": "https://www.animewaku.com/anime/kamisama-ni-natta-hi/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image63dc160a987a99a7.md.jpg",
+    "category": ["ดราม่า", "แฟนตาซี"]
+  },
+  {
+    "id": 542,
+    "title": "Tanaka-kun wa Itsumo Kedaruge ทานากะจอมเฉื่อย",
+    "link": "https://www.animewaku.com/anime/tanaka-kun/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagee31a3893fd4b392e.jpg",
+    "category": ["ตลก", "โรงเรียน", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 543,
+    "title": "Tokyo Ravens โตเกียว องเมียวจิ",
+    "link": "https://www.animewaku.com/anime/tokyoravens/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image9118127011c623a0.md.jpg",
+    "category": ["ต่อสู้", "ตลก", "เวทย์มนต์", "โรแมนติก", "โรงเรียน", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 544,
+    "title": "Maria Holic",
+    "link": "https://anime-hdzero.com/search/results?q=Maria%20Holic",
+    "image": "https://img.shirokami.me/images/2021/10/05/imageb474bf36fc56a2d0.md.jpg",
+    "category": ["ตลก"]
+  },
+  {
+    "id": 545,
+    "title": "Kekkon suru tte Hontou desu ka (365 Days to the Wedding) 365 วันก่อนแต่งงาน",
+    "link": "https://anime-hdzero.com/anime/6482",
+    "image": "https://img.shirokami.me/images/2026/02/03/154179l_11zon.webp",
+    "category": ["โรแมนติก"]
+  },
+  {
+    "id": 546,
+    "title": "รวมอนิเมะ Tsugumomo ทุกภาค",
+    "link": "https://www.animewaku.com/tag/tsugumomo/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagecb8fe3222f77402e.jpg",
+    "category": ["ต่อสู้", "ตลก", "ทะลึ่ง", "โรงเรียน", "วัยรุ่น", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 547,
+    "title": "รวมอนิเมะ Hataraku Maou-sama! ทุกภาค",
+    "link": "https://www.animewaku.com/tag/hataraku-maou-sama/",
+    "image": "https://img.shirokami.me/images/2023/07/13/6bd06671981b9d5c4cfab4f9e039aebd.jpg",
+    "category": ["ตลก", "ปีศาจ", "แฟนตาซี", "โรแมนติก", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 548,
+    "title": "Saikin Yatotta Maid ga Ayashii เมดคนนี้มีพิรุธ",
+    "link": "https://www.animewaku.com/anime/saikin-yatotta-maid-ga-ayashii/",
+    "image": "https://img.shirokami.me/images/2022/07/24/4c471969138d3302f220b4420670ffe0.jpg",
+    "category": ["ตลก", "โรแมนติก", "หนุ่มน้อย"]
+  },
+  {
+    "id": 549,
+    "title": "รวมอนิเมะ Zombieland Saga ทุกภาค",
+    "link": "https://www.animewaku.com/tag/zombieland-saga/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imageab8a5ab7ac21adfd.jpg",
+    "category": ["ตลก", "เพลง", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 550,
+    "title": "Yoru no Kurage wa Oyogenai แมงกะพรุนว่ายน้ำตอนกลางคืนไม่ได้หรอกนะ",
+    "link": "https://www.animewaku.com/anime/yoru-no-kurage-wa-oyogenai/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZjlmZDU3Y2QtNTYzYi00NDM1LTlmMGMtNmViMmRiZDk0M2FhXkEyXkFqcGc@._V1_FMjpg_UX1061_.jpg",
+    "category": ["ตลก", "เพลง"]
+  },
+  {
+    "id": 551,
+    "title": "Recorder to Randoseru Mi",
+    "link": "https://anime-hdzero.com/anime/3154",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_zacR4whdSxO07CxxpVCVx2dtPEzlB_lI_2VAD862SUPFYmpV-3rl3QyZaxGD6EkDSqw4m5mqHySTJGKvR51M04xu5pvDlH3xAYiKEA&s=10",
+    "category": ["ตลก"]
+  },
+  {
+    "id": 552,
+    "title": "Black Lagoon จารชนพันธุ์นรก",
+    "link": "https://www.animewaku.com/anime/black-lagoon/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagea255649b7dfd0a7a.md.jpg",
+    "category": ["ต่อสู้", "วัยรุ่น"]
+  },
+  {
+    "id": 553,
+    "title": "Cross Ange: Tenshi to Ryuu no Rondo",
+    "link": "https://www.animewaku.com/anime/cross-ange/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZTAzZTc4NmItOTczNy00ZWE2LTgxNDYtN2ExYzZmZDk3MWU3XkEyXkFqcGc@._V1_FMjpg_UX946_.jpg",
+    "category": ["ต่อสู้", "แฟนตาซี", "หุ่นยนต์", "ทหาร", "ไซ-ไฟ"]
+  },
+  {
+    "id": 554,
+    "title": "Yuru Yuri",
+    "link": "https://anime-hdzero.com/search/results?q=Yuru%20Yuri",
+    "image": "https://img.shirokami.me/images/2021/10/05/image2a7a779a6db5b421.jpg",
+    "category": ["ตลก"]
   }
 ]
