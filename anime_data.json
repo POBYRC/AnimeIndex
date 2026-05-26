@@ -3911,5 +3911,47 @@
     "link": "https://anime-hdzero.com/search/results?q=Working",
     "image": "https://img.shirokami.me/images/2021/10/05/image9c6ed34974601f94.png",
     "category": ["ตลก", "โรแมนติก"]
+  },
+  {
+    "id": 560,
+    "title": "Okashi na Tensei เกิดใหม่ทั้งทีขอสร้างอาณาจักรด้วยขนมหวาน",
+    "link": "https://www.animewaku.com/anime/okashi-na-tensei/",
+    "image": "https://m.media-amazon.com/images/M/MV5BY2QzNDVlZGQtZmI3OC00MTQ2LWEzMzktYjM2NDgxNzBlY2ZmXkEyXkFqcGc@._V1_FMjpg_UX1072_.jpg",
+    "category": ["แฟนตาซี", "อาหาร", "ต่างโลก", "การกลับชาติมาเกิดใหม่", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 561,
+    "title": "Kami no Niwatsuki Kusunoki-tei บ้านพักคุสึโนกิกับสวนเทพเจ้า",
+    "link": "https://www.animewaku.com/anime/kami-no-niwatsuki-kusunoki-tei/",
+    "image": "https://img-cdn-proxy.shirokami.me/2026/04/30/7433367d38c6fc715fbbec9e9acad75d.webp?width=360&quality=80&format=webp",
+    "category": ["แฟนตาซี", "ดีต่อใจ", "ปรัมปรา", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 562,
+    "title": "DokiDoki! Pretty Cure!",
+    "link": "https://anime-hdzero.com/search/results?q=Dokidoki",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagee5805b289acc812b.md.jpg",
+    "category": ["สาวน้อย", "เวทย์มนต์"]
+  },
+  {
+    "id": 563,
+    "title": "Monster Musume no Oishasan",
+    "link": "https://www.animewaku.com/anime/monster-musume-nooishasan/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image5302de0113742127.md.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "แฟนตาซี", "โรแมนติก"]
+  },
+  {
+    "id": 564,
+    "title": "Tearmoon Teikoku Monogatari บันทึกเรื่องราวจักรวรรดิเทียร์มูน",
+    "link": "https://www.animewaku.com/anime/tearmoon-teikoku-monogatari/",
+    "image": "https://m.media-amazon.com/images/M/MV5BYTU5NTViYjctN2ExOC00OWNiLTlmYWEtNDg5ZmRkMDViMjgwXkEyXkFqcGc@._V1_FMjpg_UX1064_.jpg",
+    "category": ["ตลก", "แฟนตาซี", "การเดินทางข้ามเวลา"]
+  },
+  {
+    "id": 565,
+    "title": "Astro Note ตกหลุมรักเจ้าของอพาร์ตเมนต์มนุษย์ต่างดาว",
+    "link": "https://www.animewaku.com/anime/astro-note/",
+    "image": "https://img.shirokami.me/images/2024/04/05/7f872c03b02655ab4edd686c107f6c4a.jpg",
+    "category": ["ตลก", "โรแมนติก", "ไซ-ไฟ"]
   }
 ]
