@@ -3953,5 +3953,285 @@
     "link": "https://www.animewaku.com/anime/astro-note/",
     "image": "https://img.shirokami.me/images/2024/04/05/7f872c03b02655ab4edd686c107f6c4a.jpg",
     "category": ["ตลก", "โรแมนติก", "ไซ-ไฟ"]
+  },
+  {
+    "id": 566,
+    "title": "Fortune Arterial Akai Yakusoku พันธสัญญาสีเลือด",
+    "link": "https://anime-hd-zero.com/anime/2557",
+    "image": "https://img.shirokami.me/images/2021/10/05/image1a6a73d5d7ca4f11.jpg",
+    "category": ["ตลก", "โรแมนติก", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 567,
+    "title": "Kono Oto Tomare! ฝากฝันไว้ที่เสียงโคโตะ! (ภาค1-2)",
+    "link": "https://www.animewaku.com/anime/kono-ototomare/",
+    "image": "https://m.media-amazon.com/images/M/MV5BOTY2OTMzN2MtMTMyNy00NzRiLWFkNDEtODA5ODdjNzIzN2ZhXkEyXkFqcGc@._V1_FMjpg_UX640_.jpg",
+    "category": ["ดราม่า", "เพลง", "โรแมนติก", "โรงเรียน", "หนุ่มน้อย"]
+  },
+  {
+    "id": 568,
+    "title": "Dragon Crisis",
+    "link": "https://www.animewaku.com/anime/dragon-crisis/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZGRmMmMzMDItYjhlMi00MGQxLWFmODctNjQzZGExYjA5NjBmXkEyXkFqcGc@._V1_FMjpg_UX560_.jpg",
+    "category": ["ต่อสู้", "เวทย์มนต์", "โรแมนติก", "โรงเรียน", "วัยรุ่น", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 569,
+    "title": "Kampfer ผู้พิทักษ์สลับขั้ว",
+    "link": "https://www.animewaku.com/anime/kampfer/",
+    "image": "https://m.media-amazon.com/images/M/MV5BY2I0MzIwOGQtYzRkYy00OTc1LTkzOGUtZmJmOWJjODMwZmJjXkEyXkFqcGc@._V1_FMjpg_UX679_.jpg",
+    "category": ["ต่อสู้", "ตลก", "ทะลึ่ง", "โรแมนติก", "โรงเรียน", "ยูริ", "พลังพิเศษ"]
+  },
+  {
+    "id": 570,
+    "title": "Masou Gakuen HxH",
+    "link": "https://www.animewaku.com/anime/masou-gakuen-hxh/",
+    "image": "https://m.media-amazon.com/images/M/MV5BYjUxMDVlNDctNTc3Mi00NmY2LWE2NGMtYjdhZmUyNDBkYTM5XkEyXkFqcGc@._V1_FMjpg_UX680_.jpg",
+    "category": ["ต่อสู้", "ตลก", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "โรแมนติก", "โรงเรียน", "ไซ-ไฟ"]
+  },
+  {
+    "id": 571,
+    "title": "Fight Ippatsu! Juuden-chan!! สาวเอ๋อไฟแรงสูง",
+    "link": "https://anime-hd-zero.com/anime/2453",
+    "image": "https://m.media-amazon.com/images/M/MV5BMmM1YmQ3OWEtYWYyOC00NmE1LWIxODQtZGVlNTI1NDgyOWVkXkEyXkFqcGc@._V1_FMjpg_UX622_.jpg",
+    "category": ["ตลก", "ไซ-ไฟ", "ทะลึ่ง"]
+  },
+  {
+    "id": 572,
+    "title": "Saijaku Muhai no Bahamut มังกรเหล็กไร้พ่าย",
+    "link": "https://www.animewaku.com/anime/bahamut/",
+    "image": "https://m.media-amazon.com/images/M/MV5BN2VlMjMwNGEtZmFhMy00YTlhLTg5MWEtZGNhZDAwZjdhNTU0XkEyXkFqcGc@._V1_FMjpg_UX650_.jpg",
+    "category": ["ต่อสู้", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "หุ่นยนต์", "โรแมนติก", "โรงเรียน", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 573,
+    "title": "Summer Pockets ซัมเมอร์ พ็อกเกตส์",
+    "link": "https://www.animewaku.com/anime/summer-pockets/",
+    "image": "https://img.shirokami.me/images/2025/06/03/359763ca6e018ebacf0054ca8337de6a.jpg",
+    "category": ["ชีวิตประจำวัน"]
+  },
+  {
+    "id": 574,
+    "title": "Centaur no Nayami วันวุ่นๆ ของคุณเซนทอร์",
+    "link": "https://www.animewaku.com/anime/centaur-no-nayamiv1/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image53007ac70ded65de.md.jpg",
+    "category": ["ตลก", "แฟนตาซี", "โรงเรียน", "วัยรุ่น", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 575,
+    "title": "Ragna Crimson ตำนานนักล่ามังกร",
+    "link": "https://www.animewaku.com/anime/ragna-crimson/",
+    "image": "https://m.media-amazon.com/images/M/MV5BMzBhN2MxNDQtZGY5OS00ZWVkLWE2OTItZmViMTVjM2RiYmZkXkEyXkFqcGc@._V1_FMjpg_UX1061_.jpg",
+    "category": ["ต่อสู้", "แฟนตาซี", "หนุ่มน้อย"]
+  },
+  {
+    "id": 576,
+    "title": "Takt Op. Destiny ลิขิตเสียง บรรเลงชะตา",
+    "link": "https://www.animewaku.com/anime/takt-op-destiny-thai/",
+    "image": "https://images.shirokami.me/i/5Iuw3841.jpeg",
+    "category": ["ต่อสู้", "แฟนตาซี", "เพลง"]
+  },
+  {
+    "id": 577,
+    "title": "Josee to Tora to Sakana-tachi โจเซ่ กับเสือและหมู่ปลา เดอะมูฟวี่",
+    "link": "https://www.animewaku.com/movies/josee-to-tora-to-sakana-tachi/",
+    "image": "https://m.media-amazon.com/images/M/MV5BN2IwMDQ4ZTEtMzMxNy00NDY3LWEzYzItZjA5MTFkOWRiOThmXkEyXkFqcGc@._V1_QL75_UY562_CR9,0,380,562_.jpg",
+    "category": ["ดราม่า", "โรแมนติก", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 578,
+    "title": "Kujira no Kora wa Sajou ni Utau",
+    "link": "https://anime-hd-zero.com/anime/743",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagef929e6c026b62503.md.jpg",
+    "category": ["ดราม่า", "แฟนตาซี", "ลึกลับ", "ไซ-ไฟ"]
+  },
+  {
+    "id": 579,
+    "title": "Lovely Complex สะกิดคู่กัดให้เป็นคู่รัก",
+    "link": "https://anime-hd-zero.com/anime/1816",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagedc9b34957810359c.md.jpg",
+    "category": ["ตลก", "โรแมนติก"]
+  },
+  {
+    "id": 580,
+    "title": "รวมอนิเมะ Isekai Shokudou ทุกภาค",
+    "link": "https://www.animewaku.com/tag/isekai-shokudou/",
+    "image": "https://img.shirokami.me/images/2023/03/05/20f410159c8db555acc4c8b08a68e32f.jpg",
+    "category": ["แฟนตาซี", "อาหาร", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 581,
+    "title": "Hangyakusei Million Arthur",
+    "link": "https://fairyanime.net/hangyakusei-million-arthur/",
+    "image": "https://m.media-amazon.com/images/M/MV5BOTgyMGI2M2YtZGJmMC00MjExLWIzYTUtNWQyNTlmYjdiMDI3XkEyXkFqcGc@._V1_FMjpg_UX849_.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี", "เวทย์มนต์"]
+  },
+  {
+    "id": 582,
+    "title": "Sarazanmai",
+    "link": "https://www.animewaku.com/anime/sarazanmai/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imageb4f3f757d918e6e9.jpg",
+    "category": ["ต่อสู้", "แฟนตาซี", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 583,
+    "title": "Weathering With You ฤดูฝัน ฉันมีเธอ มูฟวี่",
+    "link": "https://www.animewaku.com/movies/weathering-with-you/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image4cf6e1990c2168c9.md.jpg",
+    "category": ["ดราม่า", "แฟนตาซี", "โรแมนติก", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 584,
+    "title": "Kill Ao คิลบลู",
+    "link": "https://www.animewaku.com/anime/kill-ao/",
+    "image": "https://img-cdn-proxy.shirokami.me/2026/04/25/720a6ac364f84cfb366146018476dc7a.webp?width=360&quality=80&format=webp",
+    "category": ["ต่อสู้", "ตลก", "โรงเรียน", "หนุ่มน้อย"]
+  },
+  {
+    "id": 585,
+    "title": "รวมอนิเมะ Arifureta Shokugyou de Sekai Saikyou ทุกภาค",
+    "link": "https://www.animewaku.com/tag/arifureta-shokugyou-de-sekai-saikyou/",
+    "image": "https://img.shirokami.me/images/2022/02/05/a586335685a1562f5736ecc03d6eb35f.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี", "ฮาเร็ม"]
+  },
+  {
+    "id": 586,
+    "title": "Cuticle Tantei Inaba สืบซ่าฮายกก๊วน อินาบะ",
+    "link": "https://www.animewaku.com/anime/cuticle-tanteiinabav1/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagee0e7c290d1767ce8.jpg",
+    "category": ["ต่อสู้", "ตลก", "ลึกลับ", "หนุ่มน้อย", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 587,
+    "title": "Chichi wa Eiyuu ป๊ะป๋าผู้กล้า มาม้าเป็นเทพธิดา ส่วนหนูกลับมาเกิดใหม่พลังเต็มพิกัด",
+    "link": "https://www.animewaku.com/anime/chichi-wa-eiyuu/",
+    "image": "https://img.shirokami.me/images/2025/10/05/8e4198c5e48d1051b5358df7bd13454d.webp",
+    "category": ["แฟนตาซี", "ต่างโลก", "การกลับชาติมาเกิดใหม่"]
+  },
+  {
+    "id": 588,
+    "title": "Hoshizora e Kakaru Hashi สะพานเชื่อมฟากฟ้าแห่งหมู่ดาว",
+    "link": "https://anime-hd-zero.com/anime/2514",
+    "image": "https://m.media-amazon.com/images/M/MV5BMmExNzQ1ZWItYTM2MS00ODFiLTg4ODYtYTBjNGEwNWMyMDE4XkEyXkFqcGc@._V1_FMjpg_UX640_.jpg",
+    "category": ["ตลก", "โรแมนติก", "ทะลึ่ง"]
+  },
+  {
+    "id": 589,
+    "title": "Shinobi no Ittoki",
+    "link": "https://www.animewaku.com/anime/shinobi-no-ittoki/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZTA0YTIzMTUtMGIwZC00MWY1LWJhYmUtNGMyNWRlOTEzZTkxXkEyXkFqcGc@._V1_FMjpg_UX425_.jpg",
+    "category": ["ต่อสู้", "โรงเรียน"]
+  },
+  {
+    "id": 590,
+    "title": "Isshun de Chiryou shiteita noni Yakutatazu นักเยียวยาอัจฉริยะผู้ถูกไล่ออกจากปาร์ตี้ ขอสนุกกับชีวิตจากนี้ในฐานะหมอเถื่อน",
+    "link": "https://www.animewaku.com/anime/isshun-de-chiryou-shiteita-noni-yakutatazu/",
+    "image": "https://img.shirokami.me/images/2025/06/03/e40b0fdf6db3c905cd27a93c5c02cdb0.jpg",
+    "category": ["แฟนตาซี", "การแพทย์"]
+  },
+  {
+    "id": 591,
+    "title": "Beelzebub-jou no Okinimesu mama",
+    "link": "https://www.animewaku.com/anime/beelzebub-jou-no-okinimesu-mama/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image6486945447431103.jpg",
+    "category": ["ตลก", "ปีศาจ", "แฟนตาซี", "โรแมนติก", "หนุ่มน้อย"]
+  },
+  {
+    "id": 592,
+    "title": "Mahou Sensou",
+    "link": "https://www.animewaku.com/anime/mahousensou/",
+    "image": "https://m.media-amazon.com/images/M/MV5BMjRjZWM1ZTgtNzczNi00ZDM3LWJiNDktN2FlNjgzYmVjYTMwXkEyXkFqcGc@._V1_FMjpg_UX640_.jpg",
+    "category": ["ต่อสู้", "แฟนตาซี", "เวทย์มนต์"]
+  },
+  {
+    "id": 593,
+    "title": "Akuyaku Reijou wa Ringoku no Outaishi ni Dekiai sareru ท่านหญิงนางร้ายถูกเจ้าชายรัชทายาทของอาณาจักรข้างเคียงหลงรัก",
+    "link": "https://www.animewaku.com/anime/akuyaku-reijou-wa-ringoku-no-outaishi-ni-dekiai-sareru-th/",
+    "image": "https://img.shirokami.me/images/2026/01/11/Akuyaku-Reijou-wa-Ringoku-no-Outaishi-ni-Dekiai-sareru.webp",
+    "category": ["แฟนตาซี", "โรแมนติก", "สาวน้อย"]
+  },
+  {
+    "id": 594,
+    "title": "Ichiban Ushiro No Daimaou นักเรียนน้องใหม่ สายพันธุ์จอมมาร",
+    "link": "https://www.animewaku.com/anime/%e0%b8%88%e0%b8%ad%e0%b8%a1%e0%b8%a1%e0%b8%b2%e0%b8%a3%e0%b8%9c%e0%b8%b9%e0%b9%89%e0%b8%a2%e0%b8%b4%e0%b9%88%e0%b8%87%e0%b9%83%e0%b8%ab%e0%b8%8d%e0%b9%88/",
+    "image": "https://m.media-amazon.com/images/M/MV5BMTNlYTY1NmEtMzI3My00YjM5LTgyMWEtMzIxNjk3MzhiNDBlXkEyXkFqcGc@._V1_FMjpg_UX663_.jpg",
+    "category": ["ต่อสู้", "ตลก", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "เวทย์มนต์", "โรงเรียน"]
+  },
+  {
+    "id": 595,
+    "title": "Ore Twintail ni Narimasu ทวินเทลกู้โลก",
+    "link": "https://fairyanime.net/ore-twintail-ni-narimasu/",
+    "image": "https://m.media-amazon.com/images/M/MV5BNWI0MDMwNDEtYjlmYi00ZGIyLTk0MjUtMGFjMWZkYjJiZDAyXkEyXkFqcGc@._V1_FMjpg_UX748_.jpg",
+    "category": ["ต่อสู้", "ตลก", "โรแมนติก", "โรงเรียน", "แฟนตาซี", "เด็กผู้ชาย"]
+  },
+  {
+    "id": 596,
+    "title": "รวมอนิเมะ Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka ทุกภาค",
+    "link": "https://www.animewaku.com/tag/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka/",
+    "image": "https://m.media-amazon.com/images/M/MV5BN2NkOTJiMDMtYzY0ZC00YjAxLWFlYjUtMTk2NjhmZTEzMmI4XkEyXkFqcGc@._V1_FMjpg_UX640_.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "ตลก", "แฟนตาซี", "โรแมนติก"]
+  },
+  {
+    "id": 597,
+    "title": "Okiraku Ryoushu no Tanoshii Ryouchi Bouei หนูน้อยเจ้าแคว้นกับแผนพิทักษ์เมือง",
+    "link": "https://www.animewaku.com/anime/okiraku-ryoushu-no-tanoshii-ryouchi-bouei-th/",
+    "image": "https://img.shirokami.me/images/2026/01/07/Okiraku-Ryoushu-no-Tanoshii-Ryouchi-Bouei-1.webp",
+    "category": ["แฟนตาซี", "ต่างโลก", "การกลับชาติมาเกิดใหม่"]
+  },
+  {
+    "id": 598,
+    "title": "Rail Wars! สาวสวยตำรวจรถไฟ",
+    "link": "https://www.animewaku.com/anime/rail-wars/",
+    "image": "https://m.media-amazon.com/images/M/MV5BNzE0YTY2ODEtY2VkYy00YzZhLTliMTAtN2MxZTNmZTcyZWNiXkEyXkFqcGc@._V1_FMjpg_UX319_.jpg",
+    "category": ["ต่อสู้", "ทะลึ่ง", "ฮาเร็ม", "ตำรวจ"]
+  },
+  {
+    "id": 599,
+    "title": "รวมอนิเมะ Isekai Maou to Shoukan Shoujo no Dorei Majutsu ทุกภาค",
+    "link": "https://www.animewaku.com/tag/isekai-maou-to-shoukan-shoujo-no-dorei-majutsu/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image9315d7b1682249c0.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "เวทย์มนต์"]
+  },
+  {
+    "id": 600,
+    "title": "Koihime สามก๊กโมเอะ",
+    "link": "https://anime-hd-zero.com/search/results?q=Koihime",
+    "image": "https://img.shirokami.me/images/2021/10/05/image12efa21318c7d6fc.md.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "ทะลึ่ง"]
+  },
+  {
+    "id": 601,
+    "title": "Super Cub ซุปเปอร์คัพ",
+    "link": "https://www.animewaku.com/anime/super-cub/",
+    "image": "https://m.media-amazon.com/images/M/MV5BMTc5OGQ5Y2ItZDRkMy00OTAwLTgxM2QtZTA5YzRkNmNmZjcyXkEyXkFqcGc@._V1_FMjpg_UX600_.jpg",
+    "category": ["โรงเรียน", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 602,
+    "title": "Joshikausei",
+    "link": "https://anifume.com/35027",
+    "image": "https://anifume.com/images/09/Joshikausei.jpg",
+    "category": ["ตลก"]
+  },
+  {
+    "id": 603,
+    "title": "Boku dake ga Inai Machi (ERASED)",
+    "link": "https://www.animewaku.com/anime/erased/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZWQ2YmI5NWMtZTY2Mi00MGUxLWFhMmEtYjVjZjMwOTNkOThjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "category": ["ลึกลับ", "จิตวิทยา", "วัยรุ่น", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 604,
+    "title": "White Album ไวท์อัลบั้ม",
+    "link": "https://www.animewaku.com/anime/white-album/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image975ea4496f66a24b.jpg",
+    "category": ["ดราม่า", "ฮาเร็ม", "Idols (Female)", "เพลง", "โรแมนติก"]
+  },
+  {
+    "id": 605,
+    "title": "Choujin Koukousei-tachi wa Isekai demo Yoyuu de Ikinuku you desu! เจ็ดเทพม.ปลายกับการใช้ชีวิตสบายๆ ในต่างโลก",
+    "link": "https://anime-hd-zero.com/anime/2872",
+    "image": "https://img.shirokami.me/images/2021/10/05/image05c409d3823c61ab.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี"]
   }
 ]
