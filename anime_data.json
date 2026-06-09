@@ -1030,7 +1030,7 @@
   },
   {
     "id": 148,
-    "title": "เกมเมอร์ส!",
+    "title": "Gamers เกมเมอร์ส!",
     "link": "https://animeyuzu.com/anime/gamers/",
     "image": "https://www.anime-smm.com/wp-content/uploads/2023/01/e14518bd5b581f496c88efdb2ba78330.jpg?v=4",
     "category": ["ตลก", "โรงเรียน", "โรแมนติก"]
@@ -1269,8 +1269,8 @@
   {
     "id": 182,
     "title": "สามสาวซ่าแก๊งสุดป่วน",
-    "link": "https://fairyanime.net/aiura/",
-    "image": "https://fairyanime.net/uploads/48717b93f61f2c7c75e519ced01464feGA0Ukym.jpg",
+    "link": "https://www.animewaku.com/anime/aiura/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image54b0c5d6dad78bc8.md.jpg",
     "category": ["ชีวิตประจำวัน", "เด็กผู้ชาย", "ตลก", "โรงเรียน"]
   },
   {
@@ -2017,10 +2017,10 @@
   },
   {
     "id": 289,
-    "title": "อะเคบิจังโนะเซเลอร์ฟุคุ",
-    "link": "https://animeruka.com/anime/akebi-chan-no-sailor-fuku/",
-    "image": "https://animeruka.com/wp-content/uploads/2022/03/8DzVcjKHOss1KWhjU0VezxgthDv-200x300.jpg",
-    "category": ["ต่อสู้", "ต่างโลก", "ผจญภัย", "แฟนตาซี", "เหนือธรรมชาติ"]
+    "title": "Akebi-chan no Sailor-fuku อะเคบิจังโนะเซเลอร์ฟุคุ",
+    "link": "https://www.animewaku.com/anime/akebi-chan-no-sailor-fuku/",
+    "image": "https://m.media-amazon.com/images/M/MV5BOGFhZjFiNmUtNDgxMy00MjQ3LWE5ZWEtMmFiMmM3NGZmMWVjXkEyXkFqcGc@._V1_FMjpg_UX592_.jpg",
+    "category": ["โรงเรียน", "ชีวิตประจำวัน"]
   },
   {
     "id": 290,
@@ -4233,5 +4233,278 @@
     "link": "https://anime-hd-zero.com/anime/2872",
     "image": "https://img.shirokami.me/images/2021/10/05/image05c409d3823c61ab.jpg",
     "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 606,
+    "title": "รวมอนิเมะ Ani ni Tsukeru Kusuri wa Nai! ทุกภาค",
+    "link": "https://www.animewaku.com/tag/ani-ni-tsukeru-kusuri-wa-nai/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image1d12b52a52ccbf73.md.jpg",
+    "category": ["ตลก", "โรงเรียน", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 607,
+    "title": "รวมอนิเมะ Clannad ทุกภาค",
+    "link": "https://www.animewaku.com/tag/clannad/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image0f7df585e26d3380.md.png",
+    "category": ["ตลก", "ดราม่า", "โรแมนติก", "โรงเรียน", "ชีวิตประจำวัน", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 608,
+    "title": "Clannad The Movie",
+    "link": "https://anime-hd-zero.com/anime/2912",
+    "image": "https://m.media-amazon.com/images/M/MV5BNmNkYTQxYTYtNTA3My00YzQ2LWI1NWUtN2Y2YjZlM2UyY2ViXkEyXkFqcGc@._V1_FMjpg_UX348_.jpg",
+    "category": ["ดราม่า", "โรแมนติก", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 609,
+    "title": "Kaginado ไขกุญแจข้ามโลก",
+    "link": "https://www.animewaku.com/anime/kaginado/",
+    "image": "https://img.shirokami.me/images/2021/10/13/9eaa4809d0dc5afa61b42fa1112a7ee8.jpg",
+    "category": ["ตลก", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 610,
+    "title": "Kaginado Season 2 ไขกุญแจข้ามโลก (ภาค2)",
+    "link": "https://anime-hd-zero.com/anime/4021",
+    "image": "https://img.shirokami.me/images/2022/05/11/c7b24e95508d4bb32dbebb0fc654807c.jpg",
+    "category": ["ตลก", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 611,
+    "title": "Magi The Labyrinth Of Magic เมไจ อาละดินผจญภัย ภาค1",
+    "link": "https://anime-hd-zero.com/anime/331",
+    "image": "https://img.shirokami.me/images/2021/10/05/image06ebd05f19149de4.md.png",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 612,
+    "title": "Magi The Kingdom of Magic เมไจ อาลาดินผจญภัย ภาค2",
+    "link": "https://anime-hd-zero.com/anime/332",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagee82ee1cc918f7287.md.png",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 613,
+    "title": "Gleipnir กายาสถิตอสูร",
+    "link": "https://www.animewaku.com/anime/gleipnir/",
+    "image": "https://m.media-amazon.com/images/M/MV5BNmFhM2MyMDYtYzcwMi00ODZlLTg4YTctODRjMDI2MmZhZWY1XkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+    "category": ["ต่อสู้", "ทะลึ่ง", "ลึกลับ", "วัยรุ่น", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 614,
+    "title": "Tayutama Kiss on My Deity มาชิโระเทพธิดาหูหมา",
+    "link": "https://www.animewaku.com/anime/tayutama-kiss-on-my-deity/",
+    "image": "https://m.media-amazon.com/images/M/MV5BODQxYzViZDQtNDdiMS00NjEwLTkyYmYtZjg4ZjBjYmVhOTlhXkEyXkFqcGc@._V1_FMjpg_UX685_.jpg",
+    "category": ["ฮาเร็ม", "โรแมนติก", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 615,
+    "title": "Qualidea Code",
+    "link": "https://www.animewaku.com/anime/qualidea-codev1/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imaged7eb22d71a6a4422.md.jpg",
+    "category": ["ต่อสู้", "เวทย์มนต์", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 616,
+    "title": "รวมอนิเมะ Mahouka Koukou no Rettousei ทุกภาค",
+    "link": "https://www.animewaku.com/tag/mahouka-koukou-no-rettousei/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagef73717b3cf5f0156.jpg",
+    "category": ["แฟนตาซี", "เวทย์มนต์", "ไซ-ไฟ"]
+  },
+  {
+    "id": 617,
+    "title": "Yuusha Party wo Tsuihou sareta Shiromadoushi นักเวทขาวที่ถูกไล่ออกจากปาร์ตี้ผู้กล้าถูกนักผจญภัยระดับ S รับตัวไป",
+    "link": "https://www.animewaku.com/anime/yuusha-party-wo-tsuihou-sareta-shiromadoushi/",
+    "image": "https://m.media-amazon.com/images/M/MV5BOTZlYjc3ZjUtYjU5Ni00NWFlLWI1MjUtODcyMGM1MGJiMDg3XkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
+    "category": ["ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 618,
+    "title": "Summertime Render ปริศนาบ้านเก่า เงามรณะ",
+    "link": "https://www.animewaku.com/anime/summertime-render/",
+    "image": "https://m.media-amazon.com/images/M/MV5BYmRiNTBjZDUtNmFiOC00ZGFhLThlMjgtNThmZDU5MGNkNTY5XkEyXkFqcGc@._V1_FMjpg_UY2818_.jpg",
+    "category": ["ลึกลับ", "หนุ่มน้อย", "เหนือธรรมชาติ", "ตื่นเต้น"]
+  },
+  {
+    "id": 619,
+    "title": "Shuffle! ภาค1",
+    "link": "https://www.animewaku.com/anime/shuffle/",
+    "image": "https://m.media-amazon.com/images/M/MV5BNjA0MWNhM2ItM2EyYy00NGI2LTlhNmItNjQ0ODRjMGRlYjJjXkEyXkFqcGc@._V1_FMjpg_UX694_.jpg",
+    "category": ["ตลก", "ดราม่า", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "เวทย์มนต์", "โรแมนติก", "โรงเรียน", "วัยรุ่น"]
+  },
+  {
+    "id": 620,
+    "title": "Shuffle! Memories ภาค2",
+    "link": "https://anime-hd-zero.com/anime/1829",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagec675e263972a7192.jpg",
+    "category": ["ตลก", "ดราม่า", "ทะลึ่ง", "แฟนตาซี", "ฮาเร็ม", "เวทย์มนต์", "โรแมนติก", "โรงเรียน", "วัยรุ่น"]
+  },
+  {
+    "id": 621,
+    "title": "Nodame Cantabile วุ่นรัก นักดนตรี",
+    "link": "https://anime-hd-zero.com/search/results?q=Nodame%20Cantabile",
+    "image": "https://m.media-amazon.com/images/M/MV5BYzQ2MTc1YTgtZTIwYS00YjJlLTllMjItZDY4NTU3ZGE5Nzc4XkEyXkFqcGc@._V1_FMjpg_UX754_.jpg",
+    "category": ["ตลก", "โรแมนติก"]
+  },
+  {
+    "id": 622,
+    "title": "Ore wo Suki nano wa Omae dake ka yo",
+    "link": "https://www.animewaku.com/anime/oresuki/",
+    "image": "https://m.media-amazon.com/images/M/MV5BOWIzMjlhMWYtYTU1Yi00OWQwLWExNTctZWM3ODg2ZGRkZjQzXkEyXkFqcGc@._V1_FMjpg_UX640_.jpg",
+    "category": ["ตลก", "โรแมนติก", "โรงเรียน"]
+  },
+  {
+    "id": 623,
+    "title": "Koori no Jouheki ปราการน้ำแข็งแห่งหัวใจ",
+    "link": "https://www.animewaku.com/anime/koori-no-jouheki/",
+    "image": "https://img-cdn-proxy.shirokami.me/2026/04/02/09dcf2ab903d248bb8cd22242ae4d48c.jpg?width=360&quality=80&format=webp",
+    "category": ["ตลก", "รักสามเศร้า", "โรแมนติก", "โรงเรียน"]
+  },
+  {
+    "id": 624,
+    "title": "Tadaima, Ojamasaremasu! ทาไดมะ, โอจามาซาเรมาซุ!",
+    "link": "https://anime-hit.com/tadaima-ojamasaremasu/",
+    "image": "https://i0.wp.com/anime-hit.com/wp-content/uploads/2026/04/Tadaima-Ojamasaremasu.jpg?w=425&ssl=1",
+    "category": ["ตลก", "โรแมนติก"]
+  },
+  {
+    "id": 625,
+    "title": "Boys Be วัยรุ่นวุ่นรัก",
+    "link": "https://anime-hd-zero.com/anime/1059",
+    "image": "https://img.shirokami.me/images/2021/10/05/image6155fb12fca23b26.md.jpg",
+    "category": ["ตลก", "โรแมนติก"]
+  },
+  {
+    "id": 626,
+    "title": "Dies Irae",
+    "link": "https://anime-hd-zero.com/search/results?q=Dies%20Irae",
+    "image": "https://m.media-amazon.com/images/M/MV5BZGE1YTliNjQtNjFhMy00MzM2LThmYWItYTNiZDIxMzcxMDdmXkEyXkFqcGc@._V1_FMjpg_UX640_.jpg",
+    "category": ["ต่อสู้"]
+  },
+  {
+    "id": 627,
+    "title": "Konohana Kitan โรงเตี๊ยมของคุณจิ้งจอก",
+    "link": "https://www.animewaku.com/anime/konohana-kitan/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image02167ea884e82391.md.jpg",
+    "category": ["แฟนตาซี", "วัยรุ่น", "ยูริ", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 628,
+    "title": "Watari-kun no xx ga Houkai Sunzen เมื่อ XX ของวาตาริคุงถึงคราวอวสาน",
+    "link": "https://www.animewaku.com/anime/watari-kun-no-xx-ga-houkai-sunzen/",
+    "image": "https://img.shirokami.me/images/2025/07/04/b389d08751b100a568e7c6211c4df317.webp",
+    "category": ["ตลก", "ดราม่า", "โรแมนติก", "โรงเรียน", "วัยรุ่น"]
+  },
+  {
+    "id": 629,
+    "title": "Tatoeba Last Dungeon Mae no Mura no Shounen หนุ่มน้อยใสซื่อจากหมู่บ้านหน้าลาสท์ดันเจี้ยนมาเข้ากรุงแล้ว",
+    "link": "https://www.animewaku.com/anime/tatoeba-last-dungeon-mae-no-mura-no-shounen/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image78898fc8f470f3ae.md.jpg",
+    "category": ["ผจญภัย", "แฟนตาซี"]
+  },
+  {
+    "id": 630,
+    "title": "Takunomi",
+    "link": "https://anime-hd-zero.com/anime/853",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagea39f27b5baa3a27d.md.jpg",
+    "category": ["ตลก"]
+  },
+  {
+    "id": 631,
+    "title": "Endro~! เหล่าผู้กล้าปะทะจอมมารโลลิ",
+    "link": "https://www.animewaku.com/anime/endro/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image7e1c451ee29e7653.jpg",
+    "category": ["แฟนตาซี", "เวทย์มนต์", "ชีวิตประจำวัน"]
+  },
+  {
+    "id": 632,
+    "title": "Maoujou de Oyasumi",
+    "link": "https://www.animewaku.com/anime/maoujou-de-oyasumi/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagef61131c6bbd54cc9.jpg",
+    "category": ["ตลก", "แฟนตาซี", "เวทย์มนต์", "หนุ่มน้อย", "ชีวิตประจำวัน", "เหนือธรรมชาติ"]
+  },
+  {
+    "id": 633,
+    "title": "Yowai 5000-nen no Soushoku Dragon มังกรกินผัก อายุ 5,000 ปี จู่ๆก็กลายเป็นมังกรไม่ดีไปซะอย่างนั้น",
+    "link": "https://www.animewaku.com/tag/%e0%b8%a1%e0%b8%b1%e0%b8%87%e0%b8%81%e0%b8%a3%e0%b8%81%e0%b8%b4%e0%b8%99%e0%b8%9c%e0%b8%b1%e0%b8%81-%e0%b8%ad%e0%b8%b2%e0%b8%a2%e0%b8%b8-5000-%e0%b8%9b%e0%b8%b5-%e0%b8%88%e0%b8%b9%e0%b9%88%e0%b9%86/",
+    "image": "https://img.shirokami.me/images/2023/02/11/df8ebe8b547b9b439ce6243d0ff4be98.jpg",
+    "category": ["ผจญภัย", "ตลก", "แฟนตาซี"]
+  },
+  {
+    "id": 634,
+    "title": "รวมอนิเมะ เมื่อนักล่าเกมขยะท้าสู้ในเกมเทพ ทุกภาค",
+    "link": "https://www.animewaku.com/tag/%e0%b9%80%e0%b8%a1%e0%b8%b7%e0%b9%88%e0%b8%ad%e0%b8%99%e0%b8%b1%e0%b8%81%e0%b8%a5%e0%b9%88%e0%b8%b2%e0%b9%80%e0%b8%81%e0%b8%a1%e0%b8%82%e0%b8%a2%e0%b8%b0%e0%b8%97%e0%b9%89%e0%b8%b2%e0%b8%aa%e0%b8%b9/",
+    "image": "https://img.shirokami.me/images/2023/10/01/cf4fd8b7564d5ab326515d21683c5a70.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "แฟนตาซี", "เกม", "หนุ่มน้อย"]
+  },
+  {
+    "id": 635,
+    "title": "Ai no Utagoe wo Kikasete ซิงอะบิทออฟฮาร์โมนี เดอะมูฟวี่",
+    "link": "https://www.animewaku.com/movies/ai-no-utagoe-wo-kikasete/",
+    "image": "https://m.media-amazon.com/images/M/MV5BZDFhZDFhNDItMmRlNC00NGU4LTkyZDAtNWNjNWFkZmY0ODJmXkEyXkFqcGc@._V1_FMjpg_UY2805_.jpg",
+    "category": ["ดราม่า", "เพลง", "โรงเรียน", "ไซ-ไฟ"]
+  },
+  {
+    "id": 636,
+    "title": "Lapis Re:LiGHTs",
+    "link": "https://www.animewaku.com/anime/lapis-relights/",
+    "image": "https://m.media-amazon.com/images/M/MV5BYTUwNTg2NmMtODRhMS00MGQ5LTlkMzUtMGFlMTYzMWEyNTczXkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
+    "category": ["แฟนตาซี", "เวทย์มนต์", "เพลง"]
+  },
+  {
+    "id": 637,
+    "title": "Phantasy",
+    "link": "https://anime-hd-zero.com/search/results?q=Phantasy",
+    "image": "https://img.shirokami.me/images/2021/10/05/image8b55f7586c8fcef1.jpg",
+    "category": ["ต่อสู้", "ไซ-ไฟ"]
+  },
+  {
+    "id": 638,
+    "title": "รวมอนิเมะ Iya na Kao sare nagara Opantsu Misete Moraitai ทุกภาค",
+    "link": "https://www.animewaku.com/tag/iya-na-kao-sare-nagara-opantsu-misete-moraitai/",
+    "image": "https://img-cdn-proxy.shirokami.me/2026/05/01/fccdc14b76c3cdad531919df5ad8bb14.jpg?width=360&quality=80&format=webp",
+    "category": ["ทะลึ่ง"]
+  },
+  {
+    "id": 639,
+    "title": "Flip Flappers",
+    "link": "https://anime-hd-zero.com/anime/658",
+    "image": "https://img.shirokami.me/images/2021/10/05/imageb49d706e4c8983ed.jpg",
+    "category": ["ผจญภัย", "ตลก", "ไซ-ไฟ"]
+  },
+  {
+    "id": 640,
+    "title": "Boku no Kanojo ga Majimesugiru Sho-bitch na Ken",
+    "link": "https://www.animewaku.com/anime/boku-no-kanojo-ga-majimesugiru-sho-bitch-na-ken/",
+    "image": "https://img.shirokami.me/images/2021/10/05/image315d15891a2ee22d.jpg",
+    "category": ["ตลก", "ทะลึ่ง", "ฮาเร็ม", "โรแมนติก", "โรงเรียน"]
+  },
+  {
+    "id": 641,
+    "title": "Umi Monogatari",
+    "link": "https://anime-hd-zero.com/search/results?q=Umi%20Monogatari",
+    "image": "https://img.shirokami.me/images/2021/10/05/image85cc45ea96e07566.jpg",
+    "category": ["ดราม่า", "แฟนตาซี", "โรแมนติก"]
+  },
+  {
+    "id": 642,
+    "title": "Naze Boku no Sekai wo Daremo Oboeteinai no ka? โลกคู่ขนานกับตำนานวีรบุรุษที่ถูกลืม",
+    "link": "https://www.animewaku.com/anime/naze-boku-no-sekai-wo-daremo-oboeteinai-no-ka/",
+    "image": "https://m.media-amazon.com/images/M/MV5BNThkMmVhZDItZWUyMC00NmYzLWE5MDEtNzhjOWM1NDE3ODVjXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
+    "category": ["ต่อสู้", "แฟนตาซี", "ไซ-ไฟ"]
+  },
+  {
+    "id": 643,
+    "title": "Busou Shoujo Machiavellianism",
+    "link": "https://www.animewaku.com/anime/busou-shoujo-machiavellianism/",
+    "image": "https://m.media-amazon.com/images/M/MV5BMWU2MjViOTgtMzA3YS00NmY3LThiM2YtOTFjNzNjZTFjZjdmXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
+    "category": ["ต่อสู้", "ตลก", "โรงเรียน", "หนุ่มน้อย"]
+  },
+  {
+    "id": 644,
+    "title": "รวมอนิเมะ Seirei Gensouki ทุกภาค",
+    "link": "https://www.animewaku.com/tag/seirei-gensouki/",
+    "image": "https://img.shirokami.me/images/2021/10/05/imagedab8209e8ec23cea.jpg",
+    "category": ["ต่อสู้", "ผจญภัย", "ดราม่า", "แฟนตาซี", "ฮาเร็ม", "โรแมนติก"]
   }
 ]
