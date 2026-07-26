@@ -605,84 +605,7 @@ bgVideo.addEventListener('ended',()=>{ bgVideo.currentTime=0; safeVideoPlay(bgVi
 let allAnimes = [];
 let activeCategories = [];
 
-const serviceWorkerImageWarmer = (() => {
-  const fallback = { warm: () => {} };
-
-  if (!('serviceWorker' in navigator)) {
-    console.warn('Service Worker not supported in this browser.');
-    return fallback;
-  }
-
-  const SW_PATH = new URL('service-worker.js', window.location.href).pathname;
-  let registrationPromise = null;
-  let lastWarmPayloadKey = '';
-  let lastWarmSentAt = 0;
-
-  function sanitizeImageUrls(urls) {
-    return [...new Set((urls || []).reduce((acc, url) => {
-      if (!url || String(url).startsWith('data:')) return acc;
-
-      try {
-        acc.push(new URL(url, window.location.href).href);
-      } catch {
-        // Ignore malformed image URLs instead of blocking the whole warm-cache batch.
-      }
-
-      return acc;
-    }, []))];
-  }
-
-  function getWorker(registration) {
-    return navigator.serviceWorker.controller
-      || registration.active
-      || registration.waiting
-      || registration.installing;
-  }
-
-  function register() {
-    if (!registrationPromise) {
-      registrationPromise = navigator.serviceWorker.register(SW_PATH, { scope: './' })
-        .then(registration => {
-          console.log('Service Worker registered:', registration);
-          return navigator.serviceWorker.ready.then(() => registration);
-        })
-        .catch(err => {
-          console.error('Service Worker registration failed:', err);
-          return null;
-        });
-    }
-    return registrationPromise;
-  }
-
-  async function warm(urls) {
-    const imageUrls = sanitizeImageUrls(urls);
-    if (!imageUrls.length) return;
-
-    const payloadKey = imageUrls.join('|');
-    const now = Date.now();
-    if (payloadKey === lastWarmPayloadKey && now - lastWarmSentAt < 2500) return;
-
-    const registration = await register();
-    const worker = registration && getWorker(registration);
-    if (!worker) return;
-
-    worker.postMessage({ action: 'cacheImages', urls: imageUrls });
-    lastWarmPayloadKey = payloadKey;
-    lastWarmSentAt = now;
-    console.log('Sent images to SW for caching:', imageUrls);
-  }
-
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    const urls = Array.from(document.images).map(img => img.currentSrc || img.src);
-    setTimeout(() => warm(urls), 500);
-  });
-
-  register();
-
-  return { warm };
-})();
-
-fetch('anime_data.json', { cache: 'default' })
+fetch(`anime_data.json?ts=${Date.now()}`, { cache: 'no-store' })
   .then(response => response.json())
   .then(animes => {
     allAnimes = animes;
@@ -721,42 +644,20 @@ fetch('anime_data.json', { cache: 'default' })
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;">ไม่พบอนิเมะ 😢</p>';
         return;
       }
-      const fragment = document.createDocumentFragment();
-      list.forEach((a, index)=>{
+      list.forEach(a=>{
         const animeDiv = document.createElement('div');
         animeDiv.classList.add('anime','hidden');
-
-        const link = document.createElement('a');
-        link.href = a.link;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-
-        const img = document.createElement('img');
-        img.src = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
-        img.alt = a.title;
-        img.decoding = 'async';
-        img.loading = index < 8 ? 'eager' : 'lazy';
-        img.fetchPriority = index < 4 ? 'high' : 'low';
-
-        const title = document.createElement('div');
-        title.className = 'anime-title';
-        title.textContent = a.title;
-
-        link.append(img, title);
-        animeDiv.appendChild(link);
-
-        const tags = document.createElement('div');
-        tags.className = 'tags';
-        a.category.forEach(cat => {
-          const tag = document.createElement('span');
-          tag.className = 'tag';
-          tag.textContent = cat;
-          tags.appendChild(tag);
-        });
-        animeDiv.appendChild(tags);
-        fragment.appendChild(animeDiv);
+        const imgSrc = a.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png';
+        const tagsHTML = a.category.map(cat=>`<span class="tag">${cat}</span>`).join('');
+        animeDiv.innerHTML = `
+          <a href="${a.link}" target="_blank">
+            <img src="${imgSrc}" alt="${a.title}">
+            <div class="anime-title">${a.title}</div>
+          </a>
+          <div class="tags">${tagsHTML}</div>
+        `;
+        grid.appendChild(animeDiv);
       });
-      grid.appendChild(fragment);
     }
 
     function applyFilters(){
@@ -802,7 +703,6 @@ fetch('anime_data.json', { cache: 'default' })
       window.scrollTo({top:0,behavior:'smooth'});
     });
 
-    serviceWorkerImageWarmer.warm(animes.map(a => a.image));
     renderAnimeList(animes);
       // schedule animation once after layout/images settle
       setTimeout(() => { requestAnimationFrame(animateRowsOnce); }, 140);
@@ -1053,7 +953,109 @@ async function loadNewBackground(bgData){
 }
 </script>
 
+<!-- ===== Service Worker registration (inserted) ===== -->
+<script>
+(function(){
+  // สำหรับ GitHub Pages project site ของคุณ ให้ใช้ '/AnimeIndex/service-worker.js'
+  // ถ้าเป็น user site เปลี่ยนเป็น '/service-worker.js'
+  const SW_PATH = '/AnimeIndex/service-worker.js';
 
+  if (!('serviceWorker' in navigator)) {
+    console.warn('Service Worker not supported in this browser.');
+    return;
+  }
+
+  navigator.serviceWorker.register(SW_PATH)
+    .then(reg => {
+      console.log('Service Worker registered:', reg);
+
+      // ส่งรายการ URL รูปภาพทั้งหมดให้ SW เพื่อ warm cache
+      let lastWarmPayloadKey = '';
+      let lastWarmSentAt = 0;
+
+      function collectImageUrls() {
+        try {
+          const urls = Array.from(document.images)
+                            .map(img => img.src)
+                            .filter(Boolean);
+          // Remove empty and data: urls and dedupe
+          const filtered = [...new Set(urls.filter(u => u && !u.startsWith('data:')))];
+          return filtered;
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function sendToSW(urls) {
+        if (!urls || !urls.length) return;
+
+        const payloadKey = urls.join('|');
+        const now = Date.now();
+        if (payloadKey === lastWarmPayloadKey && now - lastWarmSentAt < 2500) return;
+
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+          lastWarmPayloadKey = payloadKey;
+          lastWarmSentAt = now;
+          console.log('Sent images to SW for caching:', urls);
+        } else {
+          // if no controller yet, wait for ready then send
+          navigator.serviceWorker.ready.then(() => {
+            if (navigator.serviceWorker.controller) {
+              const readyNow = Date.now();
+              if (payloadKey === lastWarmPayloadKey && readyNow - lastWarmSentAt < 2500) return;
+              navigator.serviceWorker.controller.postMessage({ action: 'cacheImages', urls });
+              lastWarmPayloadKey = payloadKey;
+              lastWarmSentAt = readyNow;
+              console.log('Sent images to SW (on ready):', urls);
+            }
+          });
+        }
+      }
+
+      // Initial send after short delay to allow async-rendered images to appear
+      setTimeout(() => sendToSW(collectImageUrls()), 1200);
+
+      // Observe the anime grid for added nodes (images are added dynamically)
+      const grid = document.getElementById('animeGrid');
+      if (grid) {
+        const observer = new MutationObserver((mutations) => {
+          let shouldSend = false;
+          for (const m of mutations) {
+            if (m.addedNodes && m.addedNodes.length) {
+              for (const n of m.addedNodes) {
+                if (n.nodeType === 1) {
+                  if (n.tagName === 'IMG' || n.querySelector && n.querySelector('img')) {
+                    shouldSend = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (shouldSend) break;
+          }
+          if (shouldSend) {
+            // small debounce
+            clearTimeout(window.__swWarmTimeout);
+            window.__swWarmTimeout = setTimeout(() => {
+              sendToSW(collectImageUrls());
+            }, 400);
+          }
+        });
+        observer.observe(grid, { childList: true, subtree: true });
+      }
+
+      // Also send again when service worker gains control (covers first-time install)
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        setTimeout(() => sendToSW(collectImageUrls()), 500);
+      });
+    })
+    .catch(err => {
+      console.error('Service Worker registration failed:', err);
+    });
+})();
+</script>
+<!-- ===== end Service Worker registration ===== -->
 
 <script>
 /* === Row-by-row animation logic === */
