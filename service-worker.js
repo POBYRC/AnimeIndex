@@ -1,7 +1,7 @@
-const CACHE_NAME = 'anime-images-v7';
-const MAX_ENTRIES = 1000;
-const PRUNE_BUFFER = 50; // avoid pruning on every single insert
-const WARM_CACHE_CONCURRENCY = 4;
+const CACHE_NAME = 'anime-images-v6';
+const MAX_ENTRIES = 3000;
+const PRUNE_BUFFER = 25; // avoid pruning on every single insert
+const WARM_CACHE_CONCURRENCY = 6;
 
 self.addEventListener('install', () => {
   self.skipWaiting();
@@ -15,13 +15,8 @@ self.addEventListener('activate', event => {
   })());
 });
 
-function isCacheableImageUrl(url) {
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
-  } catch {
-    return false;
-  }
+function isLikelyImageUrl(url) {
+  return /\.(png|jpe?g|webp|gif|avif|svg|bmp|ico)(\?.*)?(#.*)?$/i.test(url);
 }
 
 async function pruneOldestEntries(cache, maxEntries) {
@@ -32,13 +27,11 @@ async function pruneOldestEntries(cache, maxEntries) {
   await Promise.all(keys.slice(0, deleteCount).map(key => cache.delete(key)));
 }
 
-async function putImageInCache(cache, requestOrUrl, response) {
+async function putImageInCache(cache, request, response) {
   if (!response) return false;
   if (response.status !== 200 && response.type !== 'opaque') return false;
 
-  // Store by URL string so browser image requests and manual warm-cache
-  // requests match even when their Request.mode/credentials differ.
-  await cache.put(typeof requestOrUrl === 'string' ? requestOrUrl : requestOrUrl.url, response.clone());
+  await cache.put(request, response.clone());
   return true;
 }
 
@@ -57,14 +50,14 @@ self.addEventListener('fetch', event => {
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
-    const cached = await cache.match(req.url, { ignoreVary: true });
+    const cached = await cache.match(req);
 
     // Cache-first: if cached exists, use it and do not re-fetch.
     if (cached) return cached;
 
     // Only new images (cache miss) are fetched from network.
     const networkResponse = await fetch(req);
-    const stored = await putImageInCache(cache, req.url, networkResponse);
+    const stored = await putImageInCache(cache, req, networkResponse);
 
     if (stored) {
       event.waitUntil(maybePruneCache(cache));
@@ -80,19 +73,19 @@ self.addEventListener('message', event => {
   if (event.data.action === 'cacheImages' && Array.isArray(event.data.urls)) {
     event.waitUntil((async () => {
       const cache = await caches.open(CACHE_NAME);
-      const uniqueUrls = [...new Set(event.data.urls.filter(Boolean))].filter(isCacheableImageUrl);
+      const uniqueUrls = [...new Set(event.data.urls.filter(Boolean))].filter(isLikelyImageUrl);
 
       for (let i = 0; i < uniqueUrls.length; i += WARM_CACHE_CONCURRENCY) {
         const batch = uniqueUrls.slice(i, i + WARM_CACHE_CONCURRENCY);
 
         await Promise.all(batch.map(async url => {
-          const cached = await cache.match(url, { ignoreVary: true });
+          const cached = await cache.match(url);
           if (cached) return;
 
           try {
-            const req = new Request(url, { mode: 'no-cors', credentials: 'omit' });
+            const req = new Request(url, { mode: 'no-cors' });
             const resp = await fetch(req);
-            await putImageInCache(cache, url, resp);
+            await putImageInCache(cache, req, resp);
           } catch {
             // Skip failing URLs
           }
