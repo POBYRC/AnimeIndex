@@ -1,5 +1,5 @@
 const CACHE_NAME = 'anime-images-v6';
-const MAX_ENTRIES = 2000;
+const MAX_ENTRIES = 300;
 const PRUNE_BUFFER = 25; // avoid pruning on every single insert
 const WARM_CACHE_CONCURRENCY = 6;
 
